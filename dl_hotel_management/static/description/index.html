@@ -1,5 +1,9 @@
-<div class="digitalub-wrapper" style="margin: 0 auto; max-width: 1100px;">
-    <!-- Styles inside wrapper -->
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digitalub Gestão Hoteleira</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
@@ -7,6 +11,8 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: #2D3748;
             line-height: 1.6;
+            margin: 0 auto; 
+            max-width: 1100px;
         }
 
         .digitalub-header {
@@ -40,9 +46,7 @@
             font-weight: 800;
             margin-bottom: 20px;
             letter-spacing: -1px;
-            background: linear-gradient(to right, #FFFFFF, #E2E8F0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #FFFFFF;
         }
 
         .digitalub-subtitle {
@@ -128,11 +132,6 @@
         .bg-orange-soft {
             background: linear-gradient(135deg, #FFFAF0 0%, #FEEBC8 100%);
             color: #DD6B20;
-        }
-
-        .bg-red-soft {
-            background: linear-gradient(135deg, #FFF5F5 0%, #FED7D7 100%);
-            color: #C53030;
         }
 
         .digitalub-update-section {
@@ -224,18 +223,16 @@
             box-shadow: 0 10px 25px rgba(49, 130, 206, 0.5);
             color: white !important;
         }
-
-        .feature-grid {
-            margin-bottom: 60px;
-        }
     </style>
+</head>
+<body>
 
+<div class="digitalub-wrapper">
     <!-- Header / Hero Section -->
     <header class="digitalub-header">
         <span class="digitalub-badge">Odoo 17 Ready</span>
-        <h1 class="digitalub-title">Digitalub Gestão Hoteleira</h1>
-        <p class="digitalub-subtitle">A solução definitiva e integrada para a gestão inteligente de quartos, reservas,
-            consumos adicionais e faturação no seu hotel.</p>
+        <h1 class="digitalub-title" style="-webkit-text-fill-color: inherit;">Digitalub Gestão Hoteleira</h1>
+        <p class="digitalub-subtitle">A solução definitiva e integrada para a gestão inteligente de quartos, reservas, consumos adicionais e faturação no seu hotel.</p>
         <div class="digitalub-header-stats">
             <span>✓ Design Kanban Moderno</span>
             <span>|</span>
@@ -251,40 +248,31 @@
             <div class="col-lg-10 text-left">
                 <span class="digitalub-update-badge">Novidades da Última Versão</span>
                 <h2 class="section-title text-left">Melhorias Recentes e Fluxos Automatizados</h2>
-                <p class="section-subtitle text-left" style="margin-bottom: 30px;">Refinámos o módulo com novas
-                    funcionalidades de automação inteligente e validação rigorosa contra erros humanos.</p>
+                <p class="section-subtitle text-left" style="margin-bottom: 30px;">Refinámos o módulo com novas funcionalidades de automação inteligente e validação rigorosa contra erros humanos.</p>
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="update-feature-item">
-                            <h5 style="font-weight: 700; color: #2B6CB0;"><i class="fa fa-refresh mr-2"></i>
-                                Automatização de Quartos</h5>
-                            <p class="text-muted mb-0" style="font-size: 0.95em;">O status do quarto (`Livre`,
-                                `Reservado`, `Ocupado`) atualiza-se automaticamente à medida que a reserva avança no
-                                ciclo de vida.</p>
+                            <h5 style="font-weight: 700; color: #2B6CB0;"><i class="fa fa-refresh mr-2"></i> Automatização de Quartos</h5>
+                            <p class="text-muted mb-0" style="font-size: 0.95em;">O status do quarto (`Livre`, `Reservado`, `Ocupado`) atualiza-se automaticamente à medida que a reserva avança no ciclo de vida.</p>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="update-feature-item">
-                            <h5 style="font-weight: 700; color: #2B6CB0;"><i class="fa fa-play-circle mr-2"></i> Botões
-                                de Ação Dinâmicos</h5>
-                            <p class="text-muted mb-0" style="font-size: 0.95em;">Novos botões de transição rápida no
-                                formulário de reserva (`Confirmar`, `Check-in`, `Check-out` e `Cancelar`) com
-                                visibilidade inteligente baseada no status.</p>
+                            <h5 style="font-weight: 700; color: #2B6CB0;"><i class="fa fa-play-circle mr-2"></i> Botões de Ação Dinâmicos</h5>
+                            <p class="text-muted mb-0" style="font-size: 0.95em;">Novos botões de transição rápida no formulário de reserva (`Confirmar`, `Check-in`, `Check-out` e `Cancelar`) com visibilidade inteligente baseada no status.</p>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="update-feature-item">
-                            <h5 style="font-weight: 700; color: #2B6CB0;"><i
-                                    class="fa fa-exclamation-triangle mr-2"></i> Validação Anti-Erro Humano</h5>
-                            <p class="text-muted mb-0" style="font-size: 0.95em;">Constrangimento nativo que bloqueia a
-                                criação de reservas com data de Check-Out anterior ou igual à de Check-In.</p>
+                            <h5 style="font-weight: 700; color: #2B6CB0;"><i class="fa fa-exclamation-triangle mr-2"></i> Validação Anti-Erro Humano</h5>
+                            <p class="text-muted mb-0" style="font-size: 0.95em;">Constrangimento nativo que bloqueia a criação de reservas com data de Check-Out anterior ou igual à de Check-In.</p>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="update-feature-item">
                             <h5 style="font-weight: 700; color: #2B6CB0;"><i class="fa fa-file-text-o mr-2"></i> Ponte de Faturação Certificada</h5>
-                            <p class="text-muted mb-0" style="font-size: 0.95em;">Ponte nativa com o modelo <b>account.move</b> do Odoo, permitindo a emissão de faturas e recibos certificados pela AGT integrados com módulos locais (ex: <i>dl_certification_ao</i>).</p>
+                            <p class="text-muted mb-0" style="font-size: 0.95em;">Ponte nativa com o modelo <b>account.move</b> do Odoo, permitindo a emissão de faturas e recibos certificados pela AGT integrados com módulos locais.</p>
                         </div>
                     </div>
                 </div>
@@ -293,34 +281,29 @@
     </section>
 
     <!-- CORE FEATURES SECTION -->
-    <section class="text-center feature-grid">
+    <section class="text-center mb-5">
         <h2 class="section-title">Funcionalidades Principais</h2>
         <p class="section-subtitle">Tudo o que necessita para centralizar o controlo da sua operação hoteleira.</p>
 
         <div class="row">
-            <!-- Feature 1 -->
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="digitalub-card">
                     <div class="digitalub-icon-box bg-blue-soft">
                         <i class="fa fa-bed"></i>
                     </div>
                     <h4 style="font-weight:700; font-size:1.15rem; margin-bottom:10px;">Gestão de Quartos</h4>
-                    <p class="text-muted" style="font-size:0.9rem;">Visão Kanban completa agrupada por andares com
-                        código de cores dinâmico de ocupação.</p>
+                    <p class="text-muted" style="font-size:0.9rem;">Visão Kanban completa agrupada por andares com código de cores dinâmico de ocupação.</p>
                 </div>
             </div>
-            <!-- Feature 2 -->
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="digitalub-card">
                     <div class="digitalub-icon-box bg-teal-soft">
                         <i class="fa fa-calendar-check-o"></i>
                     </div>
                     <h4 style="font-weight:700; font-size:1.15rem; margin-bottom:10px;">Motor de Reservas</h4>
-                    <p class="text-muted" style="font-size:0.9rem;">Cálculo automático de noites, alocação de quartos e
-                        registo detalhado de hóspedes e documentos.</p>
+                    <p class="text-muted" style="font-size:0.9rem;">Cálculo automático de noites, alocação de quartos e registo detalhado de hóspedes e documentos.</p>
                 </div>
             </div>
-            <!-- Feature 3 -->
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="digitalub-card">
                     <div class="digitalub-icon-box bg-purple-soft">
@@ -330,49 +313,38 @@
                     <p class="text-muted" style="font-size:0.9rem;">Integração nativa com <b>account.move</b> permitindo que as faturas do hotel saiam 100% certificadas pela AGT.</p>
                 </div>
             </div>
-            <!-- Feature 4 -->
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="digitalub-card">
                     <div class="digitalub-icon-box bg-orange-soft">
                         <i class="fa fa-cutlery"></i>
                     </div>
                     <h4 style="font-weight:700; font-size:1.15rem; margin-bottom:10px;">Serviços Integrados</h4>
-                    <p class="text-muted" style="font-size:0.9rem;">Gestão de Pedidos para Lavanderia, Restaurante e
-                        Reservas de Transporte do Aeroporto.</p>
+                    <p class="text-muted" style="font-size:0.9rem;">Gestão de Pedidos para Lavanderia, Restaurante e Reservas de Transporte do Aeroporto.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- USER JOURNEY SECTION -->
-    <section class="digitalub-update-section"
-        style="background: #ffffff; border: none; padding: 20px 0; margin-bottom: 50px;">
+    <section class="digitalub-update-section" style="background: #ffffff; border: none; padding: 20px 0; margin-bottom: 50px;">
         <div class="row">
             <div class="col-md-5">
                 <h2 class="section-title" style="margin-top: 30px;">Experiência Unificada e Sem Barreiras</h2>
-                <p class="text-muted">A nossa arquitetura conecta os diferentes setores do hotel, reduzindo o tempo de
-                    espera no atendimento e automatizando tarefas manuais na receção.</p>
-                <div class="mt-4 d-none d-md-block"
-                    style="background: #F7FAFC; border-radius: 16px; padding: 20px; border: 1px solid #E2E8F0;">
-                    <h6 style="font-weight: 700; color: #2D3748;"><i class="fa fa-shield text-success mr-2"></i> Padrões
-                        de Segurança Odoo</h6>
-                    <p class="text-muted mb-0" style="font-size: 0.85em;">Grupos de segurança CSV robustos, histórico de
-                        auditoria nos campos (chatter) e segurança integrada para andares, quartos e faturas.</p>
+                <p class="text-muted">A nossa arquitetura conecta os differentes setores do hotel, reduzindo o tempo de espera no atendimento e automatizando tarefas manuais na receção.</p>
+                <div class="mt-4 d-none d-md-block" style="background: #F7FAFC; border-radius: 16px; padding: 20px; border: 1px solid #E2E8F0;">
+                    <h6 style="font-weight: 700; color: #2D3748;"><i class="fa fa-shield text-success mr-2"></i> Padrões de Segurança Odoo</h6>
+                    <p class="text-muted mb-0" style="font-size: 0.85em;">Grupos de segurança CSV robustos, histórico de auditoria nos campos (chatter) e segurança integrada para andares, quartos e faturas.</p>
                 </div>
             </div>
             <div class="col-md-7">
                 <div class="step-timeline">
                     <div class="step-item">
                         <h4 class="step-title">1. Reservas & Check-in Exato</h4>
-                        <p class="text-muted" style="font-size: 0.95em;">A receção cria a reserva e aloca os quartos. O
-                            sistema calcula automaticamente o preço base com base no tipo de quarto, enquanto mantém a
-                            flexibilidade para descontos manuais.</p>
+                        <p class="text-muted" style="font-size: 0.95em;">A receção cria a reserva e aloca os quartos. O sistema calcula automaticamente o preço base com base no tipo de quarto, enquanto mantém a flexibilidade para descontos manuais.</p>
                     </div>
                     <div class="step-item">
                         <h4 class="step-title">2. Consumo & Pedidos Locais</h4>
-                        <p class="text-muted" style="font-size: 0.95em;">Os pontos de venda de restaurante e lavanderia
-                            registam as ordens nos seus ecran específicos. Cada subtotal é calculado e persistido
-                            diretamente para consulta e auditoria.</p>
+                        <p class="text-muted" style="font-size: 0.95em;">Os pontos de venda de restaurante e lavanderia registam as ordens nos seus ecran específicos. Cada subtotal é calculado e persistido diretamente para consulta e auditoria.</p>
                     </div>
                     <div class="step-item">
                         <h4 class="step-title">3. Faturação Certificada (AGT)</h4>
@@ -384,14 +356,14 @@
     </section>
 
     <!-- CALL TO ACTION -->
-    <section class="text-center"
-        style="background: linear-gradient(135deg, #1A202C 0%, #2D3748 100%); border-radius: 24px; padding: 60px 30px; color: white;">
-        <h2 style="font-weight: 800; font-size: 2.2rem; margin-bottom: 15px;">Deseja impulsionar a gestão do seu hotel?
-        </h2>
-        <p style="color: #A0AEC0; font-size: 1.15rem; max-width: 600px; margin: 0 auto 35px auto;">Este módulo foi
-            projetado para ser intuitivo, flexível e 100% aderente ao Odoo.</p>
-        <a href="https://www.apps.digitalub.ao" target="_blank" class="btn-cta">
+    <section class="text-center" style="background: linear-gradient(135deg, #1A202C 0%, #2D3748 100%); border-radius: 24px; padding: 60px 30px; color: white;">
+        <h2 style="font-weight: 800; font-size: 2.2rem; margin-bottom: 15px;">Deseja impulsionar a gestão do seu hotel?</h2>
+        <p style="color: #A0AEC0; font-size: 1.15rem; max-width: 600px; margin: 0 auto 35px auto;">Este módulo foi projetado para ser intuitivo, flexível e 100% aderente ao Odoo.</p>
+        <a href="mailto:suporte@digitalub.ao" class="btn-cta">
             <i class="fa fa-envelope-o mr-2"></i> Suporte e Contacto
         </a>
     </section>
 </div>
+
+</body>
+</html>

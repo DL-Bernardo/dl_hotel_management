@@ -14,7 +14,7 @@
         - Faturação unificada de consumos e estadias (Hotel Folios).
     """,
     'author': 'DIGITALUB ANGOLA',
-    'website': 'https://www.digitalub.ao',
+    'website': 'https://www.apps.digitalub.ao',
     'license': 'OPL-1',  # Alterado para OPL-1 para proteger um módulo deste valor comercial
 
     # Configuração de Preço Comercial Recomendado
