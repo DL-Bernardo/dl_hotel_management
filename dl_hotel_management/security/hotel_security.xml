@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Regra de Empresa para Andares -->
+        <record id="hotel_floor_comp_rule" model="ir.rule">
+            <field name="name">Hotel Floor Multi-Company</field>
+            <field name="model_id" ref="model_hotel_floor"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Regra de Empresa para Tipos de Quarto -->
+        <record id="hotel_room_type_comp_rule" model="ir.rule">
+            <field name="name">Hotel Room Type Multi-Company</field>
+            <field name="model_id" ref="model_hotel_room_type"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Regra de Empresa para Quartos -->
+        <record id="hotel_room_comp_rule" model="ir.rule">
+            <field name="name">Hotel Room Multi-Company</field>
+            <field name="model_id" ref="model_hotel_room"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Regra de Empresa para Reservas -->
+        <record id="hotel_booking_comp_rule" model="ir.rule">
+            <field name="name">Hotel Booking Multi-Company</field>
+            <field name="model_id" ref="model_hotel_booking"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Regra de Empresa para Folios -->
+        <record id="hotel_folio_comp_rule" model="ir.rule">
+            <field name="name">Hotel Folio Multi-Company</field>
+            <field name="model_id" ref="model_hotel_folio"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Regra de Empresa para Lavanderia -->
+        <record id="hotel_laundry_comp_rule" model="ir.rule">
+            <field name="name">Hotel Laundry Multi-Company</field>
+            <field name="model_id" ref="model_hotel_laundry_order"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Regra de Empresa para Restaurante -->
+        <record id="hotel_restaurant_comp_rule" model="ir.rule">
+            <field name="name">Hotel Restaurant Multi-Company</field>
+            <field name="model_id" ref="model_hotel_restaurant_order"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Regra de Empresa para Transporte -->
+        <record id="hotel_transport_comp_rule" model="ir.rule">
+            <field name="name">Hotel Transport Multi-Company</field>
+            <field name="model_id" ref="model_hotel_transport_request"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+    </data>
+</odoo>

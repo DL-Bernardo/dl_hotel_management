@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ======================= -->
+    <!-- ANDARES (Floors)        -->
+    <!-- ======================= -->
+    <record id="view_hotel_floor_tree" model="ir.ui.view">
+        <field name="name">hotel.floor.tree</field>
+        <field name="model">hotel.floor</field>
+        <field name="arch" type="xml">
+            <tree string="Andares">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hotel_floor_form" model="ir.ui.view">
+        <field name="name">hotel.floor.form</field>
+        <field name="model">hotel.floor</field>
+        <field name="arch" type="xml">
+            <form string="Andar">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hotel_floor" model="ir.actions.act_window">
+        <field name="name">Andares</field>
+        <field name="res_model">hotel.floor</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ======================= -->
+    <!-- TIPOS DE QUARTO         -->
+    <!-- ======================= -->
+    <record id="action_hotel_room_type" model="ir.actions.act_window">
+        <field name="name">Tipos de Quarto</field>
+        <field name="res_model">hotel.room.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ======================= -->
+    <!-- QUARTOS (Rooms)         -->
+    <!-- ======================= -->
+    
+    <!-- Visão KANBAN (Baseado na sua imagem 1) -->
+    <record id="view_hotel_room_kanban" model="ir.ui.view">
+        <field name="name">hotel.room.kanban</field>
+        <field name="model">hotel.room</field>
+        <field name="arch" type="xml">
+            <!-- Agrupa por Andar (floor_id) por padrão -->
+            <kanban default_group_by="floor_id" class="o_kanban_mobile" sample="1">
+                <field name="name"/>
+                <field name="room_type_id"/>
+                <field name="status"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click o_has_icon shadow-sm rounded-3 mb-3 border">
+                            <div class="oe_kanban_details p-2">
+                                <strong class="o_kanban_record_title fs-5 text-primary">
+                                    <field name="name"/>
+                                </strong>
+                                <div class="o_kanban_record_subtitle text-muted mt-1 mb-2">
+                                    <field name="room_type_id"/>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <!-- Cores Baseadas no Odoo 17 Bootstrap 5 -->
+                                        <span t-if="record.status.raw_value == 'vacant'" class="badge text-bg-success">Livre</span>
+                                        <span t-if="record.status.raw_value == 'reserved'" class="badge text-bg-warning">Reservado</span>
+                                        <span t-if="record.status.raw_value == 'occupied'" class="badge text-bg-danger">Ocupado</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Visão FORMULÁRIO -->
+    <record id="view_hotel_room_form" model="ir.ui.view">
+        <field name="name">hotel.room.form</field>
+        <field name="model">hotel.room</field>
+        <field name="arch" type="xml">
+            <form string="Quarto">
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="vacant,reserved,occupied"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Inativo" bg_color="text-bg-danger" invisible="is_active"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Ex: Room G101"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="floor_id"/>
+                            <field name="room_type_id"/>
+                            <field name="capacity"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Comodidades">
+                            <field name="has_wifi"/>
+                            <field name="has_minibar"/>
+                            <field name="has_jacuzzi"/>
+                            <field name="has_balcony"/>
+                            <field name="is_active" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hotel_room" model="ir.actions.act_window">
+        <field name="name">Visão Geral dos Quartos</field>
+        <field name="res_model">hotel.room</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crie o seu primeiro Quarto de Hotel!
+            </p>
+        </field>
+    </record>
+
+    <!-- Submenus de Quartos -->
+    <menuitem id="menu_hotel_rooms_main" name="Visão Geral dos Quartos" parent="menu_hotel_rooms_parent" sequence="10" action="action_hotel_room"/>
+
+    <!-- Submenus de Configuração -->
+    <menuitem id="menu_config_floors" name="Andares" parent="menu_hotel_configuration" sequence="10" action="action_hotel_floor"/>
+    <menuitem id="menu_config_room_types" name="Tipos de Quarto" parent="menu_hotel_configuration" sequence="20" action="action_hotel_room_type"/>
+
+</odoo>

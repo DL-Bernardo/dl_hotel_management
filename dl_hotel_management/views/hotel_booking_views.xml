@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Sequência Automática para Referência (BK/2026/0001) -->
+    <record id="seq_hotel_booking" model="ir.sequence">
+        <field name="name">Sequência de Reservas</field>
+        <field name="code">hotel.booking.seq</field>
+        <field name="prefix">BK/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Visão LISTA (Tree) -->
+    <record id="view_hotel_booking_tree" model="ir.ui.view">
+        <field name="name">hotel.booking.tree</field>
+        <field name="model">hotel.booking</field>
+        <field name="arch" type="xml">
+            <tree string="Reservas" decoration-success="status=='checked_in'" decoration-info="status=='confirmed'" decoration-muted="status=='draft'">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
+                <field name="adults"/>
+                <field name="status" widget="badge" 
+                       decoration-success="status == 'checked_in'"
+                       decoration-info="status == 'confirmed'"
+                       decoration-warning="status == 'checked_out'"
+                       decoration-danger="status == 'cancelled'"/>
+                <field name="total_amount" widget="monetary"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Visão FORMULÁRIO -->
+    <record id="view_hotel_booking_form" model="ir.ui.view">
+        <field name="name">hotel.booking.form</field>
+        <field name="model">hotel.booking</field>
+        <field name="arch" type="xml">
+            <form string="Reserva">
+                <header>
+                    <button name="action_confirm" string="Confirmar" type="object" class="oe_highlight" invisible="status != 'draft'"/>
+                    <button name="action_check_in" string="Check-In" type="object" class="oe_highlight" invisible="status != 'confirmed'"/>
+                    <button name="action_check_out" string="Check-Out" type="object" class="oe_highlight" invisible="status != 'checked_in'"/>
+                    <button name="action_cancel" string="Cancelar" type="object" invisible="status not in ('draft', 'confirmed')"/>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,confirmed,checked_in,checked_out"/>
+                </header>
+                <sheet>
+                    <field name="currency_id" invisible="1"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group string="Informações do Hóspede">
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="adults"/>
+                            <field name="children"/>
+                        </group>
+                        <group>
+                            <field name="check_in"/>
+                            <field name="check_out"/>
+                            <field name="nights"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Quartos na Reserva" name="rooms">
+                            <field name="room_line_ids">
+                                <tree editable="bottom">
+                                    <field name="room_id"/>
+                                    <field name="room_type_id"/>
+                                    <field name="check_in"/>
+                                    <field name="nights"/>
+                                    <field name="price_unit"/>
+                                    <field name="subtotal"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="total_amount" widget="monetary"/>
+                            </group>
+                        </page>
+                        <page string="Hóspedes Registrados" name="guests">
+                            <field name="guest_line_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="room_id"/>
+                                    <field name="document_type"/>
+                                    <field name="document_number"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hotel_booking" model="ir.actions.act_window">
+        <field name="name">Reservas</field>
+        <field name="res_model">hotel.booking</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crie a primeira reserva do hotel!
+            </p>
+        </field>
+    </record>
+
+    <!-- Adicionar ação ao menu "Reservas" já existente no hotel_menus.xml -->
+    <menuitem id="menu_hotel_bookings_action" name="Lista de Reservas" parent="menu_hotel_bookings" action="action_hotel_booking" sequence="1"/>
+
+</odoo>

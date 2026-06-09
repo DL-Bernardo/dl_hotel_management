@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==================== LAVANDERIA ==================== -->
+    <record id="view_laundry_tree" model="ir.ui.view">
+        <field name="name">hotel.laundry.tree</field>
+        <field name="model">hotel.laundry.order</field>
+        <field name="arch" type="xml">
+            <tree string="Lavanderia">
+                <field name="name"/>
+                <field name="room_id"/>
+                <field name="date"/>
+                <field name="status" widget="badge" decoration-success="status=='delivered'"/>
+                <field name="total_amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_laundry_form" model="ir.ui.view">
+        <field name="name">hotel.laundry.form</field>
+        <field name="model">hotel.laundry.order</field>
+        <field name="arch" type="xml">
+            <form string="Lavanderia">
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,confirmed,pickup,in_process,delivered"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="room_id"/>
+                            <field name="booking_id"/>
+                            <field name="date"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Itens">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="qty"/>
+                                    <field name="price"/>
+                                    <field name="subtotal"/>
+                                </tree>
+                            </field>
+                            <group class="oe_right">
+                                <field name="total_amount"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ==================== RESTAURANTE ==================== -->
+    <record id="view_restaurant_tree" model="ir.ui.view">
+        <field name="name">hotel.restaurant.tree</field>
+        <field name="model">hotel.restaurant.order</field>
+        <field name="arch" type="xml">
+            <tree string="Restaurante">
+                <field name="name"/>
+                <field name="room_id"/>
+                <field name="date"/>
+                <field name="status" widget="badge" decoration-success="status=='delivered'"/>
+                <field name="total_amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_restaurant_form" model="ir.ui.view">
+        <field name="name">hotel.restaurant.form</field>
+        <field name="model">hotel.restaurant.order</field>
+        <field name="arch" type="xml">
+            <form string="Restaurante">
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,confirmed,in_prep,delivered"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="room_id"/>
+                            <field name="booking_id"/>
+                            <field name="date"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Itens">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="qty"/>
+                                    <field name="price"/>
+                                    <field name="subtotal"/>
+                                </tree>
+                            </field>
+                            <group class="oe_right">
+                                <field name="total_amount"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ==================== TRANSPORTE ==================== -->
+    <record id="view_transport_tree" model="ir.ui.view">
+        <field name="name">hotel.transport.tree</field>
+        <field name="model">hotel.transport.request</field>
+        <field name="arch" type="xml">
+            <tree string="Transporte">
+                <field name="name"/>
+                <field name="guest_name"/>
+                <field name="type"/>
+                <field name="status" widget="badge" decoration-success="status=='completed'"/>
+                <field name="charge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_transport_form" model="ir.ui.view">
+        <field name="name">hotel.transport.form</field>
+        <field name="model">hotel.transport.request</field>
+        <field name="arch" type="xml">
+            <form string="Transporte">
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,confirmed,in_progress,completed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="booking_id"/>
+                            <field name="guest_name"/>
+                            <field name="type"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="pickup_from"/>
+                            <field name="drop_at"/>
+                            <field name="distance"/>
+                            <field name="vehicle"/>
+                            <field name="driver"/>
+                            <field name="charge"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ==================== FOLIOS (Faturas) ==================== -->
+    <record id="view_folio_tree" model="ir.ui.view">
+        <field name="name">hotel.folio.tree</field>
+        <field name="model">hotel.folio</field>
+        <field name="arch" type="xml">
+            <tree string="Folios">
+                <field name="name"/>
+                <field name="booking_id"/>
+                <field name="partner_id"/>
+                <field name="status" widget="badge" decoration-success="status=='closed'"/>
+                <field name="grand_total"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_folio_form" model="ir.ui.view">
+        <field name="name">hotel.folio.form</field>
+        <field name="model">hotel.folio</field>
+        <field name="arch" type="xml">
+            <form string="Folio">
+                <header>
+                    <button name="action_create_invoice" string="Emitir Fatura Certificada" type="object" class="oe_highlight" invisible="status == 'closed' or invoice_id"/>
+                    <field name="status" widget="statusbar" statusbar_visible="open,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" invisible="not invoice_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Fatura Odoo</span>
+                            </div>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="booking_id"/>
+                            <field name="partner_id"/>
+                            <field name="invoice_id" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Serviços de Lavanderia" name="laundry">
+                            <field name="laundry_order_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="status"/>
+                                    <field name="total_amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Consumos de Restaurante" name="restaurant">
+                            <field name="restaurant_order_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="status"/>
+                                    <field name="total_amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Serviço de Transporte" name="transport">
+                            <field name="transport_request_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="type"/>
+                                    <field name="status"/>
+                                    <field name="charge"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="room_charge_total"/>
+                        <field name="grand_total" class="oe_subtotal_footer_separator"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Ações e Menus -->
+    <record id="action_laundry" model="ir.actions.act_window"><field name="name">Pedidos de Lavanderia</field><field name="res_model">hotel.laundry.order</field><field name="view_mode">tree,form</field></record>
+    <record id="action_restaurant" model="ir.actions.act_window"><field name="name">Pedidos de Restaurante</field><field name="res_model">hotel.restaurant.order</field><field name="view_mode">tree,form</field></record>
+    <record id="action_transport" model="ir.actions.act_window"><field name="name">Pedidos de Transporte</field><field name="res_model">hotel.transport.request</field><field name="view_mode">tree,form</field></record>
+    <record id="action_folio" model="ir.actions.act_window"><field name="name">Folios de Hóspedes</field><field name="res_model">hotel.folio</field><field name="view_mode">tree,form</field></record>
+
+    <menuitem id="menu_laundry_orders" name="Pedidos" parent="menu_hotel_laundry" action="action_laundry" sequence="1"/>
+    <menuitem id="menu_restaurant_orders" name="Pedidos" parent="menu_hotel_restaurant" action="action_restaurant" sequence="1"/>
+    <menuitem id="menu_transport_orders" name="Pedidos" parent="menu_hotel_transport" action="action_transport" sequence="1"/>
+    <menuitem id="menu_folios_orders" name="Todos os Folios" parent="menu_hotel_folios" action="action_folio" sequence="1"/>
+
+</odoo>
