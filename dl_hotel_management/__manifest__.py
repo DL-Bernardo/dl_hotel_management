@@ -18,7 +18,7 @@
     'license': 'OPL-1',  # Alterado para OPL-1 para proteger um módulo deste valor comercial
 
     # Configuração de Preço Comercial Recomendado
-    'price': 950.00,
+    'price': 650.00,
     'currency': 'EUR',
 
     # Dependências do módulo
