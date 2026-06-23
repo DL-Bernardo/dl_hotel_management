@@ -18,14 +18,17 @@
     'license': 'OPL-1',  # Alterado para OPL-1 para proteger um módulo deste valor comercial
 
     # Configuração de Preço Comercial Recomendado
-    'price': 549.00,
+    'price': 950.00,
     'currency': 'EUR',
 
     # Dependências do módulo
     'depends': [
         'base', 
+        'web',
         'mail', 
-        'account'
+        'account',
+        'sale',
+        'point_of_sale'
     ],
     
     # Ficheiros de dados e vistas
@@ -33,16 +36,43 @@
         'security/hotel_security.xml',
         'security/ir.model.access.csv',
         'data/hotel_cron.xml',
+        'data/hotel_product_data.xml',
+        'data/hotel_demo_data.xml',
+        'data/laundry_service_data.xml',
+        'data/restaurant_service_data.xml',
+        'data/transport_service_data.xml',
+        'data/hotel_email_templates.xml',
         'views/hotel_menus.xml',
         'views/hotel_room_views.xml',
         'views/hotel_services_views.xml',
         'views/hotel_booking_views.xml',
+        'views/pos_order_views.xml',
+        'views/hotel_portal_templates.xml',
+        'views/hotel_booking_reports.xml',
+        'views/hotel_laundry_reports.xml',
+        'views/hotel_restaurant_reports.xml',
+        'views/hotel_transport_reports.xml',
+        'views/hotel_bi_reports.xml',
+        'views/hotel_bi_pdf_report.xml',
     ],
 
     # Padrão de imagem de alta conversão para a loja
     'images': [
         'static/description/main_screenshot.png'
     ],
+    
+    'assets': {
+        'web.assets_backend': [
+            'dl_hotel_management/static/src/js/bi_pivot_view.js',
+            'dl_hotel_management/static/src/xml/bi_pivot_view.xml',
+            'dl_hotel_management/static/src/js/occupancy_matrix.js',
+            'dl_hotel_management/static/src/xml/occupancy_matrix.xml',
+            'dl_hotel_management/static/src/css/occupancy_matrix.css',
+        ],
+        'web.assets_frontend': [
+            'dl_hotel_management/static/src/js/hotel_portal.js',
+        ],
+    },
     
     'installable': True,
     'application': True,

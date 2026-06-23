@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="dl_hotel_management.OccupancyMatrix" owl="1">
+        <div class="o_occupancy_matrix h-100 d-flex flex-column bg-light">
+            <!-- Header bar with Navigation -->
+            <div class="d-flex justify-content-between align-items-center p-3 bg-white border-bottom shadow-sm">
+                <div class="d-flex align-items-center">
+                    <h3 class="mb-0 text-primary font-weight-bold">
+                        <i class="fa fa-calendar-o me-2"/>Matriz de Ocupação
+                    </h3>
+                </div>
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-outline-secondary me-2" t-on-click="() => this.changeMonth(-1)">
+                        <i class="fa fa-chevron-left"/> Anterior
+                    </button>
+                    <span class="fs-5 fw-bold mx-3 text-secondary text-capitalize" t-out="getMonthName()"/>
+                    <button class="btn btn-outline-secondary" t-on-click="() => this.changeMonth(1)">
+                        Seguinte <i class="fa fa-chevron-right"/>
+                    </button>
+                </div>
+                <div class="d-flex gap-2">
+                    <span class="badge bg-secondary text-white px-3 py-2 fs-7">Rascunho</span>
+                    <span class="badge bg-warning text-dark px-3 py-2 fs-7">Confirmada</span>
+                    <span class="badge bg-success text-white px-3 py-2 fs-7">Checked-In</span>
+                    <span class="badge bg-info text-white px-3 py-2 fs-7">Checked-Out</span>
+                </div>
+            </div>
+
+            <!-- Main grid area -->
+            <div class="flex-grow-1 overflow-auto p-3">
+                <div class="card shadow-sm border-0 bg-white">
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-0 align-middle occupancy-table">
+                            <thead>
+                                <tr>
+                                    <!-- Sticky left header for rooms -->
+                                    <th class="room-col-header bg-white sticky-col">Quarto</th>
+                                    <!-- Dynamic headers for days of month -->
+                                    <t t-foreach="state.daysInMonth" t-as="day" t-key="day.getTime()">
+                                        <th t-attf-class="day-col-header text-center #{day.getDay() == 0 || day.getDay() == 6 ? 'bg-weekend' : ''}">
+                                            <div class="day-num fw-bold" t-out="day.getDate()"/>
+                                            <div class="day-name text-muted fs-8" t-out="getDayName(day)"/>
+                                        </th>
+                                    </t>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="state.rooms" t-as="room" t-key="room.id">
+                                    <tr>
+                                        <!-- Room Label -->
+                                        <td class="room-cell bg-white sticky-col font-weight-bold">
+                                            <div class="d-flex flex-column">
+                                                <span t-out="room.name" class="fw-bold text-dark"/>
+                                                <span class="text-muted fs-8" t-out="room.room_type_id[1]"/>
+                                            </div>
+                                        </td>
+                                        <!-- Room Calendar Cells -->
+                                        <t t-foreach="state.daysInMonth" t-as="day" t-key="day.getTime()">
+                                            <t t-set="booking" t-value="getBookingForCell(room.id, day)"/>
+                                            
+                                            <td t-on-click="() => this.onCellClick(room.id, day)"
+                                                t-attf-class="calendar-cell text-center p-0 #{day.getDay() == 0 || day.getDay() == 6 ? 'bg-weekend' : ''}">
+                                                
+                                                <t t-if="booking">
+                                                    <div t-att-class="getBookingClasses(room.id, day, booking)"
+                                                         t-att-title="booking.name + ' - ' + booking.partner_name">
+                                                        <t t-if="isFirstCell(room.id, day, booking)">
+                                                            <span class="booking-text text-truncate d-block px-1" t-out="booking.partner_name"/>
+                                                        </t>
+                                                    </div>
+                                                </t>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

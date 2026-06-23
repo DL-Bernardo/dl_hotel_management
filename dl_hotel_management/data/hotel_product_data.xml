@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Serviço de Hospedagem -->
+        <record id="prod_hospedagem" model="product.product">
+            <field name="name">Serviço de Hospedagem</field>
+            <field name="default_code">HOTEL_HOSP</field>
+            <field name="type">service</field>
+            <field name="sale_ok">True</field>
+            <field name="purchase_ok">False</field>
+            <field name="sale_line_warn">no-message</field>
+        </record>
+
+        <!-- Serviço de Lavandaria -->
+        <record id="prod_lavandaria" model="product.product">
+            <field name="name">Serviço de Lavandaria</field>
+            <field name="default_code">HOTEL_LND</field>
+            <field name="type">service</field>
+            <field name="sale_ok">True</field>
+            <field name="purchase_ok">False</field>
+            <field name="sale_line_warn">no-message</field>
+        </record>
+
+        <!-- Serviço de Restaurante -->
+        <record id="prod_restaurante" model="product.product">
+            <field name="name">Serviço de Restaurante</field>
+            <field name="default_code">HOTEL_RST</field>
+            <field name="type">service</field>
+            <field name="sale_ok">True</field>
+            <field name="purchase_ok">False</field>
+            <field name="sale_line_warn">no-message</field>
+        </record>
+
+        <!-- Serviço de Transporte -->
+        <record id="prod_transporte" model="product.product">
+            <field name="name">Serviço de Transporte</field>
+            <field name="default_code">HOTEL_TRN</field>
+            <field name="type">service</field>
+            <field name="sale_ok">True</field>
+            <field name="purchase_ok">False</field>
+            <field name="sale_line_warn">no-message</field>
+        </record>
+    </data>
+</odoo>

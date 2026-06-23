@@ -1,0 +1,62 @@
+# Plano de Implementação - Integração com Faturação Certificada Odoo
+
+Este plano detalha a integração do módulo de hotelaria (`dl_hotel_management`) com o módulo de contabilidade nativo do Odoo (`account.move`). Com esta ponte criada, todas as faturas geradas a partir dos Folios hoteleiros passarão pelo fluxo normal do Odoo e serão interceptadas e assinadas digitalmente pelo módulo de certificação angolana `dl_certification_ao`.
+
+## User Review Required
+
+> [!IMPORTANT]
+> **Automação de Folio no Check-In**: Para facilitar a operação, o Folio será gerado automaticamente quando a receção fizer o Check-In da reserva, evitando que o utilizador tenha de o criar manualmente.
+> 
+> **Faturação Única por Folio**: O sistema gera uma única fatura consolidada (`account.move`) que inclui alojamento + todos os consumos registados. Ao confirmar a fatura no Odoo, a certificação é aplicada.
+
+---
+
+## Proposed Changes
+
+### [Lógica de Negócio e Modelos]
+
+#### [MODIFY] [hotel_booking.py](file:///c:/Users/bvieira/Documents/Projectos_BV/dl_hotel_management/models/hotel_booking.py)
+* Modificar o método `action_check_in` para criar automaticamente um registo de Folio (`hotel.folio`) associado à reserva caso ainda não exista.
+
+#### [MODIFY] [hotel_services.py](file:///c:/Users/bvieira/Documents/Projectos_BV/dl_hotel_management/models/hotel_services.py)
+* Adicionar o campo `booking_id` (Many2one para `hotel.booking`) nos modelos de Lavanderia (`hotel.laundry.order`), Restaurante (`hotel.restaurant.order`) e Transporte (`hotel.transport.request`).
+* Adicionar um método `@api.onchange('room_id')` (ou `room_id` dependente) nos modelos de lavanderia e restaurante para preencher automaticamente a reserva ativa (`checked_in`) do quarto selecionado.
+
+#### [MODIFY] [hotel_folio.py](file:///c:/Users/bvieira/Documents/Projectos_BV/dl_hotel_management/models/hotel_folio.py)
+* Adicionar o campo `invoice_id` (Many2one para `account.move`) para rastrear a fatura nativa vinculada.
+* Adicionar campos One2many virtuais (computados) para listar os pedidos de Lavanderia, Restaurante e Transporte vinculados à reserva (`laundry_order_ids`, `restaurant_order_ids`, `transport_request_ids`).
+* Atualizar o cálculo de `grand_total` para somar: `room_charge_total` + totais dos serviços associados.
+* Implementar o método `action_create_invoice()` para:
+  1. Validar se a fatura já existe ou se há itens a faturar.
+  2. Criar o registo de `account.move` (`out_invoice`) com linhas detalhadas de estadia e serviços.
+  3. Vincular a fatura ao folio e mudar o status do folio para `closed` (Fechado).
+* Implementar o método `action_view_invoice()` para redirecionar o utilizador para o ecrã da fatura nativa.
+
+---
+
+### [Visualizações e Interface de Usuário]
+
+#### [MODIFY] [hotel_services_views.xml](file:///c:/Users/bvieira/Documents/Projectos_BV/dl_hotel_management/views/hotel_services_views.xml)
+* **Formulário do Folio**:
+  * Adicionar botão "Emitir Fatura Certificada" (`action_create_invoice`) no cabeçalho.
+  * Adicionar um Smart Button de "Fatura Odoo" no topo direito que redireciona para a fatura nativa vinculada.
+  * Adicionar abas (Notebook) no folio para visualizar os consumos detalhados associados:
+    * Pedidos de Lavanderia
+    * Consumos de Restaurante
+    * Pedidos de Transporte
+* **Formulários de Serviços (Pedidos)**:
+  * Exibir o campo `booking_id` (Reserva) nas visualizações de formulário de lavanderia, restaurante e transporte para auditoria simples.
+
+---
+
+## Verification Plan
+
+### Manual Verification
+1. Criar uma reserva e efetuar o **Check-In** para garantir que o Folio é gerado automaticamente.
+2. Criar um pedido de lavanderia e restaurante para o quarto da reserva e confirmar que a reserva é vinculada automaticamente ao pedido.
+3. Abrir o Folio gerado e certificar que:
+   * Os subtotais de lavanderia e restaurante aparecem nas novas abas do Folio.
+   * O `Total Geral` do Folio é atualizado corretamente com a soma do quarto + serviços.
+4. Clicar no botão **Emitir Fatura Certificada** no Folio.
+5. Verificar se é gerado um rascunho de fatura nativa (`account.move`) com todos os detalhes e se é redirecionado para a mesma.
+6. Confirmar (Post) a fatura para validar que o módulo `dl_certification_ao` processa e assina a fatura nativa normalmente.

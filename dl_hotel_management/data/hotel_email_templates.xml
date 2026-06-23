@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Template de Email de Confirmação de Reserva -->
+        <record id="email_template_hotel_booking_confirmation" model="mail.template">
+            <field name="name">Gestão Hoteleira: Confirmação de Reserva</field>
+            <field name="model_id" ref="dl_hotel_management.model_hotel_booking"/>
+            <field name="subject">Confirmação da sua Reserva - {{ object.name }}</field>
+            <field name="email_from">{{ (object.company_id.email_formatted or object.company_id.email or object.env.user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="description">Enviado automaticamente ao hóspede após a confirmação da reserva</field>
+            <field name="body_html" type="html">
+                <table border="0" cellpadding="0" style="padding-top: 16px; background-color: #F8FAFC; color: #1E293B; width: 100%; border-collapse: separate; font-family: 'Inter', sans-serif;">
+                    <tr>
+                        <td align="center">
+                            <table border="0" width="600" cellpadding="0" style="background-color: #ffffff; border: 1px solid #E2E8F0; border-radius: 8px; border-collapse: separate; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                                <tbody>
+                                    <!-- HEADER BANNER -->
+                                    <tr>
+                                        <td align="center" style="background-color: #1f6c98; padding: 24px; color: #ffffff;">
+                                            <table width="100%" border="0" cellpadding="0" style="border-collapse: separate;">
+                                                <tr>
+                                                    <td valign="middle">
+                                                        <h1 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: 0.5px;">Confirmação de Reserva</h1>
+                                                        <span style="font-size: 13px; opacity: 0.9;" t-out="object.name"></span>
+                                                    </td>
+                                                    <td valign="middle" align="right">
+                                                        <img t-attf-src="/logo.png?company={{ object.company_id.id }}" style="padding: 0px; margin: 0px; height: auto; max-width: 100px; filter: brightness(0) invert(1);" t-att-alt="object.company_id.name"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <!-- CONTENT -->
+                                    <tr>
+                                        <td style="padding: 32px 24px;">
+                                            <p style="margin-top: 0; font-size: 16px; line-height: 24px;">
+                                                Estimado(a) <strong t-out="object.partner_id.name"></strong>,
+                                            </p>
+                                            <p style="font-size: 14px; line-height: 22px; color: #475569;">
+                                                Agradecemos a sua preferência pela nossa unidade hoteleira. Temos o prazer de confirmar que a sua reserva foi registada e garantida com sucesso.
+                                            </p>
+
+                                            <!-- DETALHES DA RESERVA -->
+                                            <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 20px; margin: 24px 0;">
+                                                <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 15px; color: #1E293B; border-bottom: 1px solid #E2E8F0; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Detalhes da Hospedagem</h3>
+                                                <table width="100%" border="0" cellpadding="4" style="font-size: 14px; border-collapse: separate; color: #475569;">
+                                                    <tr>
+                                                        <td style="font-weight: 600; width: 35%; color: #1E293B;">Quarto Reservado:</td>
+                                                        <td t-out="object.quarto_id.name or 'Não Especificado'"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-weight: 600; color: #1E293B;">Data de Check-In:</td>
+                                                        <td t-out="object.check_in.strftime('%d/%m/%Y %H:%M')"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-weight: 600; color: #1E293B;">Data de Check-Out:</td>
+                                                        <td t-out="object.check_out.strftime('%d/%m/%Y %H:%M')"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-weight: 600; color: #1E293B;">Número de Noites:</td>
+                                                        <td t-out="object.numero_noites"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-weight: 600; color: #1E293B;">Hóspedes:</td>
+                                                        <td>
+                                                            <t t-out="object.adults"/> Adulto(s)
+                                                            <t t-if="object.children &gt; 0">
+                                                                e <t t-out="object.children"/> Criança(s)
+                                                            </t>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <p style="font-size: 14px; line-height: 22px; color: #475569;">
+                                                Anexado a este e-mail, enviamos o documento oficial em formato PDF com a folha de confirmação da sua reserva. Por favor, apresente este documento no ato do check-in.
+                                            </p>
+                                            
+                                            <p style="font-size: 14px; line-height: 22px; color: #475569; margin-bottom: 0;">
+                                                Caso necessite de alterar ou cancelar a sua reserva, ou se tiver alguma questão adicional, não hesite em contactar-nos diretamente.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <!-- FOOTER -->
+                                    <tr>
+                                        <td align="center" style="background-color: #F1F5F9; padding: 24px; border-top: 1px solid #E2E8F0; font-size: 12px; color: #64748B;">
+                                            <strong t-out="object.company_id.name"></strong><br/>
+                                            <span t-out="object.company_id.street or ''"></span>, 
+                                            <span t-out="object.company_id.city or ''"></span>, 
+                                            <span t-out="object.company_id.country_id.name or ''"></span><br/>
+                                            <t t-if="object.company_id.phone">
+                                                Telefone: <span t-out="object.company_id.phone"></span> | 
+                                            </t>
+                                            <t t-if="object.company_id.email">
+                                                E-mail: <span t-out="object.company_id.email"></span>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </field>
+            <!-- Linkar o PDF gerado automaticamente -->
+            <field name="report_template_ids" eval="[(4, ref('dl_hotel_management.action_report_hotel_booking'))]"/>
+        </record>
+
+        <!-- Template de Email de Agradecimento de Check-Out -->
+        <record id="email_template_hotel_checkout_thank_you" model="mail.template">
+            <field name="name">Gestão Hoteleira: Agradecimento de Check-Out</field>
+            <field name="model_id" ref="dl_hotel_management.model_hotel_booking"/>
+            <field name="subject">Agradecimento pela sua Estadia - {{ object.name }}</field>
+            <field name="email_from">{{ (object.company_id.email_formatted or object.company_id.email or object.env.user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="description">Enviado automaticamente ao hóspede após a conclusão do check-out</field>
+            <field name="body_html" type="html">
+                <table border="0" cellpadding="0" style="padding-top: 16px; background-color: #F8FAFC; color: #1E293B; width: 100%; border-collapse: separate; font-family: 'Inter', sans-serif;">
+                    <tr>
+                        <td align="center">
+                            <table border="0" width="600" cellpadding="0" style="background-color: #ffffff; border: 1px solid #E2E8F0; border-radius: 8px; border-collapse: separate; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                                <tbody>
+                                    <!-- HEADER BANNER -->
+                                    <tr>
+                                        <td align="center" style="background-color: #1a8a5f; padding: 24px; color: #ffffff;">
+                                            <table width="100%" border="0" cellpadding="0" style="border-collapse: separate;">
+                                                <tr>
+                                                    <td valign="middle">
+                                                        <h1 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: 0.5px;">Agradecemos a sua Visita!</h1>
+                                                        <span style="font-size: 13px; opacity: 0.9;" t-out="object.name"></span>
+                                                    </td>
+                                                    <td valign="middle" align="right">
+                                                        <img t-attf-src="/logo.png?company={{ object.company_id.id }}" style="padding: 0px; margin: 0px; height: auto; max-width: 100px; filter: brightness(0) invert(1);" t-att-alt="object.company_id.name"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <!-- CONTENT -->
+                                    <tr>
+                                        <td style="padding: 32px 24px;">
+                                            <p style="margin-top: 0; font-size: 16px; line-height: 24px;">
+                                                Estimado(a) <strong t-out="object.partner_id.name"></strong>,
+                                            </p>
+                                            <p style="font-size: 14px; line-height: 22px; color: #475569;">
+                                                Foi um enorme prazer recebê-lo(a) na nossa unidade hoteleira. Esperamos que a sua estadia tenha sido confortável e que tenhamos correspondido a todas as suas expectativas.
+                                            </p>
+                                            <p style="font-size: 14px; line-height: 22px; color: #475569;">
+                                                Como o seu check-out já foi concluído, anexamos a este e-mail o seu **Extrato Detalhado de Consumos (Fólio)** para sua conferência e arquivo.
+                                            </p>
+
+                                            <!-- RESUMO FINANCEIRO RÁPIDO -->
+                                            <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 20px; margin: 24px 0;">
+                                                <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 15px; color: #1E293B; border-bottom: 1px solid #E2E8F0; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Resumo da sua Conta</h3>
+                                                <table width="100%" border="0" cellpadding="4" style="font-size: 14px; border-collapse: separate; color: #475569;">
+                                                    <tr>
+                                                        <td style="font-weight: 600; width: 50%; color: #1E293B;">Subtotal Hospedagem:</td>
+                                                        <td align="right" t-out="object.subtotal_hospedagem" t-options='{"widget": "monetary", "display_currency": object.currency_id}'></td>
+                                                    </tr>
+                                                    <tr t-if="object.total_lavandaria &gt; 0">
+                                                        <td style="font-weight: 600; color: #1E293B;">Total Lavandaria:</td>
+                                                        <td align="right" t-out="object.total_lavandaria" t-options='{"widget": "monetary", "display_currency": object.currency_id}'></td>
+                                                    </tr>
+                                                    <tr t-if="object.total_restaurante &gt; 0">
+                                                        <td style="font-weight: 600; color: #1E293B;">Total Restaurante:</td>
+                                                        <td align="right" t-out="object.total_restaurante" t-options='{"widget": "monetary", "display_currency": object.currency_id}'></td>
+                                                    </tr>
+                                                    <tr t-if="object.total_transporte &gt; 0">
+                                                        <td style="font-weight: 600; color: #1E293B;">Total Transporte:</td>
+                                                        <td align="right" t-out="object.total_transporte" t-options='{"widget": "monetary", "display_currency": object.currency_id}'></td>
+                                                    </tr>
+                                                    <tr t-if="object.total_pos &gt; 0">
+                                                        <td style="font-weight: 600; color: #1E293B;">Total Consumos POS:</td>
+                                                        <td align="right" t-out="object.total_pos" t-options='{"widget": "monetary", "display_currency": object.currency_id}'></td>
+                                                    </tr>
+                                                    <tr style="border-top: 2px solid #E2E8F0;">
+                                                        <td style="font-weight: 700; color: #1E293B; padding-top: 8px;">Total Acumulado:</td>
+                                                        <td align="right" style="font-weight: 700; color: #1a8a5f; padding-top: 8px;" t-out="object.total_fatura_quarto" t-options='{"widget": "monetary", "display_currency": object.currency_id}'></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <p style="font-size: 14px; line-height: 22px; color: #475569;">
+                                                Agradecemos mais uma vez a sua visita e esperamos ter o privilégio de o(a) receber novamente num futuro próximo. Desejamos-lhe uma excelente viagem de regresso!
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <!-- FOOTER -->
+                                    <tr>
+                                        <td align="center" style="background-color: #F1F5F9; padding: 24px; border-top: 1px solid #E2E8F0; font-size: 12px; color: #64748B;">
+                                            <strong t-out="object.company_id.name"></strong><br/>
+                                            <span t-out="object.company_id.street or ''"></span>, 
+                                            <span t-out="object.company_id.city or ''"></span>, 
+                                            <span t-out="object.company_id.country_id.name or ''"></span><br/>
+                                            <t t-if="object.company_id.phone">
+                                                Telefone: <span t-out="object.company_id.phone"></span> | 
+                                            </t>
+                                            <t t-if="object.company_id.email">
+                                                E-mail: <span t-out="object.company_id.email"></span>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </field>
+            <!-- Linkar o PDF gerado automaticamente (Extrato de Consumo / Fólio) -->
+            <field name="report_template_ids" eval="[(4, ref('dl_hotel_management.action_report_hotel_booking'))]"/>
+        </record>
+    </data>
+</odoo>

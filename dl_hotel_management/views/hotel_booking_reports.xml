@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Registo de Relatório -->
+    <record id="action_report_hotel_booking" model="ir.actions.report">
+        <field name="name">Confirmação de Reserva</field>
+        <field name="model">hotel.booking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">dl_hotel_management.report_hotel_booking</field>
+        <field name="report_file">dl_hotel_management.report_hotel_booking</field>
+        <field name="print_report_name">'Confirmacao_de_Reserva_%s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_hotel_booking"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Template do Relatório -->
+    <template id="report_hotel_booking">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Estilos customizados para o PDF para uma aparência limpa e profissional -->
+                        <style>
+                            .report-title {
+                                font-size: 24px;
+                                font-weight: bold;
+                                color: #1a252f;
+                                border-bottom: 2px solid #34495e;
+                                padding-bottom: 10px;
+                                margin-bottom: 25px;
+                                text-transform: uppercase;
+                            }
+                            .section-title {
+                                font-size: 16px;
+                                font-weight: bold;
+                                color: #2c3e50;
+                                background-color: #f8f9fa;
+                                padding: 6px 12px;
+                                border-left: 4px solid #3498db;
+                                margin-top: 20px;
+                                margin-bottom: 15px;
+                            }
+                            .info-table, .info-table tr, .info-table th, .info-table td {
+                                background-color: transparent !important;
+                                border: none !important;
+                            }
+                            .info-table th {
+                                width: 30%;
+                                font-weight: 600;
+                                color: #7f8c8d !important;
+                            }
+                            .info-table td {
+                                color: #2c3e50 !important;
+                            }
+                            .values-table th {
+                                background-color: #34495e;
+                                color: #ffffff;
+                                font-weight: bold;
+                            }
+                            .values-table td {
+                                vertical-align: middle;
+                            }
+                            .total-title-cell {
+                                background-color: #1f6c98 !important;
+                                color: #ffffff !important;
+                                font-weight: bold;
+                                font-size: 14px;
+                                vertical-align: middle;
+                                border: 1px solid #1f6c98 !important;
+                            }
+                            .total-value-cell {
+                                background-color: #1f6c98 !important;
+                                color: #ffffff !important;
+                                font-weight: bold;
+                                font-size: 14px;
+                                vertical-align: middle;
+                                border: 1px solid #1f6c98 !important;
+                            }
+                            .policy-box {
+                                margin-top: 40px;
+                                padding: 15px;
+                                border: 1px solid #bdc3c7;
+                                border-radius: 4px;
+                                font-size: 11px;
+                                color: #7f8c8d;
+                                background-color: #fafafa;
+                            }
+                            .signature-section {
+                                margin-top: 60px;
+                            }
+                        </style>
+
+                        <!-- Título -->
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h2 class="report-title">Confirmação de Reserva - <span t-field="o.name"/></h2>
+                            </div>
+                        </div>
+
+                        <!-- Secção 1 & 2: Dados em Duas Colunas -->
+                        <div class="row">
+                            <!-- Secção 1: Dados do Hóspede -->
+                            <div class="col-6">
+                                <div class="section-title">Dados do Hóspede</div>
+                                <table class="table table-sm table-borderless info-table">
+                                    <tr>
+                                        <th>Hóspede Principal:</th>
+                                        <td><span t-field="o.partner_id.name"/></td>
+                                    </tr>
+                                    <tr t-if="o.phone">
+                                        <th>Telefone:</th>
+                                        <td><span t-field="o.phone"/></td>
+                                    </tr>
+                                    <tr t-if="o.email">
+                                        <th>Email:</th>
+                                        <td><span t-field="o.email"/></td>
+                                    </tr>
+                                </table>
+
+                                <!-- Hóspedes adicionais -->
+                                <t t-if="o.guest_line_ids">
+                                    <div class="mt-2" style="font-size: 12px; font-weight: bold; color: #2c3e50;">Outros Hóspedes:</div>
+                                    <ul style="font-size: 12px; color: #34495e; padding-left: 20px;">
+                                        <li t-foreach="o.guest_line_ids" t-as="guest">
+                                            <span t-field="guest.name"/> 
+                                            <t t-if="guest.document_number">
+                                                (<span t-field="guest.document_type"/>: <span t-field="guest.document_number"/>)
+                                            </t>
+                                        </li>
+                                    </ul>
+                                </t>
+                            </div>
+
+                            <!-- Secção 2: Detalhes da Hospedagem -->
+                            <div class="col-6">
+                                <div class="section-title">Detalhes da Hospedagem</div>
+                                <table class="table table-sm table-borderless info-table">
+                                    <tr t-if="o.quarto_id">
+                                        <th>Quarto Alocado:</th>
+                                        <td><span t-field="o.quarto_id.name"/> (<span t-field="o.quarto_id.room_type_id.name"/>)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Check-In:</th>
+                                        <td><span t-field="o.check_in" t-options='{"widget": "datetime"}'/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Check-Out:</th>
+                                        <td><span t-field="o.check_out" t-options='{"widget": "datetime"}'/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Número de Noites:</th>
+                                        <td><span t-field="o.numero_noites"/> noites</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Ocupação:</th>
+                                        <td>
+                                            <span t-field="o.adults"/> Adulto(s)
+                                            <t t-if="o.children &gt; 0">
+                                                , <span t-field="o.children"/> Criança(s)
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Secção 3: Tabela de Valores -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="section-title">Valores da Hospedagem</div>
+                                <table class="table table-bordered values-table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Quarto / Tipo</th>
+                                            <th class="text-end">Noites</th>
+                                            <th class="text-end">Preço/Noite</th>
+                                            <th class="text-end">Impostos</th>
+                                            <th class="text-end">Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-if="o.room_line_ids">
+                                            <tr t-foreach="o.room_line_ids" t-as="line">
+                                                <td>
+                                                    <span t-field="line.room_id.name"/> - <span t-field="line.room_type_id.name"/>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span t-field="line.nights"/>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span t-field="line.price_unit" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span t-field="line.tax_id.name"/>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span t-field="line.subtotal" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-else="">
+                                            <tr>
+                                                <td>
+                                                    <span t-field="o.quarto_id.name"/> - <span t-field="o.quarto_id.room_type_id.name"/>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span t-field="o.numero_noites"/>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span t-field="o.preco_quarto" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span>Sem imposto</span>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span t-field="o.subtotal_hospedagem" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        
+                                        <!-- Totais -->
+                                        <tr>
+                                            <td colspan="3" class="border-0"/>
+                                            <td class="text-end font-weight-bold">Subtotal Sem Imposto:</td>
+                                            <td class="text-end">
+                                                <span t-field="o.total_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="border-0"/>
+                                            <td class="text-end font-weight-bold">Imposto Total:</td>
+                                            <td class="text-end">
+                                                <span t-field="o.total_tax" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                         <tr>
+                                            <td colspan="3" class="border-0" style="background-color: transparent !important; border: none !important;"/>
+                                            <td class="text-end total-title-cell">Total com Imposto:</td>
+                                            <td class="text-end total-value-cell">
+                                                <span t-field="o.total_amount_with_tax" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Política de Cancelamento -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="policy-box">
+                                    <strong>Política de Cancelamento:</strong><br/>
+                                    Cancelamentos efetuados até 48 horas antes da data de check-in terão direito a reembolso integral. 
+                                    Cancelamentos tardios ou não comparência (No-Show) implicam a cobrança do valor correspondente à primeira noite da estadia.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Aviso Legal AGT -->
+                        <div class="text-center mt-3" style="font-style: italic; color: #718096; font-size: 11px;">
+                            Este documento é apenas uma confirmação operacional de reserva e não serve como fatura.
+                        </div>
+
+                        <!-- Secção de Assinaturas -->
+                        <div class="row signature-section">
+                            <div class="col-6 text-center">
+                                <br/><br/>
+                                <div style="border-top: 1px solid #2c3e50; width: 80%; margin: 0 auto;"/>
+                                <p class="mt-2" style="font-size: 12px; color: #7f8c8d;">Pela DIGITALUB</p>
+                            </div>
+                            <div class="col-6 text-center">
+                                <br/><br/>
+                                <div style="border-top: 1px solid #2c3e50; width: 80%; margin: 0 auto;"/>
+                                <p class="mt-2" style="font-size: 12px; color: #7f8c8d;">Assinatura do Hóspede</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

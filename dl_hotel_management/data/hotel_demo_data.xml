@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Andares -->
+        <record id="floor_0" model="hotel.floor">
+            <field name="name">Piso 0 - Receção &amp; Restauração</field>
+            <field name="sequence">0</field>
+        </record>
+        <record id="floor_1" model="hotel.floor">
+            <field name="name">Piso 1 - Quartos Standard</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="floor_2" model="hotel.floor">
+            <field name="name">Piso 2 - Quartos Deluxe &amp; Suítes</field>
+            <field name="sequence">2</field>
+        </record>
+
+        <!-- Tipos de Quarto -->
+        <record id="room_type_std_single" model="hotel.room.type">
+            <field name="name">Standard Single (Individual)</field>
+            <field name="base_price">50.0</field>
+            <field name="description">Quarto individual ideal para viajantes a negócios ou estadias curtas. Inclui cama individual e secretária de trabalho.</field>
+        </record>
+        <record id="room_type_std_double" model="hotel.room.type">
+            <field name="name">Standard Double (Casal)</field>
+            <field name="base_price">85.0</field>
+            <field name="description">Quarto de casal confortável com cama queen size, perfeito para casais. Vista para o jardim do hotel.</field>
+        </record>
+        <record id="room_type_deluxe" model="hotel.room.type">
+            <field name="name">Deluxe Suite</field>
+            <field name="base_price">160.0</field>
+            <field name="description">Suíte espaçosa com sala de estar integrada, minibar premium e vista panorâmica da cidade.</field>
+        </record>
+        <record id="room_type_presidential" model="hotel.room.type">
+            <field name="name">Suíte Presidencial</field>
+            <field name="base_price">350.0</field>
+            <field name="description">A melhor suíte do hotel. Jacuzzi privada, varanda ampla, dois quartos separados e mordomo sob pedido.</field>
+        </record>
+
+        <!-- Quartos -->
+        <!-- Piso 1 - Standard -->
+        <record id="room_101" model="hotel.room">
+            <field name="name">101</field>
+            <field name="floor_id" ref="floor_1"/>
+            <field name="room_type_id" ref="room_type_std_single"/>
+            <field name="capacity">1</field>
+            <field name="has_wifi">True</field>
+            <field name="has_minibar">True</field>
+        </record>
+        <record id="room_102" model="hotel.room">
+            <field name="name">102</field>
+            <field name="floor_id" ref="floor_1"/>
+            <field name="room_type_id" ref="room_type_std_single"/>
+            <field name="capacity">1</field>
+            <field name="has_wifi">True</field>
+        </record>
+        <record id="room_103" model="hotel.room">
+            <field name="name">103</field>
+            <field name="floor_id" ref="floor_1"/>
+            <field name="room_type_id" ref="room_type_std_double"/>
+            <field name="capacity">2</field>
+            <field name="has_wifi">True</field>
+            <field name="has_minibar">True</field>
+        </record>
+        <record id="room_104" model="hotel.room">
+            <field name="name">104</field>
+            <field name="floor_id" ref="floor_1"/>
+            <field name="room_type_id" ref="room_type_std_double"/>
+            <field name="capacity">2</field>
+            <field name="has_wifi">True</field>
+            <field name="has_minibar">True</field>
+            <field name="has_balcony">True</field>
+        </record>
+
+        <!-- Piso 2 - Deluxe & Presidential -->
+        <record id="room_201" model="hotel.room">
+            <field name="name">201</field>
+            <field name="floor_id" ref="floor_2"/>
+            <field name="room_type_id" ref="room_type_deluxe"/>
+            <field name="capacity">2</field>
+            <field name="has_wifi">True</field>
+            <field name="has_minibar">True</field>
+            <field name="has_balcony">True</field>
+        </record>
+        <record id="room_202" model="hotel.room">
+            <field name="name">202</field>
+            <field name="floor_id" ref="floor_2"/>
+            <field name="room_type_id" ref="room_type_deluxe"/>
+            <field name="capacity">3</field>
+            <field name="has_wifi">True</field>
+            <field name="has_minibar">True</field>
+            <field name="has_balcony">True</field>
+            <field name="has_jacuzzi">True</field>
+        </record>
+        <record id="room_203" model="hotel.room">
+            <field name="name">203-P</field>
+            <field name="floor_id" ref="floor_2"/>
+            <field name="room_type_id" ref="room_type_presidential"/>
+            <field name="capacity">4</field>
+            <field name="has_wifi">True</field>
+            <field name="has_minibar">True</field>
+            <field name="has_balcony">True</field>
+            <field name="has_jacuzzi">True</field>
+        </record>
+
+        <!-- Hóspedes (res.partner) -->
+        <record id="guest_carlos" model="res.partner">
+            <field name="name">Carlos Manuel Silva</field>
+            <field name="email">carlos.silva@example.com</field>
+            <field name="phone">+244 923 456 789</field>
+            <field name="street">Avenida Comandante Valódia, Luanda</field>
+            <field name="vat">999999999</field>
+        </record>
+        <record id="guest_maria" model="res.partner">
+            <field name="name">Maria Antónia Sousa</field>
+            <field name="email">maria.sousa@example.com</field>
+            <field name="phone">+244 912 345 678</field>
+            <field name="street">Rua dos Combatentes, Lobito</field>
+            <field name="vat">999999999</field>
+        </record>
+        <record id="guest_john" model="res.partner">
+            <field name="name">John Doe</field>
+            <field name="email">john.doe@example.com</field>
+            <field name="phone">+1 555 123 4567</field>
+            <field name="street">5th Avenue, New York</field>
+            <field name="vat">999999999</field>
+        </record>
+        <record id="guest_anabela" model="res.partner">
+            <field name="name">Ana Bela Rodrigues</field>
+            <field name="email">anabela.rodrigues@example.com</field>
+            <field name="phone">+244 945 999 888</field>
+            <field name="street">Centralidade do Kilamba, Luanda</field>
+            <field name="vat">999999999</field>
+        </record>
+    </data>
+</odoo>

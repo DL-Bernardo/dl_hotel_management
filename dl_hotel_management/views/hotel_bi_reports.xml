@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==================== RESERVAS (hotel.booking) ==================== -->
+    
+    <!-- Vista Pivot -->
+    <record id="view_hotel_booking_pivot" model="ir.ui.view">
+        <field name="name">hotel.booking.pivot</field>
+        <field name="model">hotel.booking</field>
+        <field name="arch" type="xml">
+            <pivot string="Análise de Ocupação &amp; Faturação" disable_linking="True" js_class="bi_pivot_view">
+                <field name="quarto_id" type="row"/>
+                <field name="check_in" interval="month" type="col"/>
+                <field name="subtotal_hospedagem" type="measure"/>
+                <field name="numero_noites" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Vista Gráfico (Barras) -->
+    <record id="view_hotel_booking_graph" model="ir.ui.view">
+        <field name="name">hotel.booking.graph</field>
+        <field name="model">hotel.booking</field>
+        <field name="arch" type="xml">
+            <graph string="Evolução Mensal de Faturação de Alojamento" type="bar" js_class="bi_graph_view">
+                <field name="check_in" interval="month" type="row"/>
+                <field name="subtotal_hospedagem" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Vista de Pesquisa (Search View) -->
+    <record id="view_hotel_booking_search_bi" model="ir.ui.view">
+        <field name="name">hotel.booking.search.bi</field>
+        <field name="model">hotel.booking</field>
+        <field name="arch" type="xml">
+            <search string="Pesquisa de Reservas">
+                <field name="name"/>
+                <field name="quarto_id"/>
+                <field name="partner_id"/>
+                <filter string="Este Mês" name="this_month" domain="[('check_in', '&gt;=', context_today().strftime('%Y-%m-01 00:00:00')), ('check_in', '&lt;', (context_today() + relativedelta(months=1)).strftime('%Y-%m-01 00:00:00'))]"/>
+                <filter string="Mês Passado" name="last_month" domain="[('check_in', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01 00:00:00')), ('check_in', '&lt;', context_today().strftime('%Y-%m-01 00:00:00'))]"/>
+                <filter string="Este Ano" name="this_year" domain="[('check_in', '&gt;=', context_today().strftime('%Y-01-01 00:00:00')), ('check_in', '&lt;=', context_today().strftime('%Y-12-31 23:59:59'))]"/>
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Quarto" name="group_room" context="{'group_by': 'quarto_id'}"/>
+                    <filter string="Data: Mês" name="group_month" context="{'group_by': 'check_in:month'}"/>
+                    <filter string="Data: Trimestre" name="group_quarter" context="{'group_by': 'check_in:quarter'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- ==================== LAVANDARIA (hotel.laundry.line) ==================== -->
+    
+    <!-- Vista Pivot -->
+    <record id="view_hotel_laundry_line_pivot" model="ir.ui.view">
+        <field name="name">hotel.laundry.line.pivot</field>
+        <field name="model">hotel.laundry.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Análise de Lavandaria" disable_linking="True" js_class="bi_pivot_view">
+                <field name="servico_id" type="row"/>
+                <field name="date" interval="month" type="col"/>
+                <field name="qty" type="measure"/>
+                <field name="price_total" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Vista Gráfico (Barras) -->
+    <record id="view_hotel_laundry_line_graph" model="ir.ui.view">
+        <field name="name">hotel.laundry.line.graph</field>
+        <field name="model">hotel.laundry.line</field>
+        <field name="arch" type="xml">
+            <graph string="Faturação por Serviço de Lavandaria" type="bar" js_class="bi_graph_view">
+                <field name="servico_id" type="row"/>
+                <field name="price_total" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Vista de Pesquisa (Search View) -->
+    <record id="view_hotel_laundry_line_search_bi" model="ir.ui.view">
+        <field name="name">hotel.laundry.line.search.bi</field>
+        <field name="model">hotel.laundry.line</field>
+        <field name="arch" type="xml">
+            <search string="Pesquisa de Lavandaria">
+                <field name="servico_id"/>
+                <filter string="Este Mês" name="this_month" domain="[('date', '&gt;=', context_today().strftime('%Y-%m-01')), ('date', '&lt;', (context_today() + relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
+                <filter string="Mês Passado" name="last_month" domain="[('date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01')), ('date', '&lt;', context_today().strftime('%Y-%m-01'))]"/>
+                <filter string="Este Ano" name="this_year" domain="[('date', '&gt;=', context_today().strftime('%Y-01-01')), ('date', '&lt;=', context_today().strftime('%Y-12-31'))]"/>
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Serviço" name="group_service" context="{'group_by': 'servico_id'}"/>
+                    <filter string="Data: Mês" name="group_month" context="{'group_by': 'date:month'}"/>
+                    <filter string="Data: Trimestre" name="group_quarter" context="{'group_by': 'date:quarter'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- ==================== RESTAURANTE (hotel.restaurant.line) ==================== -->
+    
+    <!-- Vista Pivot -->
+    <record id="view_hotel_restaurant_line_pivot" model="ir.ui.view">
+        <field name="name">hotel.restaurant.line.pivot</field>
+        <field name="model">hotel.restaurant.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Análise de Restaurante" disable_linking="True" js_class="bi_pivot_view">
+                <field name="servico_id" type="row"/>
+                <field name="date" interval="month" type="col"/>
+                <field name="qty" type="measure"/>
+                <field name="price_total" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Vista Gráfico (Queijo/Pie) -->
+    <record id="view_hotel_restaurant_line_graph" model="ir.ui.view">
+        <field name="name">hotel.restaurant.line.graph</field>
+        <field name="model">hotel.restaurant.line</field>
+        <field name="arch" type="xml">
+            <graph string="Pratos mais Vendidos (Restaurante)" type="pie" js_class="bi_graph_view">
+                <field name="servico_id" type="row"/>
+                <field name="qty" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Vista de Pesquisa (Search View) -->
+    <record id="view_hotel_restaurant_line_search_bi" model="ir.ui.view">
+        <field name="name">hotel.restaurant.line.search.bi</field>
+        <field name="model">hotel.restaurant.line</field>
+        <field name="arch" type="xml">
+            <search string="Pesquisa de Restaurante">
+                <field name="servico_id"/>
+                <filter string="Este Mês" name="this_month" domain="[('date', '&gt;=', context_today().strftime('%Y-%m-01')), ('date', '&lt;', (context_today() + relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
+                <filter string="Mês Passado" name="last_month" domain="[('date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01')), ('date', '&lt;', context_today().strftime('%Y-%m-01'))]"/>
+                <filter string="Este Ano" name="this_year" domain="[('date', '&gt;=', context_today().strftime('%Y-01-01')), ('date', '&lt;=', context_today().strftime('%Y-12-31'))]"/>
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Prato" name="group_dish" context="{'group_by': 'servico_id'}"/>
+                    <filter string="Data: Mês" name="group_month" context="{'group_by': 'date:month'}"/>
+                    <filter string="Data: Trimestre" name="group_quarter" context="{'group_by': 'date:quarter'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- ==================== TRANSPORTE (hotel.transport.request) ==================== -->
+    
+    <!-- Vista Pivot -->
+    <record id="view_hotel_transport_request_pivot" model="ir.ui.view">
+        <field name="name">hotel.transport.request.pivot</field>
+        <field name="model">hotel.transport.request</field>
+        <field name="arch" type="xml">
+            <pivot string="Análise de Transporte" disable_linking="True" js_class="bi_pivot_view">
+                <field name="servico_id" type="row"/>
+                <field name="data_hora_viagem" interval="month" type="col"/>
+                <field name="num_passageiros" type="measure"/>
+                <field name="total_geral" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Vista Gráfico (Barras) -->
+    <record id="view_hotel_transport_request_graph" model="ir.ui.view">
+        <field name="name">hotel.transport.request.graph</field>
+        <field name="model">hotel.transport.request</field>
+        <field name="arch" type="xml">
+            <graph string="Faturação de Transporte" type="bar" js_class="bi_graph_view">
+                <field name="servico_id" type="row"/>
+                <field name="total_geral" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Vista de Pesquisa (Search View) -->
+    <record id="view_hotel_transport_request_search_bi" model="ir.ui.view">
+        <field name="name">hotel.transport.request.search.bi</field>
+        <field name="model">hotel.transport.request</field>
+        <field name="arch" type="xml">
+            <search string="Pesquisa de Transporte">
+                <field name="servico_id"/>
+                <filter string="Este Mês" name="this_month" domain="[('data_hora_viagem', '&gt;=', context_today().strftime('%Y-%m-01 00:00:00')), ('data_hora_viagem', '&lt;', (context_today() + relativedelta(months=1)).strftime('%Y-%m-01 00:00:00'))]"/>
+                <filter string="Mês Passado" name="last_month" domain="[('data_hora_viagem', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01 00:00:00')), ('data_hora_viagem', '&lt;', context_today().strftime('%Y-%m-01 00:00:00'))]"/>
+                <filter string="Este Ano" name="this_year" domain="[('data_hora_viagem', '&gt;=', context_today().strftime('%Y-01-01 00:00:00')), ('data_hora_viagem', '&lt;=', context_today().strftime('%Y-12-31 23:59:59'))]"/>
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Serviço/Trajeto" name="group_service" context="{'group_by': 'servico_id'}"/>
+                    <filter string="Data: Mês" name="group_month" context="{'group_by': 'data_hora_viagem:month'}"/>
+                    <filter string="Data: Trimestre" name="group_quarter" context="{'group_by': 'data_hora_viagem:quarter'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- ==================== AÇÕES E MENUS DE BI ==================== -->
+    
+    <record id="action_bi_ocupacao" model="ir.actions.act_window">
+        <field name="name">Análise de Ocupação</field>
+        <field name="res_model">hotel.booking</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="view_hotel_booking_search_bi"/>
+        <field name="context">{'search_default_this_month': 1}</field>
+    </record>
+
+    <record id="action_bi_lavanderia" model="ir.actions.act_window">
+        <field name="name">Análise de Lavandaria</field>
+        <field name="res_model">hotel.laundry.line</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="view_hotel_laundry_line_search_bi"/>
+        <field name="context">{'search_default_this_month': 1}</field>
+    </record>
+
+    <record id="action_bi_restaurante" model="ir.actions.act_window">
+        <field name="name">Análise de Restaurante</field>
+        <field name="res_model">hotel.restaurant.line</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="view_hotel_restaurant_line_search_bi"/>
+        <field name="context">{'search_default_this_month': 1}</field>
+    </record>
+
+    <record id="action_bi_transporte" model="ir.actions.act_window">
+        <field name="name">Análise de Transporte</field>
+        <field name="res_model">hotel.transport.request</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="view_hotel_transport_request_search_bi"/>
+        <field name="context">{'search_default_this_month': 1}</field>
+    </record>
+
+    <!-- Menu Pai: Análise & Relatórios (exclusivo do grupo Gerente, sequence 90 para ficar logo antes de Configurações) -->
+    <menuitem id="menu_hotel_bi_root" name="Análise &amp; Relatórios" parent="menu_hotel_root" sequence="90" groups="dl_hotel_management.group_hotel_manager"/>
+    
+    <!-- Submenus BI (exclusivos do grupo Gerente) -->
+    <menuitem id="menu_bi_ocupacao" name="Análise de Ocupação" parent="menu_hotel_bi_root" action="action_bi_ocupacao" sequence="10" groups="dl_hotel_management.group_hotel_manager"/>
+    <menuitem id="menu_bi_lavanderia" name="Análise de Lavandaria" parent="menu_hotel_bi_root" action="action_bi_lavanderia" sequence="20" groups="dl_hotel_management.group_hotel_manager"/>
+    <menuitem id="menu_bi_restaurante" name="Análise de Restaurante" parent="menu_hotel_bi_root" action="action_bi_restaurante" sequence="30" groups="dl_hotel_management.group_hotel_manager"/>
+    <menuitem id="menu_bi_transporte" name="Análise de Transporte" parent="menu_hotel_bi_root" action="action_bi_transporte" sequence="40" groups="dl_hotel_management.group_hotel_manager"/>
+</odoo>

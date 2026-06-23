@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- 1. Breadcrumbs para o Portal (Caminho de Navegação) -->
+    <template id="portal_my_home_menu_hotel" name="Portal layout : Hotel menu entries" inherit_id="portal.portal_breadcrumbs" priority="25">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'bookings' or page_name == 'booking_detail' or page_name == 'vacancies'" class="breadcrumb-item active">
+                <a t-if="page_name == 'booking_detail' or page_name == 'vacancies'" href="/my/bookings">Reservas</a>
+                <t t-else="">Reservas</t>
+            </li>
+            <li t-if="page_name == 'booking_detail'" class="breadcrumb-item active">
+                <t t-out="booking.name"/>
+            </li>
+            <li t-if="page_name == 'vacancies'" class="breadcrumb-item active">
+                <span>Verificar Vagas</span>
+            </li>
+        </xpath>
+    </template>
+
+    <!-- 2. Adicionar o Card "Minhas Reservas" no Ecrã Principal do Portal (/my) -->
+    <template id="portal_my_home_hotel" name="Portal My Home : Hotel Entry" inherit_id="portal.portal_my_home" priority="25">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_client_category_enable" t-value="True"/>
+        </xpath>
+        <div id="portal_client_category" position="inside">
+            <!-- Cartão Minhas Reservas -->
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/dl_hotel_management/static/description/icon.svg'"/>
+                <t t-set="title">Minhas Reservas</t>
+                <t t-set="url" t-value="'/my/bookings'"/>
+                <t t-set="placeholder_count" t-value="'booking_count'"/>
+            </t>
+            <!-- Cartão Verificar Vagas -->
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/portal/static/src/img/portal-connection.svg'"/>
+                <t t-set="title">Verificar Vagas</t>
+                <t t-set="url" t-value="'/my/vacancies'"/>
+                <t t-set="text">Consulte a disponibilidade de quartos em tempo real</t>
+                <t t-set="config_card" t-value="True"/>
+            </t>
+        </div>
+    </template>
+
+    <!-- 3. Lista de Reservas (/my/bookings) -->
+    <template id="portal_my_bookings" name="Minhas Reservas">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Reservas</t>
+            </t>
+            <t t-if="not bookings">
+                <p>Não possui reservas registadas de momento.</p>
+            </t>
+            <t t-if="bookings">
+                <div class="table-responsive bg-white card shadow-sm rounded">
+                    <table class="table table-hover mb-0 align-middle">
+                        <thead>
+                           <tr class="table-light">
+                               <th>Reserva</th>
+                               <th>Quarto</th>
+                               <th>Check-In</th>
+                               <th>Check-Out</th>
+                               <th>Estado</th>
+                               <th class="text-end">Total</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="bookings" t-as="b">
+                                <td>
+                                    <a t-attf-href="/my/booking/#{b.id}"><t t-out="b.name"/></a>
+                                </td>
+                                <td>
+                                    <t t-out="b.quarto_id.name or 'N/A'"/>
+                                </td>
+                                <td>
+                                    <span t-field="b.check_in" t-options='{"widget": "date"}'/>
+                                </td>
+                                <td>
+                                    <span t-field="b.check_out" t-options='{"widget": "date"}'/>
+                                </td>
+                                <td>
+                                    <t t-set="status_badge" t-value="'bg-secondary'"/>
+                                    <t t-if="b.status == 'checked_in'" t-set="status_badge" t-value="'bg-success'"/>
+                                    <t t-elif="b.status == 'confirmed'" t-set="status_badge" t-value="'bg-warning text-dark'"/>
+                                    <t t-elif="b.status == 'checked_out'" t-set="status_badge" t-value="'bg-info text-white'"/>
+                                    <span t-attf-class="badge #{status_badge}">
+                                        <t t-out="dict(b._fields['status'].selection).get(b.status)"/>
+                                    </span>
+                                </td>
+                                <td class="text-end fw-bold">
+                                    <span t-field="b.total_fatura_quarto" t-options='{"widget": "monetary", "display_currency": b.currency_id}'/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <t t-call="portal.pager"/>
+            </t>
+        </t>
+    </template>
+
+    <!-- 4. Detalhe da Reserva (/my/booking/<id>) -->
+    <template id="portal_my_booking_detail" name="Detalhe da Reserva">
+        <t t-call="portal.portal_layout">
+            <div class="container bg-white p-4 shadow-sm rounded border">
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                    <h2 class="text-primary mb-0 fw-bold">
+                        <i class="fa fa-bed me-2"/>Reserva <t t-out="booking.name"/>
+                    </h2>
+                    <div class="d-flex gap-2">
+                        <!-- Imprimir Confirmação de Reserva PDF -->
+                        <a t-attf-href="/my/booking/#{booking.id}/pdf" class="btn btn-outline-primary" target="_blank">
+                            <i class="fa fa-download me-1"/>Confirmação (PDF)
+                        </a>
+                        <!-- Visualizar Fatura Odoo do Fólio se já faturado -->
+                        <a t-if="invoice" t-attf-href="/my/invoices/#{invoice.id}" class="btn btn-success">
+                            <i class="fa fa-file-text-o me-1"/>Fatura Oficial
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Painel de Informações Gerais -->
+                <div class="row mb-5">
+                    <div class="col-md-6 mb-4 mb-md-0">
+                        <div class="card h-100 border-0 bg-light p-3">
+                            <h5 class="fw-bold text-secondary border-bottom pb-2 mb-3">
+                                <i class="fa fa-info-circle me-1"/>Detalhes da Estadia
+                            </h5>
+                            <table class="table table-sm table-borderless mb-0">
+                                <tr>
+                                    <td class="fw-bold text-muted" style="width: 35%;">Quarto:</td>
+                                    <td class="fw-bold text-dark">
+                                        <t t-out="booking.quarto_id.name or 'N/A'"/> 
+                                        <span class="text-muted font-weight-normal"> (<t t-out="booking.quarto_id.room_type_id.name or ''"/>)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-muted">Check-In:</td>
+                                    <td><span t-field="booking.check_in" t-options='{"widget": "datetime"}'/></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-muted">Check-Out:</td>
+                                    <td><span t-field="booking.check_out" t-options='{"widget": "datetime"}'/></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-muted">Noites:</td>
+                                    <td><span class="badge bg-dark" t-out="booking.numero_noites"/> noites</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-muted">Estado:</td>
+                                    <td>
+                                        <t t-set="status_badge" t-value="'bg-secondary'"/>
+                                        <t t-if="booking.status == 'checked_in'" t-set="status_badge" t-value="'bg-success'"/>
+                                        <t t-elif="booking.status == 'confirmed'" t-set="status_badge" t-value="'bg-warning text-dark'"/>
+                                        <t t-elif="booking.status == 'checked_out'" t-set="status_badge" t-value="'bg-info text-white'"/>
+                                        <span t-attf-class="badge #{status_badge} px-2 py-1">
+                                            <t t-out="dict(booking._fields['status'].selection).get(booking.status)"/>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 bg-light p-3">
+                            <h5 class="fw-bold text-secondary border-bottom pb-2 mb-3">
+                                <i class="fa fa-money me-1"/>Resumo Financeiro
+                            </h5>
+                            <table class="table table-sm table-borderless mb-0">
+                                <tr>
+                                    <td class="text-muted" style="width: 50%;">Subtotal Hospedagem:</td>
+                                    <td class="text-end fw-bold"><span t-field="booking.subtotal_hospedagem" t-options='{"widget": "monetary", "display_currency": booking.currency_id}'/></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Total Lavandaria:</td>
+                                    <td class="text-end"><span t-field="booking.total_lavandaria" t-options='{"widget": "monetary", "display_currency": booking.currency_id}'/></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Total Restaurante:</td>
+                                    <td class="text-end"><span t-field="booking.total_restaurante" t-options='{"widget": "monetary", "display_currency": booking.currency_id}'/></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Total Transporte:</td>
+                                    <td class="text-end"><span t-field="booking.total_transporte" t-options='{"widget": "monetary", "display_currency": booking.currency_id}'/></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Total Consumos POS:</td>
+                                    <td class="text-end"><span t-field="booking.total_pos" t-options='{"widget": "monetary", "display_currency": booking.currency_id}'/></td>
+                                </tr>
+                                <tr class="border-top">
+                                    <td class="fw-bold text-dark pt-2 fs-6">Total Acumulado:</td>
+                                    <td class="text-end fw-bold text-primary pt-2 fs-6"><span t-field="booking.total_fatura_quarto" t-options='{"widget": "monetary", "display_currency": booking.currency_id}'/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Extrato de Consumos Detalhado (Por Pedido) -->
+                <div class="mt-5">
+                    <h4 class="fw-bold text-dark border-bottom pb-2 mb-4">
+                        <i class="fa fa-list-alt me-2"/>Extrato de Serviços Consumidos
+                    </h4>
+                    
+                    <!-- Restaurante -->
+                    <t t-if="booking.restaurant_order_ids">
+                        <div class="mb-4">
+                            <h6 class="text-primary fw-bold mb-2">
+                                <i class="fa fa-cutlery me-2"/>Pedidos de Restaurante / Refeições
+                            </h6>
+                            <table class="table table-sm table-hover table-striped border">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Referência</th>
+                                        <th>Estado</th>
+                                        <th class="text-end">Valor com IVA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="booking.restaurant_order_ids" t-as="ro">
+                                        <td><span t-field="ro.date" t-options='{"widget": "date"}'/></td>
+                                        <td><t t-out="ro.name"/></td>
+                                        <td>
+                                            <span class="badge bg-light text-dark"><t t-out="dict(ro._fields['status'].selection).get(ro.status)"/></span>
+                                        </td>
+                                        <td class="text-end"><span t-field="ro.total_geral" t-options='{"widget": "monetary", "display_currency": booking.currency_id}'/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+
+                    <!-- Lavandaria -->
+                    <t t-if="booking.laundry_order_ids">
+                        <div class="mb-4">
+                            <h6 class="text-primary fw-bold mb-2">
+                                <i class="fa fa-refresh me-2"/>Serviços de Lavandaria
+                            </h6>
+                            <table class="table table-sm table-hover table-striped border">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Referência</th>
+                                        <th>Estado</th>
+                                        <th class="text-end">Valor com IVA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="booking.laundry_order_ids" t-as="lo">
+                                        <td><span t-field="lo.date" t-options='{"widget": "date"}'/></td>
+                                        <td><t t-out="lo.name"/></td>
+                                        <td>
+                                            <span class="badge bg-light text-dark"><t t-out="dict(lo._fields['status'].selection).get(lo.status)"/></span>
+                                        </td>
+                                        <td class="text-end"><span t-field="lo.total_geral" t-options='{"widget": "monetary", "display_currency": booking.currency_id}'/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+
+                    <!-- Transporte -->
+                    <t t-if="booking.transport_request_ids">
+                        <div class="mb-4">
+                            <h6 class="text-primary fw-bold mb-2">
+                                <i class="fa fa-car me-2"/>Serviços de Transporte / Transfers
+                            </h6>
+                            <table class="table table-sm table-hover table-striped border">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Referência</th>
+                                        <th>Trajeto</th>
+                                        <th>Estado</th>
+                                        <th class="text-end">Valor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="booking.transport_request_ids" t-as="tr">
+                                        <td><span t-field="tr.date" t-options='{"widget": "date"}'/></td>
+                                        <td><t t-out="tr.name"/></td>
+                                        <td><t t-out="tr.tipo_trajeto"/></td>
+                                        <td>
+                                            <span class="badge bg-light text-dark"><t t-out="dict(tr._fields['status'].selection).get(tr.status)"/></span>
+                                        </td>
+                                        <td class="text-end"><span t-field="tr.charge" t-options='{"widget": "monetary", "display_currency": booking.currency_id}'/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+
+                    <!-- POS -->
+                    <t t-if="booking.pos_order_ids">
+                        <div class="mb-4">
+                            <h6 class="text-primary fw-bold mb-2">
+                                <i class="fa fa-shopping-cart me-2"/>Compras no Ponto de Venda (POS / Lojas)
+                            </h6>
+                            <table class="table table-sm table-hover table-striped border">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Data/Hora</th>
+                                        <th>Pedido</th>
+                                        <th class="text-end">Valor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="booking.pos_order_ids" t-as="po">
+                                        <td><span t-field="po.date_order" t-options='{"widget": "datetime"}'/></td>
+                                        <td><t t-out="po.name"/></td>
+                                        <td class="text-end"><span t-field="po.amount_total" t-options='{"widget": "monetary", "display_currency": booking.currency_id}'/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+
+                    <!-- Sem consumos extras -->
+                    <t t-if="not booking.restaurant_order_ids and not booking.laundry_order_ids and not booking.transport_request_ids and not booking.pos_order_ids">
+                        <div class="alert alert-light border text-center text-muted p-4">
+                            <i class="fa fa-info-circle fa-2x mb-2 d-block text-secondary"/>
+                            Nenhum consumo extra ou serviço registado nesta estadia até ao momento.
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- 5. Personalização da página de login para colocar um botão proeminente de registo -->
+    <template id="hotel_auth_signup_login_inherit" inherit_id="auth_signup.login" name="Hotel Portal Login Customization">
+        <xpath expr="//div[hasclass('justify-content-between')]" position="replace">
+            <div class="mt-3 text-center">
+                <!-- Botão Criar Conta principal -->
+                <a t-if="signup_enabled" t-attf-href="/web/signup?{{ keep_query() }}" class="btn btn-outline-secondary w-100 fw-bold py-2 mb-2" role="button">
+                    <i class="fa fa-user-plus me-1"/>Criar Conta de Hóspede
+                </a>
+                <!-- Link secundário para Recuperar Senha -->
+                <a t-if="reset_password_enabled" t-attf-href="/web/reset_password?{{ keep_query() }}" class="text-muted small">
+                    Esqueceu-se da palavra-passe?
+                </a>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- 6. Tela para o usuário verificar vagas no hotel -->
+    <template id="portal_my_vacancies" name="Verificar Vagas no Hotel">
+        <t t-call="portal.portal_layout">
+            <div class="container bg-white p-4 shadow-sm rounded border">
+                <h2 class="text-primary mb-4 fw-bold">
+                    <i class="fa fa-calendar-check-o me-2"/>Verificar Vagas
+                </h2>
+
+                <!-- Form de Pesquisa -->
+                <form method="get" action="/my/vacancies" class="bg-light p-4 rounded border mb-4">
+                    <div class="row g-3">
+                        <div class="col-md-5">
+                            <label for="check_in" class="form-label fw-bold text-secondary">Data de Check-In (Entrada)</label>
+                            <input type="date" id="check_in" name="check_in" class="form-control" t-att-value="check_in" required="required"/>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="check_out" class="form-label fw-bold text-secondary">Data de Check-Out (Saída)</label>
+                            <input type="date" id="check_out" name="check_out" class="form-control" t-att-value="check_out" required="required"/>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100 fw-bold py-2">
+                                <i class="fa fa-search me-1"/>Pesquisar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Mensagem de Erro, se houver -->
+                <div t-if="error_msg" class="alert alert-danger" role="alert">
+                    <i class="fa fa-exclamation-triangle me-2"/><t t-out="error_msg"/>
+                </div>
+
+                <!-- Resultados -->
+                <div t-if="not error_msg">
+                    <h4 class="fw-bold text-dark mb-3">Quartos Disponíveis para o Período</h4>
+                    
+                    <t t-if="not vacancies">
+                        <div class="alert alert-warning text-center p-4 border" role="alert">
+                            <i class="fa fa-info-circle fa-2x mb-2 d-block"/>
+                            Não existem vagas disponíveis para o período de <strong><t t-out="check_in"/></strong> a <strong><t t-out="check_out"/></strong>.
+                            Por favor, tente outras datas.
+                        </div>
+                    </t>
+                    
+                    <t t-if="vacancies">
+                        <div class="row row-cols-1 row-cols-md-2 g-4">
+                            <div t-foreach="vacancies" t-as="v" class="col">
+                                <div class="card h-100 shadow-sm border border-light rounded">
+                                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0 fw-bold"><t t-out="v['room_type'].name"/></h5>
+                                        <span class="badge bg-white text-primary fw-bold px-3 py-2 fs-6">
+                                            <t t-out="v['available_count']"/> <t t-if="v['available_count'] &gt; 1">Livres</t><t t-else="">Livre</t>
+                                        </span>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="text-muted mb-3"><t t-out="v['room_type'].description or 'Sem descrição disponível para este tipo de quarto.'" collapse="1"/></p>
+                                        
+                                        <div class="row mb-3">
+                                            <div class="col-6">
+                                                <small class="text-muted d-block">Preço por Noite</small>
+                                                <span class="fs-5 fw-bold text-primary">
+                                                    <t t-out="v['price']" t-options='{"widget": "monetary", "display_currency": request.env.company.currency_id}'/>
+                                                </span>
+                                            </div>
+                                            <div class="col-6 text-end">
+                                                <small class="text-muted d-block">Capacidade</small>
+                                                <span class="fs-6 fw-bold text-dark">
+                                                    <i class="fa fa-users me-1"/>Até <t t-out="v['capacity']"/> hóspedes
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Comodidades / Características -->
+                                        <div class="mb-3">
+                                            <small class="text-muted d-block mb-1">Comodidades dos Quartos:</small>
+                                            <div class="d-flex flex-wrap gap-1">
+                                                <span t-if="v['has_wifi']" class="badge bg-light text-dark border"><i class="fa fa-wifi text-primary me-1"/>Wi-Fi</span>
+                                                <span t-if="v['has_minibar']" class="badge bg-light text-dark border"><i class="fa fa-glass text-warning me-1"/>Minibar</span>
+                                                <span t-if="v['has_jacuzzi']" class="badge bg-light text-dark border"><i class="fa fa-tint text-info me-1"/>Jacuzzi</span>
+                                                <span t-if="v['has_balcony']" class="badge bg-light text-dark border"><i class="fa fa-sun-o text-success me-1"/>Varanda</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="bg-light p-2 rounded text-muted small border mb-0">
+                                            <i class="fa fa-info-circle text-primary me-1"/>Quartos disponíveis: <strong><t t-out="v['rooms_list']"/></strong>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-transparent border-0 pt-0 pb-3">
+                                        <a t-attf-href="https://wa.me/244976269330?text=Olá!%20Gostaria%20de%20reservar%20um%20quarto%20do%20tipo%20#{v['room_type'].name}%20para%20o%20período%20de%20#{check_in}%20a%20#{check_out}" class="btn btn-success w-100 fw-bold text-white py-2" target="_blank">
+                                            <i class="fa fa-whatsapp me-2"/>Reservar via WhatsApp
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+    <!-- Traduções para Português do Painel do Portal -->
+    <template id="portal_layout_my_account_pt" inherit_id="portal.portal_layout" name="Portal Layout My Account PT">
+        <xpath expr="//div[hasclass('wrapper')]/h3[hasclass('my-3')]" position="replace">
+            <h3 class="my-3">A Minha Conta</h3>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_invoice_pt" inherit_id="account.portal_my_home_invoice" name="Portal My Home Invoice PT">
+        <xpath expr="//div[@id='portal_client_category']/t/t[@t-set='title']" position="replace">
+            <t t-set="title">As Minhas Faturas</t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_security_pt" inherit_id="portal.portal_my_home" name="Portal My Home Security PT">
+        <xpath expr="//div[@id='portal_common_category']/t/t[@t-set='title']" position="replace">
+            <t t-set="title">Conexão e Segurança</t>
+        </xpath>
+    </template>
+
+</odoo>

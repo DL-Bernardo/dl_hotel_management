@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="dl_hotel_management.PivotView.Buttons" t-inherit="web.PivotView.Buttons" t-inherit-mode="primary">
+        <xpath expr="//div[hasclass('o_pivot_buttons')]" position="inside">
+            <button type="button" class="btn btn-primary o_bi_print_pdf ms-2" t-on-click="onPrintPdfClick">
+                <i class="fa fa-print me-1"/>Imprimir PDF
+            </button>
+        </xpath>
+    </t>
+
+    <t t-name="dl_hotel_management.GraphView.Buttons" t-inherit="web.GraphView.Buttons" t-inherit-mode="primary">
+        <xpath expr="//div[hasclass('btn-group')][last()]" position="after">
+            <button type="button" class="btn btn-primary ms-2 o_bi_print_pdf" t-on-click="onPrintPdfClick">
+                <i class="fa fa-print me-1"/>Imprimir PDF
+            </button>
+        </xpath>
+    </t>
+</templates>

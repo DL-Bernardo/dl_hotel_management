@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ==================== REGISTOS DOS RELATÓRIOS PDF (QWeb) ==================== -->
+    
+    <record id="action_report_bi_ocupacao" model="ir.actions.report">
+        <field name="name">Relatório de Análise - Ocupação</field>
+        <field name="model">hotel.booking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">dl_hotel_management.report_bi_ocupacao_template</field>
+        <field name="report_file">dl_hotel_management.report_bi_ocupacao_template</field>
+        <field name="print_report_name">'Relatorio_BI_Ocupacao_%s' % (fields.Date.today())</field>
+        <field name="binding_model_id" eval="False"/>
+    </record>
+
+    <record id="action_report_bi_lavanderia" model="ir.actions.report">
+        <field name="name">Relatório de Análise - Lavandaria</field>
+        <field name="model">hotel.laundry.line</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">dl_hotel_management.report_bi_lavanderia_template</field>
+        <field name="report_file">dl_hotel_management.report_bi_lavanderia_template</field>
+        <field name="print_report_name">'Relatorio_BI_Lavanderia_%s' % (fields.Date.today())</field>
+        <field name="binding_model_id" eval="False"/>
+    </record>
+
+    <record id="action_report_bi_restaurante" model="ir.actions.report">
+        <field name="name">Relatório de Análise - Restaurante</field>
+        <field name="model">hotel.restaurant.line</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">dl_hotel_management.report_bi_restaurante_template</field>
+        <field name="report_file">dl_hotel_management.report_bi_restaurante_template</field>
+        <field name="print_report_name">'Relatorio_BI_Restaurante_%s' % (fields.Date.today())</field>
+        <field name="binding_model_id" eval="False"/>
+    </record>
+
+    <record id="action_report_bi_transporte" model="ir.actions.report">
+        <field name="name">Relatório de Análise - Transporte</field>
+        <field name="model">hotel.transport.request</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">dl_hotel_management.report_bi_transporte_template</field>
+        <field name="report_file">dl_hotel_management.report_bi_transporte_template</field>
+        <field name="print_report_name">'Relatorio_BI_Transporte_%s' % (fields.Date.today())</field>
+        <field name="binding_model_id" eval="False"/>
+    </record>
+
+    <!-- ==================== TEMPLATE BASE (LAYOUT & ESTILOS) ==================== -->
+    
+    <template id="report_bi_styles">
+        <style>
+            .bi-title {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 22px;
+                font-weight: 700;
+                color: #1a252f;
+                border-bottom: 2px solid #1f6c98;
+                padding-bottom: 8px;
+                margin-bottom: 25px;
+                text-transform: uppercase;
+            }
+            .metadata-card {
+                background-color: #f8fafc;
+                border: 1px solid #e2e8f0;
+                border-radius: 6px;
+                padding: 15px;
+                margin-bottom: 25px;
+                font-size: 13px;
+            }
+            .metadata-card table {
+                width: 100%;
+                margin: 0;
+            }
+            .metadata-card th {
+                color: #64748b;
+                font-weight: 600;
+                width: 20%;
+                padding: 3px 0;
+            }
+            .metadata-card td {
+                color: #1e293b;
+                padding: 3px 0;
+            }
+            .bi-table th {
+                background-color: #34495e;
+                color: #ffffff;
+                font-weight: bold;
+                text-transform: uppercase;
+                font-size: 11px;
+                padding: 8px !important;
+            }
+            .bi-table td {
+                vertical-align: middle;
+                padding: 8px !important;
+                font-size: 13px;
+            }
+            .total-row {
+                background-color: #1f6c98 !important;
+                color: #ffffff !important;
+                font-weight: bold;
+            }
+            .total-row td {
+                font-size: 13px;
+                border-top: 2px solid #1f6c98 !important;
+            }
+        </style>
+    </template>
+
+    <!-- ==================== TEMPLATE OCUPAÇÃO ==================== -->
+    <template id="report_bi_ocupacao_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-call="dl_hotel_management.report_bi_styles"/>
+                <div class="page">
+                    <!-- Título -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="bi-title">RELATÓRIO MENSAL DE ANÁLISE - OCUPAÇÃO &amp; ALOJAMENTO</h2>
+                        </div>
+                    </div>
+
+                    <!-- Metadados -->
+                    <div class="metadata-card">
+                        <table>
+                            <tr>
+                                <th>Área Analisada:</th>
+                                <td><span t-esc="area"/></td>
+                                <th>Data de Emissão:</th>
+                                <td><span t-esc="date_emission" t-options='{"widget": "date"}'/></td>
+                            </tr>
+                            <tr>
+                                <th>Gerado por:</th>
+                                <td><span t-esc="user.name"/></td>
+                                <th>Filtros Aplicados:</th>
+                                <td>Filtros de Período Ativos no Ecrã</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Tabela de Dados -->
+                    <table class="table table-bordered bi-table">
+                        <thead>
+                            <tr>
+                                <th>Quarto</th>
+                                <th class="text-end">Noites Reservadas</th>
+                                <th class="text-end">Faturação Acumulada</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="total_noites" t-value="0"/>
+                            <t t-set="total_faturado" t-value="0.0"/>
+                            <tr t-foreach="report_data" t-as="row">
+                                <td><span t-esc="row['quarto']"/></td>
+                                <td class="text-end"><span t-esc="row['noites']"/></td>
+                                <td class="text-end">
+                                    <span t-esc="row['faturado']" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                </td>
+                                <t t-set="total_noites" t-value="total_noites + row['noites']"/>
+                                <t t-set="total_faturado" t-value="total_faturado + row['faturado']"/>
+                            </tr>
+                            <!-- Totais -->
+                            <tr class="total-row">
+                                <td>TOTAL ACUMULADO</td>
+                                <td class="text-end"><span t-esc="total_noites"/></td>
+                                <td class="text-end">
+                                    <span t-esc="total_faturado" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ==================== TEMPLATE LAVANDARIA ==================== -->
+    <template id="report_bi_lavanderia_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-call="dl_hotel_management.report_bi_styles"/>
+                <div class="page">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="bi-title">RELATÓRIO MENSAL DE ANÁLISE - SERVIÇOS DE LAVANDARIA</h2>
+                        </div>
+                    </div>
+
+                    <div class="metadata-card">
+                        <table>
+                            <tr>
+                                <th>Área Analisada:</th>
+                                <td><span t-esc="area"/></td>
+                                <th>Data de Emissão:</th>
+                                <td><span t-esc="date_emission" t-options='{"widget": "date"}'/></td>
+                            </tr>
+                            <tr>
+                                <th>Gerado por:</th>
+                                <td><span t-esc="user.name"/></td>
+                                <th>Filtros Aplicados:</th>
+                                <td>Filtros de Período Ativos no Ecrã</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <table class="table table-bordered bi-table">
+                        <thead>
+                            <tr>
+                                <th>Serviço</th>
+                                <th class="text-end">Quantidade Vendida</th>
+                                <th class="text-end">Total Faturado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="total_qtd" t-value="0"/>
+                            <t t-set="total_faturado" t-value="0.0"/>
+                            <tr t-foreach="report_data" t-as="row">
+                                <td><span t-esc="row['servico']"/></td>
+                                <td class="text-end"><span t-esc="row['quantidade']"/></td>
+                                <td class="text-end">
+                                    <span t-esc="row['faturado']" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                </td>
+                                <t t-set="total_qtd" t-value="total_qtd + row['quantidade']"/>
+                                <t t-set="total_faturado" t-value="total_faturado + row['faturado']"/>
+                            </tr>
+                            <tr class="total-row">
+                                <td>TOTAL ACUMULADO</td>
+                                <td class="text-end"><span t-esc="total_qtd"/></td>
+                                <td class="text-end">
+                                    <span t-esc="total_faturado" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ==================== TEMPLATE RESTAURANTE ==================== -->
+    <template id="report_bi_restaurante_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-call="dl_hotel_management.report_bi_styles"/>
+                <div class="page">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="bi-title">RELATÓRIO MENSAL DE ANÁLISE - CONSUMOS DO RESTAURANTE</h2>
+                        </div>
+                    </div>
+
+                    <div class="metadata-card">
+                        <table>
+                            <tr>
+                                <th>Área Analisada:</th>
+                                <td><span t-esc="area"/></td>
+                                <th>Data de Emissão:</th>
+                                <td><span t-esc="date_emission" t-options='{"widget": "date"}'/></td>
+                            </tr>
+                            <tr>
+                                <th>Gerado por:</th>
+                                <td><span t-esc="user.name"/></td>
+                                <th>Filtros Aplicados:</th>
+                                <td>Filtros de Período Ativos no Ecrã</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <table class="table table-bordered bi-table">
+                        <thead>
+                            <tr>
+                                <th>Prato / Consumo</th>
+                                <th class="text-end">Quantidade Vendida</th>
+                                <th class="text-end">Total Faturado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="total_qtd" t-value="0"/>
+                            <t t-set="total_faturado" t-value="0.0"/>
+                            <tr t-foreach="report_data" t-as="row">
+                                <td><span t-esc="row['servico']"/></td>
+                                <td class="text-end"><span t-esc="row['quantidade']"/></td>
+                                <td class="text-end">
+                                    <span t-esc="row['faturado']" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                </td>
+                                <t t-set="total_qtd" t-value="total_qtd + row['quantidade']"/>
+                                <t t-set="total_faturado" t-value="total_faturado + row['faturado']"/>
+                            </tr>
+                            <tr class="total-row">
+                                <td>TOTAL ACUMULADO</td>
+                                <td class="text-end"><span t-esc="total_qtd"/></td>
+                                <td class="text-end">
+                                    <span t-esc="total_faturado" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ==================== TEMPLATE TRANSPORTE ==================== -->
+    <template id="report_bi_transporte_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-call="dl_hotel_management.report_bi_styles"/>
+                <div class="page">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="bi-title">RELATÓRIO MENSAL DE ANÁLISE - SERVIÇOS DE TRANSPORTE</h2>
+                        </div>
+                    </div>
+
+                    <div class="metadata-card">
+                        <table>
+                            <tr>
+                                <th>Área Analisada:</th>
+                                <td><span t-esc="area"/></td>
+                                <th>Data de Emissão:</th>
+                                <td><span t-esc="date_emission" t-options='{"widget": "date"}'/></td>
+                            </tr>
+                            <tr>
+                                <th>Gerado por:</th>
+                                <td><span t-esc="user.name"/></td>
+                                <th>Filtros Aplicados:</th>
+                                <td>Filtros de Período Ativos no Ecrã</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <table class="table table-bordered bi-table">
+                        <thead>
+                            <tr>
+                                <th>Trajeto / Serviço</th>
+                                <th class="text-end">Quantidade de Passageiros</th>
+                                <th class="text-end">Total Faturado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="total_qtd" t-value="0"/>
+                            <t t-set="total_faturado" t-value="0.0"/>
+                            <tr t-foreach="report_data" t-as="row">
+                                <td><span t-esc="row['servico']"/></td>
+                                <td class="text-end"><span t-esc="row['quantidade']"/></td>
+                                <td class="text-end">
+                                    <span t-esc="row['faturado']" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                </td>
+                                <t t-set="total_qtd" t-value="total_qtd + row['quantidade']"/>
+                                <t t-set="total_faturado" t-value="total_faturado + row['faturado']"/>
+                            </tr>
+                            <tr class="total-row">
+                                <td>TOTAL ACUMULADO</td>
+                                <td class="text-end"><span t-esc="total_qtd"/></td>
+                                <td class="text-end">
+                                    <span t-esc="total_faturado" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- Server Actions for Printing BI Reports (Aparece no botão Ações das vistas pivot/graph) -->
+    <record id="action_server_print_bi_ocupacao" model="ir.actions.server">
+        <field name="name">Imprimir PDF</field>
+        <field name="model_id" ref="model_hotel_booking"/>
+        <field name="binding_model_id" ref="model_hotel_booking"/>
+        <field name="binding_view_types">pivot,list,graph</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = record.action_print_bi_report()
+        </field>
+    </record>
+
+    <record id="action_server_print_bi_lavanderia" model="ir.actions.server">
+        <field name="name">Imprimir PDF</field>
+        <field name="model_id" ref="model_hotel_laundry_line"/>
+        <field name="binding_model_id" ref="model_hotel_laundry_line"/>
+        <field name="binding_view_types">pivot,list,graph</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = record.action_print_bi_report()
+        </field>
+    </record>
+
+    <record id="action_server_print_bi_restaurante" model="ir.actions.server">
+        <field name="name">Imprimir PDF</field>
+        <field name="model_id" ref="model_hotel_restaurant_line"/>
+        <field name="binding_model_id" ref="model_hotel_restaurant_line"/>
+        <field name="binding_view_types">pivot,list,graph</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = record.action_print_bi_report()
+        </field>
+    </record>
+
+    <record id="action_server_print_bi_transporte" model="ir.actions.server">
+        <field name="name">Imprimir PDF</field>
+        <field name="model_id" ref="model_hotel_transport_request"/>
+        <field name="binding_model_id" ref="model_hotel_transport_request"/>
+        <field name="binding_view_types">pivot,list,graph</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = record.action_print_bi_report()
+        </field>
+    </record>
+</odoo>

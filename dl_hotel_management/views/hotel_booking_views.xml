@@ -4,9 +4,10 @@
     <!-- Sequência Automática para Referência (BK/2026/0001) -->
     <record id="seq_hotel_booking" model="ir.sequence">
         <field name="name">Sequência de Reservas</field>
-        <field name="code">hotel.booking.seq</field>
+        <field name="code">hotel.booking</field>
         <field name="prefix">BK/%(year)s/</field>
         <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
         <field name="company_id" eval="False"/>
     </record>
 
@@ -26,7 +27,7 @@
                        decoration-info="status == 'confirmed'"
                        decoration-warning="status == 'checked_out'"
                        decoration-danger="status == 'cancelled'"/>
-                <field name="total_amount" widget="monetary"/>
+                <field name="total_amount_with_tax" string="Total" widget="monetary"/>
             </tree>
         </field>
     </record>
@@ -42,9 +43,16 @@
                     <button name="action_check_in" string="Check-In" type="object" class="oe_highlight" invisible="status != 'confirmed'"/>
                     <button name="action_check_out" string="Check-Out" type="object" class="oe_highlight" invisible="status != 'checked_in'"/>
                     <button name="action_cancel" string="Cancelar" type="object" invisible="status not in ('draft', 'confirmed')"/>
+                    <button name="action_print_reserva" string="Imprimir" type="object" class="oe_highlight"/>
+                    <button name="action_send_booking_confirmation_email" string="Enviar por Email" type="object" invisible="status in ('draft', 'cancelled', 'no_show')"/>
                     <field name="status" widget="statusbar" statusbar_visible="draft,confirmed,checked_in,checked_out"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_consumos" type="object" class="oe_stat_button" icon="fa-usd">
+                            <field name="consumos_count" widget="statinfo" string="Consumos"/>
+                        </button>
+                    </div>
                     <field name="currency_id" invisible="1"/>
                     <div class="oe_title">
                         <h1>
@@ -53,43 +61,84 @@
                     </div>
                     <group string="Informações do Hóspede">
                         <group>
-                            <field name="partner_id"/>
+                            <field name="partner_id" readonly="status != 'draft'"/>
                             <field name="phone"/>
                             <field name="email"/>
-                            <field name="adults"/>
-                            <field name="children"/>
+                            <field name="adults" readonly="status != 'draft'"/>
+                            <field name="children" readonly="status != 'draft'"/>
+                            <field name="early_checkout_reason" invisible="status not in ('checked_in', 'checked_out')" readonly="status == 'checked_out'"/>
                         </group>
                         <group>
-                            <field name="check_in"/>
-                            <field name="check_out"/>
+                            <field name="check_in" readonly="status != 'draft'"/>
+                            <field name="check_out" readonly="status != 'draft'"/>
                             <field name="nights"/>
+                            <field name="quarto_id" readonly="status != 'draft'"/>
+                            <field name="preco_quarto" readonly="status != 'draft'"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                     </group>
                     
                     <notebook>
                         <page string="Quartos na Reserva" name="rooms">
-                            <field name="room_line_ids">
+                            <field name="room_line_ids" readonly="status != 'draft'">
                                 <tree editable="bottom">
                                     <field name="room_id"/>
                                     <field name="room_type_id"/>
                                     <field name="check_in"/>
                                     <field name="nights"/>
                                     <field name="price_unit"/>
-                                    <field name="subtotal"/>
+                                    <field name="tax_id"/>
+                                    <field name="subtotal" sum="Subtotal"/>
+                                    <field name="price_tax" sum="Imposto"/>
+                                    <field name="price_total" sum="Total"/>
                                 </tree>
                             </field>
                             <group class="oe_subtotal_footer oe_right">
-                                <field name="total_amount" widget="monetary"/>
+                                <field name="total_amount" widget="monetary" string="Subtotal"/>
+                                <field name="total_tax" widget="monetary" string="Imposto"/>
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="total_amount_with_tax"/>
+                                </div>
+                                <field name="total_amount_with_tax" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
                             </group>
                         </page>
                         <page string="Hóspedes Registrados" name="guests">
-                            <field name="guest_line_ids">
+                            <field name="guest_line_ids" readonly="status != 'draft'">
                                 <tree editable="bottom">
                                     <field name="name"/>
                                     <field name="room_id"/>
                                     <field name="document_type"/>
                                     <field name="document_number"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Extrato de Conta / Fólio" name="folio_extract">
+                            <group>
+                                <group string="Hospedagem">
+                                    <field name="preco_quarto" readonly="1" force_save="1"/>
+                                    <field name="numero_noites" readonly="1" force_save="1"/>
+                                    <field name="subtotal_hospedagem" widget="monetary" readonly="1" force_save="1"/>
+                                </group>
+                                <group string="Consumos Extra">
+                                    <field name="total_lavandaria" widget="monetary" readonly="1" force_save="1"/>
+                                    <field name="total_restaurante" widget="monetary" readonly="1" force_save="1"/>
+                                    <field name="total_transporte" widget="monetary" readonly="1" force_save="1"/>
+                                    <field name="total_pos" widget="monetary" readonly="1" force_save="1"/>
+                                </group>
+                            </group>
+                            <group class="oe_subtotal_footer oe_right">
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="total_fatura_quarto"/>
+                                </div>
+                                <field name="total_fatura_quarto" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" readonly="1" force_save="1"/>
+                            </group>
+                        </page>
+                        <page string="Consumos do POS" name="pos_orders">
+                            <field name="pos_order_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="date_order"/>
+                                    <field name="amount_total" sum="Total POS"/>
                                 </tree>
                             </field>
                         </page>
@@ -116,6 +165,15 @@
     </record>
 
     <!-- Adicionar ação ao menu "Reservas" já existente no hotel_menus.xml -->
-    <menuitem id="menu_hotel_bookings_action" name="Lista de Reservas" parent="menu_hotel_bookings" action="action_hotel_booking" sequence="1"/>
+    <menuitem id="menu_hotel_bookings_action" name="Lista de Reservas" parent="menu_hotel_bookings" action="action_hotel_booking" sequence="1" groups="dl_hotel_management.group_hotel_recepcao,dl_hotel_management.group_hotel_manager"/>
+
+    <!-- Ação do Cliente para a Matriz de Ocupação -->
+    <record id="action_hotel_occupancy_matrix" model="ir.actions.client">
+        <field name="name">Matriz de Ocupação</field>
+        <field name="tag">hotel_occupancy_matrix</field>
+    </record>
+
+    <!-- Submenu para a Matriz de Ocupação -->
+    <menuitem id="menu_hotel_occupancy_matrix" name="Matriz de Ocupação" parent="menu_hotel_bookings" action="action_hotel_occupancy_matrix" sequence="2" groups="dl_hotel_management.group_hotel_recepcao,dl_hotel_management.group_hotel_manager"/>
 
 </odoo>

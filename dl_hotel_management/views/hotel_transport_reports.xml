@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Registo de Relatório de Transporte -->
+    <record id="action_report_hotel_transport" model="ir.actions.report">
+        <field name="name">Ordem de Serviço - Transporte</field>
+        <field name="model">hotel.transport.request</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">dl_hotel_management.report_hotel_transport</field>
+        <field name="report_file">dl_hotel_management.report_hotel_transport</field>
+        <field name="print_report_name">'Ordem_Servico_Transporte_%s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_hotel_transport_request"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Template do Relatório de Transporte -->
+    <template id="report_hotel_transport">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Estilos customizados para o PDF -->
+                        <style>
+                            .report-title {
+                                font-size: 20px;
+                                font-weight: bold;
+                                color: #1a252f;
+                                border-bottom: 2px solid #34495e;
+                                padding-bottom: 10px;
+                                margin-bottom: 25px;
+                                text-transform: uppercase;
+                            }
+                            .section-title {
+                                font-size: 16px;
+                                font-weight: bold;
+                                color: #2c3e50;
+                                background-color: #f8f9fa;
+                                padding: 6px 12px;
+                                border-left: 4px solid #3498db;
+                                margin-top: 20px;
+                                margin-bottom: 15px;
+                            }
+                            .info-table, .info-table tr, .info-table th, .info-table td {
+                                background-color: transparent !important;
+                                border: none !important;
+                            }
+                            .info-table th {
+                                width: 40%;
+                                font-weight: 600;
+                                color: #7f8c8d !important;
+                            }
+                            .info-table td {
+                                color: #2c3e50 !important;
+                            }
+                            .values-table th {
+                                background-color: #34495e;
+                                color: #ffffff;
+                                font-weight: bold;
+                            }
+                            .values-table td {
+                                vertical-align: middle;
+                            }
+                            .total-highlight {
+                                background-color: #1f6c98 !important;
+                                color: #ffffff !important;
+                                font-weight: bold;
+                                font-size: 12px;
+                                border: 1px solid #1f6c98 !important;
+                            }
+                            .signature-section {
+                                margin-top: 60px;
+                            }
+                        </style>
+
+                        <!-- Título -->
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h2 class="report-title">ORDEM DE SERVIÇO - TRANSPORTE - <span t-field="o.name"/></h2>
+                            </div>
+                        </div>
+
+                        <!-- Dados do Bloco Superior: Associação à Reserva -->
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="section-title">Informações do Hóspede</div>
+                                <table class="table table-sm table-borderless info-table">
+                                    <tr>
+                                        <th>Hóspede:</th>
+                                        <td><span t-field="o.guest_name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Quarto:</th>
+                                        <td><span t-field="o.room_id.name"/></td>
+                                    </tr>
+                                    <tr t-if="o.booking_id">
+                                        <th>Reserva:</th>
+                                        <td><span t-field="o.booking_id.name"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <div class="section-title">Passageiros</div>
+                                <table class="table table-sm table-borderless info-table">
+                                    <tr>
+                                        <th>Nº de Passageiros:</th>
+                                        <td><span t-field="o.num_passageiros"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Detalhes da Viagem -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="section-title">Detalhes do Trajeto</div>
+                            </div>
+                            <div class="col-6">
+                                <table class="table table-sm table-borderless info-table">
+                                    <tr>
+                                        <th>Serviço:</th>
+                                        <td><span t-field="o.servico_id.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tipo de Trajeto:</th>
+                                        <td><span t-field="o.tipo_trajeto"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Origem:</th>
+                                        <td><span t-field="o.local_origem"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Destino:</th>
+                                        <td><span t-field="o.local_destino"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <table class="table table-sm table-borderless info-table">
+                                    <tr>
+                                        <th>Data/Hora da Viagem:</th>
+                                        <td><span t-field="o.data_hora_viagem" t-options='{"widget": "datetime"}'/></td>
+                                    </tr>
+                                    <tr t-if="o.notas_voo">
+                                        <th>Notas de Voo:</th>
+                                        <td><span t-field="o.notas_voo"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Tabela de Valores -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="section-title">Valores do Serviço</div>
+                                <table class="table table-bordered values-table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Descrição do Serviço</th>
+                                            <th class="text-end">Preço Base</th>
+                                            <th class="text-end">Imposto</th>
+                                            <th class="text-end">Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <span t-field="o.servico_id.name"/> (<span t-field="o.tipo_trajeto"/>)
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="o.preco_base" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="o.imposto_id.name"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="o.subtotal" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <!-- Totais -->
+                                        <tr>
+                                            <td colspan="2" class="border-0"/>
+                                            <td class="text-end total-highlight">Subtotal Sem Imposto:</td>
+                                            <td class="text-end total-highlight">
+                                                <span t-field="o.subtotal" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="border-0"/>
+                                            <td class="text-end total-highlight">Valor do Imposto:</td>
+                                            <td class="text-end total-highlight">
+                                                <span t-field="o.imposto" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="border-0"/>
+                                            <td class="text-end total-highlight">Total com Imposto:</td>
+                                            <td class="text-end total-highlight">
+                                                <span t-field="o.total_geral" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Nota Legal -->
+                        <div class="text-center mt-3" style="font-style: italic; color: #718096; font-size: 11px;">
+                            Este documento é apenas para controlo operacional e não serve como fatura.
+                        </div>
+
+                        <!-- Secção de Assinaturas -->
+                        <div class="row signature-section">
+                            <div class="col-6 text-center">
+                                <br/><br/>
+                                <div style="border-top: 1px solid #2c3e50; width: 80%; margin: 0 auto;"/>
+                                <p class="mt-2" style="font-size: 12px; color: #7f8c8d;">Entregue por (Motorista / Transporte)</p>
+                            </div>
+                            <div class="col-6 text-center">
+                                <br/><br/>
+                                <div style="border-top: 1px solid #2c3e50; width: 80%; margin: 0 auto;"/>
+                                <p class="mt-2" style="font-size: 12px; color: #7f8c8d;">Recebido por (Hóspede)</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

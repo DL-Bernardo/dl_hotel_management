@@ -3,225 +3,620 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digitalub Gestão Hoteleira</title>
+    <title>Digitalub Gestão Hoteleira Completa (PMS)</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
+        /* Wrapper & Base Styles */
         .digitalub-wrapper {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #2D3748;
+            color: #1E293B;
+            background-color: #F8FAFC;
             line-height: 1.6;
             margin: 0 auto; 
-            max-width: 1100px;
+            max-width: 1200px;
+            padding: 20px;
         }
 
+        .digitalub-wrapper h1, 
+        .digitalub-wrapper h2, 
+        .digitalub-wrapper h3, 
+        .digitalub-wrapper h4, 
+        .digitalub-wrapper h5, 
+        .digitalub-wrapper h6 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #0F172A;
+            font-weight: 700;
+        }
+
+        /* Hero / Header Section */
         .digitalub-header {
-            background: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%);
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
             border-radius: 24px;
             color: white;
-            padding: 80px 40px;
+            padding: 70px 40px 50px 40px;
             margin-bottom: 50px;
-            box-shadow: 0 15px 35px rgba(15, 32, 39, 0.15);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15);
+            text-align: center;
             position: relative;
             overflow: hidden;
-            text-align: center;
+        }
+
+        .digitalub-badge-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .digitalub-badge {
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #4FD1C5;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            color: #60A5FA;
             padding: 6px 18px;
             border-radius: 50px;
             font-size: 0.85rem;
             font-weight: 700;
-            display: inline-block;
-            margin-bottom: 25px;
             text-transform: uppercase;
             letter-spacing: 1.5px;
         }
 
+        .digitalub-badge-success {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34D399;
+        }
+
         .digitalub-title {
-            font-size: 3rem;
+            font-size: 3.2rem;
             font-weight: 800;
+            margin-top: 0;
             margin-bottom: 20px;
+            line-height: 1.15;
             letter-spacing: -1px;
             color: #FFFFFF;
         }
 
         .digitalub-subtitle {
             font-size: 1.35rem;
-            color: #A0AEC0;
-            max-width: 800px;
-            margin: 0 auto 30px auto;
+            color: #94A3B8;
+            max-width: 850px;
+            margin: 0 auto 35px auto;
             font-weight: 400;
+            line-height: 1.5;
         }
 
         .digitalub-header-stats {
             display: inline-flex;
+            justify-content: center;
+            flex-wrap: wrap;
             gap: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 10px 25px;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px 30px;
+            border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.95rem;
+            color: #E2E8F0;
+            font-weight: 500;
+            margin-bottom: 40px;
         }
 
         .digitalub-header-stats span {
-            font-size: 0.9rem;
-            color: #CBD5E0;
-            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .digitalub-header-stats i {
+            color: #10B981;
+        }
+
+        /* Browser Window Mockup for Hero Image */
+        .browser-mockup {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 16px;
+            box-shadow: 0 30px 60px rgba(15, 23, 42, 0.2);
+            overflow: hidden;
+            max-width: 1000px;
+            margin: 0 auto -120px auto; /* Pulls into the next section for a modern overlap effect */
+            z-index: 10;
+            position: relative;
+        }
+
+        .browser-bar {
+            background: #F1F5F9;
+            border-bottom: 1px solid #E2E8F0;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .browser-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .dot-red { background: #EF4444; }
+        .dot-yellow { background: #F59E0B; }
+        .dot-green { background: #10B981; }
+
+        .browser-address {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            flex-grow: 1;
+            margin-left: 20px;
+            padding: 4px 15px;
+            font-size: 0.8rem;
+            color: #64748B;
+            text-align: left;
+            font-family: monospace;
+            max-width: 400px;
+        }
+
+        .browser-content img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Spacer for Hero overlap */
+        .hero-overlap-spacer {
+            height: 150px;
+        }
+
+        /* Section Container */
+        .section-container {
+            margin-bottom: 80px;
+            padding: 10px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 50px auto;
         }
 
         .section-title {
-            font-size: 2rem;
+            font-size: 2.3rem;
             font-weight: 800;
-            color: #1A202C;
+            color: #0F172A;
             letter-spacing: -0.5px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .section-subtitle {
-            font-size: 1.1rem;
-            color: #718096;
-            margin-bottom: 40px;
+            font-size: 1.15rem;
+            color: #64748B;
+            line-height: 1.5;
         }
 
-        .digitalub-card {
-            background: #ffffff;
-            border: 1px solid #E2E8F0;
-            border-radius: 20px;
-            padding: 35px 28px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            height: 100%;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
-            text-align: left;
-        }
-
-        .digitalub-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 30px -10px rgba(0, 0, 0, 0.08);
-            border-color: #3182CE;
-        }
-
-        .digitalub-icon-box {
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
+        /* Two-Column Alternating Blocks */
+        .feature-block {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            margin-bottom: 24px;
+            gap: 50px;
+            margin-bottom: 70px;
         }
 
-        .bg-blue-soft {
-            background: linear-gradient(135deg, #EBF8FF 0%, #CEEBFD 100%);
-            color: #2B6CB0;
+        .feature-block:nth-child(even) {
+            flex-direction: row-reverse;
         }
 
-        .bg-teal-soft {
-            background: linear-gradient(135deg, #E6FFFA 0%, #B2F5EA 100%);
-            color: #234E52;
+        .feature-content {
+            flex: 1 1 450px;
         }
 
-        .bg-purple-soft {
-            background: linear-gradient(135deg, #FAF5FF 0%, #E9D8FD 100%);
-            color: #553C9A;
+        .feature-visual {
+            flex: 1 1 500px;
         }
 
-        .bg-orange-soft {
-            background: linear-gradient(135deg, #FFFAF0 0%, #FEEBC8 100%);
-            color: #DD6B20;
+        .feature-tag {
+            color: #2563EB;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
         }
 
-        .digitalub-update-section {
-            background: linear-gradient(180deg, #F8FAFC 0%, #EDF2F7 100%);
+        .feature-title {
+            font-size: 1.9rem;
+            font-weight: 800;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            color: #0F172A;
+            line-height: 1.25;
+        }
+
+        .feature-desc {
+            font-size: 1.05rem;
+            color: #475569;
+            margin-bottom: 25px;
+        }
+
+        .feature-bullets {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .feature-bullets li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: #334155;
+            line-height: 1.5;
+        }
+
+        .feature-bullets li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: #10B981;
+            font-weight: 900;
+            font-size: 1.1rem;
+        }
+
+        .feature-bullets li strong {
+            color: #0F172A;
+        }
+
+        /* Media Frame style */
+        .media-frame {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .media-frame:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+            border-color: #CBD5E1;
+        }
+
+        .media-frame img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .media-caption {
+            font-size: 0.8rem;
+            color: #64748B;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        /* Grid for improvements and safety checks */
+        .improvements-box {
+            background: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%);
             border: 1px solid #E2E8F0;
             border-radius: 24px;
             padding: 50px 40px;
-            margin-bottom: 50px;
-            position: relative;
+            margin-bottom: 80px;
         }
 
-        .digitalub-update-badge {
-            background: #EBF8FF;
-            border: 1px solid #90CDF4;
-            color: #2B6CB0;
-            padding: 6px 14px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            display: inline-block;
-            margin-bottom: 20px;
-            letter-spacing: 0.5px;
+        .improvement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
         }
 
-        .update-feature-item {
-            background: #ffffff;
+        .improvement-item {
+            background: #FFFFFF;
             border: 1px solid #E2E8F0;
             border-radius: 16px;
             padding: 24px;
-            margin-bottom: 20px;
-            transition: all 0.2s ease;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
+            transition: all 0.25s ease;
         }
 
-        .update-feature-item:hover {
-            border-color: #90CDF4;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        .improvement-item:hover {
+            border-color: #93C5FD;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.05);
         }
 
-        .step-timeline {
-            border-left: 3px solid #E2E8F0;
-            margin-left: 20px;
-            padding-left: 35px;
-            position: relative;
+        .improvement-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
         }
 
-        .step-item {
-            position: relative;
-            margin-bottom: 40px;
-        }
-
-        .step-item::before {
-            content: '';
-            position: absolute;
-            left: -44px;
-            top: 4px;
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            background: #3182CE;
-            border: 3px solid #fff;
-            box-shadow: 0 0 0 3px #90CDF4;
-        }
-
-        .step-title {
+        .improvement-header i {
             font-size: 1.25rem;
+            color: #2563EB;
+        }
+
+        .improvement-header h5 {
+            font-size: 1.1rem;
             font-weight: 700;
-            color: #1A202C;
-            margin-bottom: 8px;
+            margin: 0;
+            color: #0F172A;
+        }
+
+        .improvement-text {
+            font-size: 0.95rem;
+            color: #64748B;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Showcase Horizontal Cards for Services (Alternating) */
+        .service-showcase-list {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            margin-top: 40px;
+        }
+
+        .service-showcase-item {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 40px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.02);
+            transition: border-color 0.3s ease;
+        }
+
+        .service-showcase-item:hover {
+            border-color: #3B82F6;
+        }
+
+        .service-showcase-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .service-showcase-content {
+            flex: 1 1 350px;
+        }
+
+        .service-showcase-visual {
+            flex: 1 2 600px;
+        }
+
+        .service-icon-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .service-icon-title i {
+            font-size: 1.5rem;
+            color: #2563EB;
+        }
+
+        .service-icon-title h4 {
+            font-size: 1.4rem;
+            margin: 0;
+            color: #0F172A;
+            font-weight: 800;
+        }
+
+        .service-desc {
+            font-size: 1rem;
+            color: #475569;
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+
+        /* 3-Column Balanced Gallery for BI & Reports */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 45px;
+        }
+
+        .gallery-item {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .gallery-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 2px;
+            text-align: center;
+        }
+
+        .gallery-desc {
+            font-size: 0.95rem;
+            color: #475569;
+            text-align: center;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Summary Badges Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .digitalub-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(15, 23, 42, 0.01);
+        }
+
+        .digitalub-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(15, 23, 42, 0.05);
+            border-color: #3B82F6;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .icon-blue { background: #EFF6FF; color: #2563EB; }
+        .icon-emerald { background: #ECFDF5; color: #059669; }
+        .icon-amber { background: #FFFBEB; color: #D97706; }
+        .icon-purple { background: #F5F3FF; color: #7C3AED; }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #0F172A;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: #475569;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Call To Action Box (Footer) */
+        .digitalub-cta {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            border-radius: 24px;
+            padding: 60px 40px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15);
+            margin-top: 60px;
+        }
+
+        .digitalub-cta h3 {
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .digitalub-cta p {
+            font-size: 1.15rem;
+            color: #94A3B8;
+            max-width: 750px;
+            margin: 0 auto 35px auto;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .btn-cta {
-            background: linear-gradient(135deg, #3182CE 0%, #2B6CB0 100%);
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
             color: white !important;
             font-weight: 700;
             border-radius: 50px;
-            padding: 18px 45px;
-            font-size: 1.1rem;
+            padding: 16px 40px;
+            font-size: 1.05rem;
             transition: all 0.2s ease;
-            box-shadow: 0 6px 20px rgba(49, 130, 206, 0.35);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
             border: none;
             display: inline-block;
             text-decoration: none;
+            letter-spacing: 0.5px;
         }
 
         .btn-cta:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(49, 130, 206, 0.5);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.5);
             color: white !important;
+        }
+
+        .btn-secondary-cta {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #FFFFFF !important;
+            font-weight: 600;
+            border-radius: 50px;
+            padding: 16px 35px;
+            font-size: 1.05rem;
+            transition: all 0.2s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-secondary-cta:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #FFFFFF !important;
+        }
+
+        /* Responsive Layouts */
+        @media (max-width: 992px) {
+            .browser-mockup {
+                margin-bottom: 0px;
+            }
+            .hero-overlap-spacer {
+                display: none;
+            }
+            .digitalub-header {
+                padding: 50px 20px;
+            }
+            .digitalub-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .feature-title {
+                font-size: 1.5rem;
+            }
+            .feature-block, .service-showcase-item {
+                gap: 30px;
+            }
+            .digitalub-cta h3 {
+                font-size: 1.7rem;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            .btn-cta, .btn-secondary-cta {
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -230,138 +625,342 @@
 <div class="digitalub-wrapper">
     <!-- Header / Hero Section -->
     <header class="digitalub-header">
-        <span class="digitalub-badge">Odoo 17 Ready</span>
-        <h1 class="digitalub-title" style="-webkit-text-fill-color: inherit;">Digitalub Gestão Hoteleira</h1>
-        <p class="digitalub-subtitle">A solução definitiva e integrada para a gestão inteligente de quartos, reservas, consumos adicionais e faturação no seu hotel.</p>
+        <div class="digitalub-badge-container">
+            <span class="digitalub-badge">Odoo 17 Ready</span>
+            <span class="digitalub-badge digitalub-badge-success">Faturação Certificada AGT</span>
+        </div>
+        <h1 class="digitalub-title">Digitalub Gestão Hoteleira</h1>
+        <p class="digitalub-subtitle">O PMS definitivo para a gestão profissional de alojamentos, reservas de quartos, consumos de hóspedes e tesouraria no Odoo 17.</p>
+        
         <div class="digitalub-header-stats">
-            <span>✓ Design Kanban Moderno</span>
+            <span><i class="fa fa-check-circle"></i> Quadro de Ocupação Interativo</span>
             <span>|</span>
-            <span>✓ Faturação Certificada (AGT)</span>
+            <span><i class="fa fa-check-circle"></i> Conformidade Fiscal Angola</span>
             <span>|</span>
-            <span>✓ Integração Completa</span>
+            <span><i class="fa fa-check-circle"></i> Ações & Fluxos Automatizados</span>
+        </div>
+
+        <!-- Custom Styled Browser Mockup displaying the main high-res GIF -->
+        <div class="browser-mockup">
+            <div class="browser-bar">
+                <span class="browser-dot dot-red"></span>
+                <span class="browser-dot dot-yellow"></span>
+                <span class="browser-dot dot-green"></span>
+                <span class="browser-address">http://localhost:8069/web#action=hotel_booking</span>
+            </div>
+            <div class="browser-content">
+                <img src="/dl_hotel_management/static/description/imagens_para_index/reservas_de_quarto.gif" alt="Interface Principal de Reservas de Quarto no Odoo">
+            </div>
         </div>
     </header>
 
-    <!-- WHAT'S NEW SECTION (RECENT UPGRADES) -->
-    <section class="digitalub-update-section text-center">
-        <div class="row justify-content-center">
-            <div class="col-lg-10 text-left">
-                <span class="digitalub-update-badge">Novidades da Última Versão</span>
-                <h2 class="section-title text-left">Melhorias Recentes e Fluxos Automatizados</h2>
-                <p class="section-subtitle text-left" style="margin-bottom: 30px;">Refinámos o módulo com novas funcionalidades de automação inteligente e validação rigorosa contra erros humanos.</p>
+    <!-- Spacer to adjust the layout overlap in desktop resolutions -->
+    <div class="hero-overlap-spacer"></div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="update-feature-item">
-                            <h5 style="font-weight: 700; color: #2B6CB0;"><i class="fa fa-refresh mr-2"></i> Automatização de Quartos</h5>
-                            <p class="text-muted mb-0" style="font-size: 0.95em;">O status do quarto (`Livre`, `Reservado`, `Ocupado`) atualiza-se automaticamente à medida que a reserva avança no ciclo de vida.</p>
-                        </div>
+    <!-- WHAT'S NEW SECTION (RECENT UPGRADES & RESTRICTIONS) -->
+    <section class="improvements-box">
+        <div class="text-left">
+            <span class="feature-tag">Estabilidade & Robustez</span>
+            <h2 class="section-title">Validações Inteligentes Anti-Erro Humano</h2>
+            <p class="section-subtitle" style="text-align: left; max-width: 950px; margin-bottom: 25px;">
+                Implementámos um conjunto robusto de restrições operacionais diretamente no modelo do Odoo para garantir que a equipa da recepção trabalhe em segurança, prevenindo prejuízos financeiros e falhas nos dados.
+            </p>
+
+            <div class="improvement-grid">
+                <div class="improvement-item">
+                    <div class="improvement-header">
+                        <i class="fa fa-calendar-times-o" style="color: #EF4444;"></i>
+                        <h5>Coerência Cronológica</h5>
                     </div>
-                    <div class="col-md-6">
-                        <div class="update-feature-item">
-                            <h5 style="font-weight: 700; color: #2B6CB0;"><i class="fa fa-play-circle mr-2"></i> Botões de Ação Dinâmicos</h5>
-                            <p class="text-muted mb-0" style="font-size: 0.95em;">Novos botões de transição rápida no formulário de reserva (`Confirmar`, `Check-in`, `Check-out` e `Cancelar`) com visibilidade inteligente baseada no status.</p>
-                        </div>
+                    <p class="improvement-text">Constrangimento que bloqueia a gravação de reservas onde a data de Check-Out seja igual ou anterior à de Check-In.</p>
+                </div>
+                <div class="improvement-item">
+                    <div class="improvement-header">
+                        <i class="fa fa-ban" style="color: #EF4444;"></i>
+                        <h5>Overbooking Bloqueado</h5>
                     </div>
-                    <div class="col-md-6">
-                        <div class="update-feature-item">
-                            <h5 style="font-weight: 700; color: #2B6CB0;"><i class="fa fa-exclamation-triangle mr-2"></i> Validação Anti-Erro Humano</h5>
-                            <p class="text-muted mb-0" style="font-size: 0.95em;">Constrangimento nativo que bloqueia a criação de reservas com data de Check-Out anterior ou igual à de Check-In.</p>
-                        </div>
+                    <p class="improvement-text">Validador nativo que impede rigorosamente a alocação de um quarto a mais do que uma reserva ativa no mesmo período.</p>
+                </div>
+                <div class="improvement-item">
+                    <div class="improvement-header">
+                        <i class="fa fa-users" style="color: #F59E0B;"></i>
+                        <h5>Capacidade Física Alerta</h5>
                     </div>
-                    <div class="col-md-6">
-                        <div class="update-feature-item">
-                            <h5 style="font-weight: 700; color: #2B6CB0;"><i class="fa fa-file-text-o mr-2"></i> Ponte de Faturação Certificada</h5>
-                            <p class="text-muted mb-0" style="font-size: 0.95em;">Ponte nativa com o modelo <b>account.move</b> do Odoo, permitindo a emissão de faturas e recibos certificados pela AGT integrados com módulos locais.</p>
-                        </div>
+                    <p class="improvement-text">Alerta visual interativo que notifica o recepcionista se o número total de hóspedes ultrapassar a capacidade real do quarto.</p>
+                </div>
+                <div class="improvement-item">
+                    <div class="improvement-header">
+                        <i class="fa fa-lock" style="color: #EF4444;"></i>
+                        <h5>Integridade do Fólio</h5>
                     </div>
+                    <p class="improvement-text">Uma vez concluída a estadia (Checked Out), cancelada ou declarada como No Show, a reserva é bloqueada contra qualquer edição futura.</p>
+                </div>
+                <div class="improvement-item">
+                    <div class="improvement-header">
+                        <i class="fa fa-user-secret" style="color: #F59E0B;"></i>
+                        <h5>Hóspede Principal Fixo</h5>
+                    </div>
+                    <p class="improvement-text">Impede a troca do hóspede principal após a reserva ser confirmada ou ativada, blindando o histórico de auditoria.</p>
+                </div>
+                <div class="improvement-item">
+                    <div class="improvement-header">
+                        <i class="fa fa-check-square-o" style="color: #10B981;"></i>
+                        <h5>Estadia Sem Duplicidade</h5>
+                    </div>
+                    <p class="improvement-text">Impede que o mesmo hóspede tenha duas reservas ativas (Confirmadas ou ativas) para o mesmo período de datas.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- CORE FEATURES SECTION -->
-    <section class="text-center mb-5">
-        <h2 class="section-title">Funcionalidades Principais</h2>
-        <p class="section-subtitle">Tudo o que necessita para centralizar o controlo da sua operação hoteleira.</p>
+    <section class="section-container">
+        <div class="section-header">
+            <h2 class="section-title">Controlo Operacional Centralizado</h2>
+            <p class="section-subtitle">Tudo o que a sua equipa necessita para gerir o alojamento, os hóspedes e as faturas sem sair do Odoo.</p>
+        </div>
 
-        <div class="row">
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="digitalub-card">
-                    <div class="digitalub-icon-box bg-blue-soft">
-                        <i class="fa fa-bed"></i>
-                    </div>
-                    <h4 style="font-weight:700; font-size:1.15rem; margin-bottom:10px;">Gestão de Quartos</h4>
-                    <p class="text-muted" style="font-size:0.9rem;">Visão Kanban completa agrupada por andares com código de cores dinâmico de ocupação.</p>
+        <!-- Feature 1: Matriz de Ocupação -->
+        <div class="feature-block">
+            <div class="feature-content">
+                <span class="feature-tag">Operação Visual</span>
+                <h3 class="feature-title">Matriz de Ocupação Interativa</h3>
+                <p class="feature-desc">Gerir quartos no dia-a-dia torna-se simples com o quadro gráfico de ocupação em grelha temporal.</p>
+                <ul class="feature-bullets">
+                    <li><strong>Marcação Rápida na Grelha:</strong> Basta clicar e arrastar no período pretendido para criar uma reserva para o quarto correspondente.</li>
+                    <li><strong>Código de Cores de Status:</strong> Identifique imediatamente quartos Livres, Reservados, Ocupados e Sujos através das cores dinâmicas.</li>
+                    <li><strong>Garantia de Disponibilidade:</strong> A grelha atualiza-se em tempo real, integrando-se nativamente com o motor de reservas do Odoo.</li>
+                </ul>
+            </div>
+            <div class="feature-visual">
+                <div class="media-frame" style="margin-bottom: 20px;">
+                    <img src="/dl_hotel_management/static/description/imagens_para_index/matriz_ocupacao1.png" alt="Quadro da Matriz de Ocupação Geral">
+                    <div class="media-caption">Painel Principal da Grelha de Reservas</div>
+                </div>
+                <div class="media-frame">
+                    <img src="/dl_hotel_management/static/description/imagens_para_index/marcacao_pela_matriz.gif" alt="Demo de Reserva Direta pela Matriz">
+                    <div class="media-caption">Demonstração Visual de Criação de Reserva Rápida na Matriz</div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="digitalub-card">
-                    <div class="digitalub-icon-box bg-teal-soft">
-                        <i class="fa fa-calendar-check-o"></i>
-                    </div>
-                    <h4 style="font-weight:700; font-size:1.15rem; margin-bottom:10px;">Motor de Reservas</h4>
-                    <p class="text-muted" style="font-size:0.9rem;">Cálculo automático de noites, alocação de quartos e registo detalhado de hóspedes e documentos.</p>
+        </div>
+
+        <!-- Feature 2: Automação e Housekeeping -->
+        <div class="feature-block">
+            <div class="feature-content">
+                <span class="feature-tag">Automatização de Processos</span>
+                <h3 class="feature-title">Check-in Automático & Governação</h3>
+                <p class="feature-desc">Reduza o tempo gasto em tarefas operacionais através dos automatismos de ciclo de vida das reservas.</p>
+                <ul class="feature-bullets">
+                    <li><strong>Check-in Automático (Cron):</strong> O sistema realiza o Check-in automático de todas as reservas confirmadas assim que o horário de entrada é atingido, mantendo o mapa de ocupação real.</li>
+                    <li><strong>Housekeeping Automatizado:</strong> Ao realizar o Check-Out, o status de governança do quarto é alterado na hora para <i>Sujo</i> (dirty), instruindo a equipa de limpeza de imediato.</li>
+                    <li><strong>Autocompletar de Serviços:</strong> Qualquer serviço associado ao quarto (lavandaria, refeições, transfer) que ainda esteja pendente é autocompletado no encerramento da conta.</li>
+                </ul>
+            </div>
+            <div class="feature-visual">
+                <div class="media-frame" style="margin-bottom: 20px;">
+                    <img src="/dl_hotel_management/static/description/imagens_para_index/visao_geral_quartos.png" alt="Visão Geral do Status dos Quartos">
+                    <div class="media-caption">Vista Kanban de Quartos por Andares com Indicação de Limpeza</div>
+                </div>
+                <div class="media-frame">
+                    <img src="/dl_hotel_management/static/description/imagens_para_index/criar_reserva_pela_matriz.png" alt="Popup de Criação de Reserva no Odoo">
+                    <div class="media-caption">Formulário Simplificado e Rápido de Reserva a partir da Matriz</div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="digitalub-card">
-                    <div class="digitalub-icon-box bg-purple-soft">
-                        <i class="fa fa-file-text-o"></i>
-                    </div>
-                    <h4 style="font-weight:700; font-size:1.15rem; margin-bottom:10px;">Faturação Certificada</h4>
-                    <p class="text-muted" style="font-size:0.9rem;">Integração nativa com <b>account.move</b> permitindo que as faturas do hotel saiam 100% certificadas pela AGT.</p>
+        </div>
+
+        <!-- Feature 3: Faturação Certificada AGT Angola -->
+        <div class="feature-block">
+            <div class="feature-content">
+                <span class="feature-tag">Legislação Angola</span>
+                <h3 class="feature-title">Faturação Certificada pela AGT (Angola)</h3>
+                <p class="feature-desc">Garanta a emissão de documentos fiscais 100% em conformidade com as regras estabelecidas pela Administração Geral Tributária (AGT) em Angola.</p>
+                <ul class="feature-bullets">
+                    <li><strong>Validador Fiscal Mandatório:</strong> O fólio impede a emissão da fatura caso o cliente não tenha NIF cadastrado (suporta 999999999 - Consumidor Final), Morada completa (Rua/Bairro) e País.</li>
+                    <li><strong>Ponte Nativa account.move:</strong> Converta o Fólio do Hotel (Hospedagem + Lavandaria + Restaurante + POS) numa fatura retificadora oficial no Odoo com apenas 1 clique.</li>
+                    <li><strong>Fecho Seguro do Fólio:</strong> Após a emissão, o Fólio é marcado como Fechado, prevenindo manipulações posteriores e assegurando a exatidão contabilística.</li>
+                </ul>
+            </div>
+            <div class="feature-visual">
+                <div class="media-frame">
+                    <img src="/dl_hotel_management/static/description/imagens_para_index/emitir_factura_certificada.png" alt="Geração de Fatura Certificada AGT no Odoo">
+                    <div class="media-caption">Painel de Fecho de Conta e Validação Tributária antes de Faturar</div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="digitalub-card">
-                    <div class="digitalub-icon-box bg-orange-soft">
+        </div>
+
+        <!-- Feature 4: Portal do Hóspede & WhatsApp -->
+        <div class="feature-block">
+            <div class="feature-content">
+                <span class="feature-tag">Inovação & Atendimento</span>
+                <h3 class="feature-title">Portal do Hóspede & Reservas via WhatsApp</h3>
+                <p class="feature-desc">Uma função revolucionária que permite realizar reservas à distância com total autonomia para o hóspede e integração imediata com o WhatsApp.</p>
+                <ul class="feature-bullets">
+                    <li><strong>Link Interativo de Reserva:</strong> Envie o portal diretamente no chat do WhatsApp para que o cliente reserve a partir do seu próprio smartphone.</li>
+                    <li><strong>Verificação de Vagas em Tempo Real:</strong> Permite ao cliente consultar a disponibilidade de quartos e tipologias instantaneamente.</li>
+                    <li><strong>Submissão Autónoma:</strong> O hóspede preenche as informações cadastrais e anexa o comprovativo de pagamento diretamente no portal, agilizando o atendimento.</li>
+                </ul>
+            </div>
+            <div class="feature-visual">
+                <div class="media-frame">
+                    <img src="/dl_hotel_management/static/description/imagens_para_index/portal_hospede_verificar_vaga.png" alt="Portal do Hóspede - Verificação de Vagas">
+                    <div class="media-caption">Portal do Hóspede com Verificação de Vagas e Reserva Online</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: SERVICES SHOWCASE (REORGANIZED FOR HARMONIC DISPLAY) -->
+    <section class="section-container">
+        <div class="section-header">
+            <span class="feature-tag">Lançamentos de Despesas</span>
+            <h2 class="section-title">Pedidos Integrados & Consumos de Quartos</h2>
+            <p class="section-subtitle">Apresente e cobre extras do hóspede de forma consolidada. Os diferentes setores comunicam diretamente com o fólio do quarto em tempo real.</p>
+        </div>
+
+        <div class="service-showcase-list">
+            <!-- Service 1: Restaurante / Room Service -->
+            <div class="service-showcase-item">
+                <div class="service-showcase-content">
+                    <div class="service-icon-title">
                         <i class="fa fa-cutlery"></i>
+                        <h4>Restaurante & Room Service</h4>
                     </div>
-                    <h4 style="font-weight:700; font-size:1.15rem; margin-bottom:10px;">Serviços Integrados</h4>
-                    <p class="text-muted" style="font-size:0.9rem;">Gestão de Pedidos para Lavanderia, Restaurante e Reservas de Transporte do Aeroporto.</p>
+                    <p class="service-desc">
+                        Lançamento rápido de pedidos de pequeno-almoço, almoço, bebidas ou jantares no quarto. As ordens de refeições do restaurante do hotel calculam taxas e são enviadas automaticamente para o extrato final do hóspede.
+                    </p>
+                </div>
+                <div class="service-showcase-visual">
+                    <div class="media-frame">
+                        <img src="/dl_hotel_management/static/description/imagens_para_index/pedidos_restaurante.png" alt="Pedidos de Restaurante Associados ao Quarto">
+                        <div class="media-caption">Registo de Pedidos de Refeições e Cobrança Integrada</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 2: Lavandaria -->
+            <div class="service-showcase-item">
+                <div class="service-showcase-content">
+                    <div class="service-icon-title">
+                        <i class="fa fa-refresh"></i>
+                        <h4>Serviço de Lavandaria Hoteleira</h4>
+                    </div>
+                    <p class="service-desc">
+                        Controle o ciclo de lavagem, passagem e secagem de roupas do hóspede. Cada peça tem um preço unitário associado, e os subtotais são faturados de forma correta com o cálculo do IVA correspondente.
+                    </p>
+                </div>
+                <div class="service-showcase-visual">
+                    <div class="media-frame">
+                        <img src="/dl_hotel_management/static/description/imagens_para_index/pedidos_lavandaria.png" alt="Serviços de Lavandaria do Quarto">
+                        <div class="media-caption">Painel de Lançamento de Peças de Roupa e Status de Lavagem</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 3: Transfers & Transporte -->
+            <div class="service-showcase-item">
+                <div class="service-showcase-content">
+                    <div class="service-icon-title">
+                        <i class="fa fa-car"></i>
+                        <h4>Transfers & Gestão de Transporte</h4>
+                    </div>
+                    <p class="service-desc">
+                        Agende shuttles de/para o aeroporto, tours ou viagens executivas para os hóspedes. Registe o tipo de trajeto, a taxa cobrada pelo trajeto e selecione o motorista de forma integrada ao folio.
+                    </p>
+                </div>
+                <div class="service-showcase-visual">
+                    <div class="media-frame">
+                        <img src="/dl_hotel_management/static/description/imagens_para_index/pedidos_transporte.png" alt="Registo de Pedidos de Transporte Aeroporto">
+                        <div class="media-caption">Agendamento de Transfers com Escolha de Trajetos e Tarifas</div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- USER JOURNEY SECTION -->
-    <section class="digitalub-update-section" style="background: #ffffff; border: none; padding: 20px 0; margin-bottom: 50px;">
-        <div class="row">
-            <div class="col-md-5">
-                <h2 class="section-title" style="margin-top: 30px;">Experiência Unificada e Sem Barreiras</h2>
-                <p class="text-muted">A nossa arquitetura conecta os differentes setores do hotel, reduzindo o tempo de espera no atendimento e automatizando tarefas manuais na receção.</p>
-                <div class="mt-4 d-none d-md-block" style="background: #F7FAFC; border-radius: 16px; padding: 20px; border: 1px solid #E2E8F0;">
-                    <h6 style="font-weight: 700; color: #2D3748;"><i class="fa fa-shield text-success mr-2"></i> Padrões de Segurança Odoo</h6>
-                    <p class="text-muted mb-0" style="font-size: 0.85em;">Grupos de segurança CSV robustos, histórico de auditoria nos campos (chatter) e segurança integrada para andares, quartos e faturas.</p>
+    <!-- SECTION: BI & REPORTING -->
+    <section class="section-container">
+        <div class="section-header">
+            <span class="feature-tag">Dashboards Decisórios</span>
+            <h2 class="section-title">BI, Taxa de Ocupação & Relatórios Financeiros</h2>
+            <p class="section-subtitle">Controle as métricas e indicadores chave de desempenho (KPIs) de hotelaria por dia, por quarto ou por tipo de alojamento.</p>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <div class="media-frame">
+                    <img src="/dl_hotel_management/static/description/imagens_para_index/analise_ocupacao.png" alt="BI de Análise de Ocupação de Quartos">
                 </div>
+                <h4 class="gallery-title">Taxa de Ocupação BI</h4>
+                <p class="gallery-desc">Métricas dinâmicas com filtragem interativa em tabela pivot e gráficos para ver a evolução da ocupação de alojamentos.</p>
             </div>
-            <div class="col-md-7">
-                <div class="step-timeline">
-                    <div class="step-item">
-                        <h4 class="step-title">1. Reservas & Check-in Exato</h4>
-                        <p class="text-muted" style="font-size: 0.95em;">A receção cria a reserva e aloca os quartos. O sistema calcula automaticamente o preço base com base no tipo de quarto, enquanto mantém a flexibilidade para descontos manuais.</p>
-                    </div>
-                    <div class="step-item">
-                        <h4 class="step-title">2. Consumo & Pedidos Locais</h4>
-                        <p class="text-muted" style="font-size: 0.95em;">Os pontos de venda de restaurante e lavanderia registam as ordens nos seus ecran específicos. Cada subtotal é calculado e persistido diretamente para consulta e auditoria.</p>
-                    </div>
-                    <div class="step-item">
-                        <h4 class="step-title">3. Faturação Certificada (AGT)</h4>
-                        <p class="text-muted" style="font-size: 0.95em;">No Check-Out, o Folio consolidado é faturado diretamente em <b>account.move</b> com um único clique. A fatura gerada é assinada digitalmente de acordo com os requisitos legais de Angola.</p>
-                    </div>
+            <div class="gallery-item">
+                <div class="media-frame">
+                    <img src="/dl_hotel_management/static/description/imagens_para_index/analise_por_area.png" alt="BI de Análise de Receita por Setores">
                 </div>
+                <h4 class="gallery-title">Faturamento por Setor</h4>
+                <p class="gallery-desc">Visão gráfica consolidada da receita gerada por alojamento, restaurante, lavandaria, transfers e vendas em balcão/POS.</p>
+            </div>
+            <div class="gallery-item">
+                <div class="media-frame">
+                    <img src="/dl_hotel_management/static/description/imagens_para_index/relatorio_ocupacao.png" alt="Ficha de Reserva e Relatório em PDF">
+                </div>
+                <h4 class="gallery-title">Relatórios Fiscais e PDF</h4>
+                <p class="gallery-desc">Emita relatórios consolidados em PDF com apenas um clique para auditorias, apresentações ou controle interno do hotel.</p>
             </div>
         </div>
     </section>
 
-    <!-- CALL TO ACTION -->
-    <section class="text-center" style="background: linear-gradient(135deg, #1A202C 0%, #2D3748 100%); border-radius: 24px; padding: 60px 30px; color: white;">
-        <h2 style="font-weight: 800; font-size: 2.2rem; margin-bottom: 15px;">Deseja impulsionar a gestão do seu hotel?</h2>
-        <p style="color: #A0AEC0; font-size: 1.15rem; max-width: 600px; margin: 0 auto 35px auto;">Este módulo foi projetado para ser intuitivo, flexível e 100% aderente ao Odoo.</p>
-        <a href="mailto:suporte@digitalub.ao" class="btn-cta">
-            <i class="fa fa-envelope-o mr-2"></i> Suporte e Contacto
-        </a>
+    <!-- SUMMARY OF EXTRA FEATURES -->
+    <section class="section-container">
+        <div class="section-header">
+            <h2 class="section-title">Outros Destaques Técnicos</h2>
+            <p class="section-subtitle">Garantia de flexibilidade e boas práticas do ecossistema do Odoo ERP.</p>
+        </div>
+
+        <div class="cards-grid">
+            <div class="digitalub-card">
+                <div class="card-icon icon-blue">
+                    <i class="fa fa-envelope-o"></i>
+                </div>
+                <h4 class="card-title">Comunicação Automatizada</h4>
+                <p class="card-desc">Geração e envio automático de e-mail de voucher de confirmação ao hóspede após validação, e e-mail de agradecimento com extrato detalhado de despesas no Check-Out.</p>
+            </div>
+            <div class="digitalub-card">
+                <div class="card-icon icon-emerald">
+                    <i class="fa fa-shield"></i>
+                </div>
+                <h4 class="card-title">Permissões e Segurança</h4>
+                <p class="card-desc">Grupos de acessos definidos e segregados (CSV) para rececionistas, gerentes de hotel, equipa de governação e faturadores no Odoo.</p>
+            </div>
+            <div class="digitalub-card">
+                <div class="card-icon icon-amber">
+                    <i class="fa fa-shopping-cart"></i>
+                </div>
+                <h4 class="card-title">Integração POS</h4>
+                <p class="card-desc">Permite que o hóspede compre snacks, souvenirs ou bebidas em qualquer bar do hotel e lance a despesa na sua conta do quarto simplesmente informando o número do quarto.</p>
+            </div>
+            <div class="digitalub-card">
+                <div class="card-icon icon-purple">
+                    <i class="fa fa-money"></i>
+                </div>
+                <h4 class="card-title">Preços por Tipo de Quarto</h4>
+                <p class="card-desc">Cálculo e persistência do preço do quarto baseado em tabelas de tarifas configuradas por tipo de alojamento, mantendo a capacidade de aplicar descontos na recepção.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION (Footer) -->
+    <section class="digitalub-cta">
+        <h3>Pronto para modernizar a gestão do seu hotel?</h3>
+        <p>Aumente a eficiência operacional do seu hotel com uma ferramenta totalmente integrada ao ERP Odoo 17, focada no mercado de Angola e em estrita conformidade legal.</p>
+        <div class="cta-buttons">
+            <a href="mailto:suporte@digitalub.ao" class="btn-cta">
+                <i class="fa fa-envelope-o mr-2"></i> Solicitar Demonstração / Suporte
+            </a>
+            <a href="https://apps.digitalub.ao/loja/" target="_blank" class="btn-secondary-cta">
+                <i class="fa fa-globe mr-2"></i> Visite a Nossa Loja
+            </a>
+        </div>
     </section>
 </div>
 

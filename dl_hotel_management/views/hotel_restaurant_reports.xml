@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Registo de Relatório de Restaurante -->
+    <record id="action_report_hotel_restaurant" model="ir.actions.report">
+        <field name="name">Consumo de Restaurante</field>
+        <field name="model">hotel.restaurant.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">dl_hotel_management.report_hotel_restaurant</field>
+        <field name="report_file">dl_hotel_management.report_hotel_restaurant</field>
+        <field name="print_report_name">'Consumo_Restaurante_%s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_hotel_restaurant_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Template do Relatório de Restaurante -->
+    <template id="report_hotel_restaurant">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Estilos customizados para o PDF -->
+                        <style>
+                            .report-title {
+                                font-size: 20px;
+                                font-weight: bold;
+                                color: #1a252f;
+                                border-bottom: 2px solid #34495e;
+                                padding-bottom: 10px;
+                                margin-bottom: 25px;
+                                text-transform: uppercase;
+                            }
+                            .section-title {
+                                font-size: 16px;
+                                font-weight: bold;
+                                color: #2c3e50;
+                                background-color: #f8f9fa;
+                                padding: 6px 12px;
+                                border-left: 4px solid #3498db;
+                                margin-top: 20px;
+                                margin-bottom: 15px;
+                            }
+                            .info-table, .info-table tr, .info-table th, .info-table td {
+                                background-color: transparent !important;
+                                border: none !important;
+                            }
+                            .info-table th {
+                                width: 30%;
+                                font-weight: 600;
+                                color: #7f8c8d !important;
+                            }
+                            .info-table td {
+                                color: #2c3e50 !important;
+                            }
+                            .values-table th {
+                                background-color: #34495e;
+                                color: #ffffff;
+                                font-weight: bold;
+                            }
+                            .values-table td {
+                                vertical-align: middle;
+                            }
+                            .total-highlight {
+                                background-color: #1f6c98 !important;
+                                color: #ffffff !important;
+                                font-weight: bold;
+                                font-size: 12px;
+                                border: 1px solid #1f6c98 !important;
+                            }
+                            .signature-section {
+                                margin-top: 60px;
+                            }
+                        </style>
+
+                        <!-- Título -->
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h2 class="report-title">CONSUMO DE RESTAURANTE - <span t-field="o.name"/></h2>
+                            </div>
+                        </div>
+
+                        <!-- Dados do Bloco Superior -->
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="section-title">Informações do Serviço</div>
+                                <table class="table table-sm table-borderless info-table">
+                                    <tr>
+                                        <th>Quarto:</th>
+                                        <td><span t-field="o.room_id.name"/></td>
+                                    </tr>
+                                    <tr t-if="o.booking_id">
+                                        <th>Reserva:</th>
+                                        <td><span t-field="o.booking_id.name"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <div class="section-title">Registo</div>
+                                <table class="table table-sm table-borderless info-table">
+                                    <tr>
+                                        <th>Data do Pedido:</th>
+                                        <td><span t-field="o.date" t-options='{"widget": "date"}'/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Tabela de Itens -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="section-title">Itens de Consumo</div>
+                                <table class="table table-bordered values-table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Prato / Bebida</th>
+                                            <th class="text-end">Qtd</th>
+                                            <th class="text-end">Preço</th>
+                                            <th class="text-end">Imposto</th>
+                                            <th class="text-end">Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="o.line_ids" t-as="line">
+                                            <td>
+                                                <span t-field="line.servico_id.name"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="line.qty"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="line.price" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="line.tax_id.name"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="line.subtotal" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <!-- Totais -->
+                                        <tr>
+                                            <td colspan="3" class="border-0"/>
+                                            <td class="text-end total-highlight">Subtotal Sem Imposto:</td>
+                                            <td class="text-end total-highlight">
+                                                <span t-field="o.total_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="border-0"/>
+                                            <td class="text-end total-highlight">Valor do Imposto:</td>
+                                            <td class="text-end total-highlight">
+                                                <span t-field="o.total_imposto" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="border-0"/>
+                                            <td class="text-end total-highlight">Total com Imposto:</td>
+                                            <td class="text-end total-highlight">
+                                                <span t-field="o.total_geral" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Nota Legal -->
+                        <div class="text-center mt-3" style="font-style: italic; color: #718096; font-size: 11px;">
+                            Este documento é apenas para controlo operacional e não serve como fatura.
+                        </div>
+
+                        <!-- Secção de Assinaturas -->
+                        <div class="row signature-section">
+                            <div class="col-6 text-center">
+                                <br/><br/>
+                                <div style="border-top: 1px solid #2c3e50; width: 80%; margin: 0 auto;"/>
+                                <p class="mt-2" style="font-size: 12px; color: #7f8c8d;">Entregue por (Restaurante)</p>
+                            </div>
+                            <div class="col-6 text-center">
+                                <br/><br/>
+                                <div style="border-top: 1px solid #2c3e50; width: 80%; margin: 0 auto;"/>
+                                <p class="mt-2" style="font-size: 12px; color: #7f8c8d;">Recebido por (Hóspede)</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

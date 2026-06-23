@@ -1,0 +1,95 @@
+.o_occupancy_matrix .occupancy-table {
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.o_occupancy_matrix .sticky-col {
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.o_occupancy_matrix .room-col-header {
+    width: 150px;
+    min-width: 150px;
+    z-index: 11;
+}
+
+.o_occupancy_matrix .room-cell {
+    width: 150px;
+    min-width: 150px;
+    border-right: 2px solid #dee2e6 !important;
+}
+
+.o_occupancy_matrix .day-col-header {
+    width: 50px;
+    min-width: 50px;
+    padding: 8px 4px !important;
+    font-size: 0.95rem;
+}
+
+.o_occupancy_matrix .bg-weekend {
+    background-color: #f8f9fa !important;
+}
+
+.o_occupancy_matrix .calendar-cell {
+    height: 52px;
+    width: 50px;
+    min-width: 50px;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.o_occupancy_matrix .calendar-cell:hover {
+    background-color: #f1f3f5 !important;
+}
+
+.o_occupancy_matrix .booking-bar {
+    height: 38px;
+    margin: 7px 0;
+    line-height: 38px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    position: absolute;
+    left: 2px;
+    right: 2px;
+    top: 0;
+    bottom: 0;
+    z-index: 5;
+    transition: all 0.2s;
+}
+
+.o_occupancy_matrix .booking-bar:hover {
+    filter: brightness(0.95);
+    transform: scaleY(1.04);
+}
+
+.o_occupancy_matrix .booking-bar.no-left {
+    left: -2px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    box-shadow: none;
+}
+
+.o_occupancy_matrix .booking-bar.no-right {
+    right: -2px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    box-shadow: none;
+}
+
+.o_occupancy_matrix .booking-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 6px;
+}
+
+.fs-8 {
+    font-size: 0.75rem !important;
+}

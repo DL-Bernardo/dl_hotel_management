@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="transport_service_aeroporto_hotel_ligeiro" model="hotel.transporte.servico">
+            <field name="name">Aeroporto ➔ Hotel (Carro Ligeiro)</field>
+            <field name="preco">15000.0</field>
+            <field name="imposto_id" ref="account.1_iva_serv_sales"/>
+        </record>
+        <record id="transport_service_aeroporto_hotel_executiva" model="hotel.transporte.servico">
+            <field name="name">Aeroporto ➔ Hotel (Carrinha Executiva)</field>
+            <field name="preco">25000.0</field>
+            <field name="imposto_id" ref="account.1_iva_serv_sales"/>
+        </record>
+        <record id="transport_service_hotel_aeroporto_ligeiro" model="hotel.transporte.servico">
+            <field name="name">Hotel ➔ Aeroporto (Carro Ligeiro)</field>
+            <field name="preco">12000.0</field>
+            <field name="imposto_id" ref="account.1_iva_serv_sales"/>
+        </record>
+        <record id="transport_service_tour_lubango" model="hotel.transporte.servico">
+            <field name="name">Tour Cidade - Lubango (Meio Dia)</field>
+            <field name="preco">30000.0</field>
+            <field name="imposto_id" ref="account.1_iva_serv_sales"/>
+        </record>
+    </data>
+</odoo>

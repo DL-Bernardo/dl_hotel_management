@@ -16,6 +16,7 @@ class HotelRoomType(models.Model):
 
     name = fields.Char(string='Tipo (Ex: Standard, Deluxe)', required=True)
     base_price = fields.Float(string='Preço Base por Noite', required=True, default=0.0)
+    tax_id = fields.Many2one('account.tax', string='Imposto', required=True, domain=[('type_tax_use', '=', 'sale')])
     description = fields.Text(string='Descrição')
     company_id = fields.Many2one('res.company', string='Hotel/Empresa', default=lambda self: self.env.company, required=True)
 
@@ -37,6 +38,13 @@ class HotelRoom(models.Model):
         ('occupied', 'Ocupado')
     ], string='Status', default='vacant', required=True, tracking=True)
 
+    housekeeping_status = fields.Selection([
+        ('dirty', 'Sujo'),
+        ('cleaning', 'Em Limpeza'),
+        ('clean', 'Limpo'),
+        ('inspected', 'Inspecionado')
+    ], string='Estado de Limpeza', default='clean', tracking=True)
+
     capacity = fields.Integer(string='Capacidade Máxima', default=2)
     is_active = fields.Boolean(string='Ativo', default=True)
     company_id = fields.Many2one('res.company', string='Hotel/Empresa', default=lambda self: self.env.company, required=True)
@@ -54,33 +62,33 @@ class HotelRoom(models.Model):
 
     @api.model
     def action_update_room_statuses(self):
-        """ Atualiza o status de todos os quartos com base nas reservas de hoje """
+        """ Atualiza o status de todos os quartos com base nas reservas de hoje de forma eficiente """
+        from datetime import datetime, time
         today = fields.Date.today()
+        today_start = datetime.combine(today, time.min)
+        today_end = datetime.combine(today, time.max)
+        
         rooms = self.search([])
+        
+        # 1. Procurar todas as reservas que se sobrepõem com hoje em uma única consulta
+        overlapping_lines = self.env['hotel.booking.room.line'].search([
+            ('booking_id.status', 'in', ['confirmed', 'checked_in']),
+            ('booking_id.check_in', '<=', today_end),
+            ('booking_id.check_out', '>=', today_start),
+        ])
+        
+        # 2. Agrupar em memória os estados por quarto
+        status_by_room = {}
+        for line in overlapping_lines:
+            r_id = line.room_id.id
+            b_status = line.booking_id.status
+            if b_status == 'checked_in':
+                status_by_room[r_id] = 'occupied'
+            elif b_status == 'confirmed' and status_by_room.get(r_id) != 'occupied':
+                status_by_room[r_id] = 'reserved'
+                
+        # 3. Atualizar status dos quartos
         for room in rooms:
-            # 1. Verificar se há reserva em check_in ativa hoje neste quarto
-            active_booking = self.env['hotel.booking.room.line'].search([
-                ('room_id', '=', room.id),
-                ('booking_id.status', '=', 'checked_in'),
-                ('booking_id.check_in', '<=', today),
-                ('booking_id.check_out', '>=', today),
-            ], limit=1)
-            
-            if active_booking:
-                room.status = 'occupied'
-                continue
-                
-            # 2. Verificar se há reserva confirmada futura/iniciando hoje
-            reserved_booking = self.env['hotel.booking.room.line'].search([
-                ('room_id', '=', room.id),
-                ('booking_id.status', '=', 'confirmed'),
-                ('booking_id.check_in', '<=', today),
-                ('booking_id.check_out', '>=', today),
-            ], limit=1)
-            
-            if reserved_booking:
-                room.status = 'reserved'
-                continue
-                
-            # 3. Caso contrário, quarto está livre
-            room.status = 'vacant'
+            new_status = status_by_room.get(room.id, 'vacant')
+            if room.status != new_status:
+                room.status = new_status

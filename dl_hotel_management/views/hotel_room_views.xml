@@ -40,6 +40,44 @@
     <!-- ======================= -->
     <!-- TIPOS DE QUARTO         -->
     <!-- ======================= -->
+    <record id="view_hotel_room_type_tree" model="ir.ui.view">
+        <field name="name">hotel.room.type.tree</field>
+        <field name="model">hotel.room.type</field>
+        <field name="arch" type="xml">
+            <tree string="Tipos de Quarto">
+                <field name="name"/>
+                <field name="base_price"/>
+                <field name="tax_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hotel_room_type_form" model="ir.ui.view">
+        <field name="name">hotel.room.type.form</field>
+        <field name="model">hotel.room.type</field>
+        <field name="arch" type="xml">
+            <form string="Tipo de Quarto">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="base_price"/>
+                        </group>
+                        <group>
+                            <field name="tax_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Descrição" name="description">
+                            <field name="description" placeholder="Adicione uma descrição do tipo de quarto..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     <record id="action_hotel_room_type" model="ir.actions.act_window">
         <field name="name">Tipos de Quarto</field>
         <field name="res_model">hotel.room.type</field>
@@ -60,6 +98,7 @@
                 <field name="name"/>
                 <field name="room_type_id"/>
                 <field name="status"/>
+                <field name="housekeeping_status"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_global_click o_has_icon shadow-sm rounded-3 mb-3 border">
@@ -73,9 +112,14 @@
                                 <div class="o_kanban_record_bottom">
                                     <div class="oe_kanban_bottom_left">
                                         <!-- Cores Baseadas no Odoo 17 Bootstrap 5 -->
-                                        <span t-if="record.status.raw_value == 'vacant'" class="badge text-bg-success">Livre</span>
-                                        <span t-if="record.status.raw_value == 'reserved'" class="badge text-bg-warning">Reservado</span>
-                                        <span t-if="record.status.raw_value == 'occupied'" class="badge text-bg-danger">Ocupado</span>
+                                        <span t-if="record.status.raw_value == 'vacant'" class="badge text-bg-success mr-1">Livre</span>
+                                        <span t-if="record.status.raw_value == 'reserved'" class="badge text-bg-warning mr-1">Reservado</span>
+                                        <span t-if="record.status.raw_value == 'occupied'" class="badge text-bg-danger mr-1">Ocupado</span>
+
+                                        <span t-if="record.housekeeping_status.raw_value == 'clean'" class="badge text-bg-info">Limpo</span>
+                                        <span t-if="record.housekeeping_status.raw_value == 'dirty'" class="badge text-bg-dark">Sujo</span>
+                                        <span t-if="record.housekeeping_status.raw_value == 'cleaning'" class="badge text-bg-warning">Em Limpeza</span>
+                                        <span t-if="record.housekeeping_status.raw_value == 'inspected'" class="badge text-bg-primary">Inspecionado</span>
                                     </div>
                                 </div>
                             </div>
@@ -107,6 +151,7 @@
                             <field name="floor_id"/>
                             <field name="room_type_id"/>
                             <field name="capacity"/>
+                            <field name="housekeeping_status" widget="radio" options="{'horizontal': true}"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                         <group string="Comodidades">
@@ -139,10 +184,10 @@
     </record>
 
     <!-- Submenus de Quartos -->
-    <menuitem id="menu_hotel_rooms_main" name="Visão Geral dos Quartos" parent="menu_hotel_rooms_parent" sequence="10" action="action_hotel_room"/>
+    <menuitem id="menu_hotel_rooms_main" name="Visão Geral dos Quartos" parent="menu_hotel_rooms_parent" sequence="10" action="action_hotel_room" groups="dl_hotel_management.group_hotel_recepcao,dl_hotel_management.group_hotel_manager"/>
 
     <!-- Submenus de Configuração -->
-    <menuitem id="menu_config_floors" name="Andares" parent="menu_hotel_configuration" sequence="10" action="action_hotel_floor"/>
-    <menuitem id="menu_config_room_types" name="Tipos de Quarto" parent="menu_hotel_configuration" sequence="20" action="action_hotel_room_type"/>
+    <menuitem id="menu_config_floors" name="Andares" parent="menu_hotel_configuration" sequence="10" action="action_hotel_floor" groups="dl_hotel_management.group_hotel_manager"/>
+    <menuitem id="menu_config_room_types" name="Tipos de Quarto" parent="menu_hotel_configuration" sequence="20" action="action_hotel_room_type" groups="dl_hotel_management.group_hotel_manager"/>
 
 </odoo>

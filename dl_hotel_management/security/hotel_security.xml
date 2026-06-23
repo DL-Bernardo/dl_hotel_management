@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <!-- Categoria Principal -->
+        <record id="module_category_hotel" model="ir.module.category">
+            <field name="name">Gestão Hoteleira</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <!-- Grupo Rececionista -->
+        <record id="group_hotel_recepcao" model="res.groups">
+            <field name="name">Rececionista</field>
+            <field name="category_id" ref="module_category_hotel"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <!-- Grupo Gerente -->
+        <record id="group_hotel_manager" model="res.groups">
+            <field name="name">Gerente / Administrador</field>
+            <field name="category_id" ref="module_category_hotel"/>
+            <field name="implied_ids" eval="[(4, ref('group_hotel_recepcao'))]"/>
+        </record>
         <!-- Regra de Empresa para Andares -->
         <record id="hotel_floor_comp_rule" model="ir.rule">
             <field name="name">Hotel Floor Multi-Company</field>
@@ -63,6 +82,63 @@
             <field name="model_id" ref="model_hotel_transport_request"/>
             <field name="global" eval="True"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Regras para Utilizadores do Portal (Restringir ao próprio Hóspede) -->
+        <record id="hotel_booking_portal_rule" model="ir.rule">
+            <field name="name">Portal: Apenas Próprias Reservas</field>
+            <field name="model_id" ref="model_hotel_booking"/>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[('partner_id', '=', user.partner_id.id)]</field>
+        </record>
+
+        <record id="hotel_folio_portal_rule" model="ir.rule">
+            <field name="name">Portal: Apenas Próprios Fólios</field>
+            <field name="model_id" ref="model_hotel_folio"/>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[('booking_id.partner_id', '=', user.partner_id.id)]</field>
+        </record>
+
+        <record id="hotel_restaurant_order_portal_rule" model="ir.rule">
+            <field name="name">Portal: Apenas Próprios Pedidos de Restaurante</field>
+            <field name="model_id" ref="model_hotel_restaurant_order"/>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[('booking_id.partner_id', '=', user.partner_id.id)]</field>
+        </record>
+
+        <record id="hotel_laundry_order_portal_rule" model="ir.rule">
+            <field name="name">Portal: Apenas Próprios Pedidos de Lavandaria</field>
+            <field name="model_id" ref="model_hotel_laundry_order"/>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[('booking_id.partner_id', '=', user.partner_id.id)]</field>
+        </record>
+
+        <record id="hotel_transport_request_portal_rule" model="ir.rule">
+            <field name="name">Portal: Apenas Próprios Pedidos de Transporte</field>
+            <field name="model_id" ref="model_hotel_transport_request"/>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[('booking_id.partner_id', '=', user.partner_id.id)]</field>
+        </record>
+
+        <record id="pos_order_portal_rule" model="ir.rule">
+            <field name="name">Portal: Apenas Próprios Pedidos POS</field>
+            <field name="model_id" ref="point_of_sale.model_pos_order"/>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[('partner_id', '=', user.partner_id.id)]</field>
+        </record>
+
+        <record id="hotel_booking_room_line_portal_rule" model="ir.rule">
+            <field name="name">Portal: Apenas Linhas de Quarto Próprias</field>
+            <field name="model_id" ref="model_hotel_booking_room_line"/>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[('booking_id.partner_id', '=', user.partner_id.id)]</field>
+        </record>
+
+        <record id="hotel_booking_guest_line_portal_rule" model="ir.rule">
+            <field name="name">Portal: Apenas Linhas de Hóspedes Próprias</field>
+            <field name="model_id" ref="model_hotel_booking_guest_line"/>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="domain_force">[('booking_id.partner_id', '=', user.partner_id.id)]</field>
         </record>
     </data>
 </odoo>

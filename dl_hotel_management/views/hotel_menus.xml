@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- 1. Menu Principal (Topo/App) -->
-    <menuitem id="menu_hotel_root" name="Hotel" sequence="10"/>
+    <menuitem id="menu_hotel_root" name="Hotel" sequence="10" groups="dl_hotel_management.group_hotel_recepcao,dl_hotel_management.group_hotel_manager"/>
 
     <!-- 2. Categorias/Menus Pais (Barra Lateral Esquerda) -->
-    <menuitem id="menu_hotel_bookings" name="Reservas" parent="menu_hotel_root" sequence="10"/>
-    <menuitem id="menu_hotel_folios" name="Faturas (Folios)" parent="menu_hotel_root" sequence="20"/>
-    <menuitem id="menu_hotel_rooms_parent" name="Quartos" parent="menu_hotel_root" sequence="30"/>
-    <menuitem id="menu_hotel_laundry" name="Lavanderia" parent="menu_hotel_root" sequence="40"/>
-    <menuitem id="menu_hotel_restaurant" name="Restaurante" parent="menu_hotel_root" sequence="50"/>
-    <menuitem id="menu_hotel_transport" name="Transporte" parent="menu_hotel_root" sequence="60"/>
-    <menuitem id="menu_hotel_configuration" name="Configuração" parent="menu_hotel_root" sequence="100"/>
+    <menuitem id="menu_hotel_bookings" name="Reservas" parent="menu_hotel_root" sequence="10" groups="dl_hotel_management.group_hotel_recepcao,dl_hotel_management.group_hotel_manager"/>
+    <menuitem id="menu_hotel_folios" name="Faturas (Folios)" parent="menu_hotel_root" sequence="20" groups="dl_hotel_management.group_hotel_recepcao,dl_hotel_management.group_hotel_manager"/>
+    <menuitem id="menu_hotel_rooms_parent" name="Quartos" parent="menu_hotel_root" sequence="30" groups="dl_hotel_management.group_hotel_recepcao,dl_hotel_management.group_hotel_manager"/>
+    <menuitem id="menu_hotel_laundry" name="Lavanderia" parent="menu_hotel_root" sequence="40" groups="dl_hotel_management.group_hotel_recepcao,dl_hotel_management.group_hotel_manager"/>
+    <menuitem id="menu_hotel_restaurant" name="Restaurante" parent="menu_hotel_root" sequence="50" groups="dl_hotel_management.group_hotel_recepcao,dl_hotel_management.group_hotel_manager"/>
+    <menuitem id="menu_hotel_transport" name="Transporte" parent="menu_hotel_root" sequence="60" groups="dl_hotel_management.group_hotel_recepcao,dl_hotel_management.group_hotel_manager"/>
+    <menuitem id="menu_hotel_configuration" name="Configuração" parent="menu_hotel_root" sequence="100" groups="dl_hotel_management.group_hotel_manager"/>
 </odoo>

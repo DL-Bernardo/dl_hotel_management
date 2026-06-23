@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Sequências para Serviços -->
+    <record id="seq_hotel_laundry" model="ir.sequence">
+        <field name="name">Sequência de Lavanderia</field>
+        <field name="code">hotel.laundry.order.seq</field>
+        <field name="prefix">LND/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_hotel_restaurant" model="ir.sequence">
+        <field name="name">Sequência de Restaurante</field>
+        <field name="code">hotel.restaurant.order.seq</field>
+        <field name="prefix">RST/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_hotel_transport" model="ir.sequence">
+        <field name="name">Sequência de Transporte</field>
+        <field name="code">hotel.transport.request.seq</field>
+        <field name="prefix">TRN/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
     <!-- ==================== LAVANDERIA ==================== -->
     <record id="view_laundry_tree" model="ir.ui.view">
         <field name="name">hotel.laundry.tree</field>
@@ -21,30 +46,42 @@
         <field name="arch" type="xml">
             <form string="Lavanderia">
                 <header>
-                    <field name="status" widget="statusbar" statusbar_visible="draft,confirmed,pickup,in_process,delivered"/>
+                    <button name="action_confirm" string="Confirmar" type="object" class="oe_highlight" invisible="status != 'draft'"/>
+                    <button name="action_pickup" string="Recolher" type="object" class="oe_highlight" invisible="status != 'confirmed'"/>
+                    <button name="action_process" string="Processar" type="object" class="oe_highlight" invisible="status != 'pickup'"/>
+                    <button name="action_deliver" string="Entregar" type="object" class="oe_highlight" invisible="status != 'in_process'"/>
+                    <button name="action_print_lavandaria" string="Imprimir" type="object" class="oe_highlight"/>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,confirmed,pickup,in_process,delivered" options="{'clickable': '1'}"/>
                 </header>
                 <sheet>
+                    <field name="currency_id" invisible="1"/>
                     <group>
                         <group>
                             <field name="name"/>
-                            <field name="room_id"/>
-                            <field name="booking_id"/>
-                            <field name="date"/>
+                            <field name="room_id" readonly="1" force_save="1"/>
+                            <field name="booking_id" readonly="status != 'draft'"/>
+                            <field name="date" readonly="status != 'draft'"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Itens">
-                            <field name="line_ids">
+                            <field name="line_ids" readonly="status != 'draft'">
                                 <tree editable="bottom">
-                                    <field name="name"/>
+                                    <field name="servico_id"/>
                                     <field name="qty"/>
                                     <field name="price"/>
+                                    <field name="tax_id"/>
                                     <field name="subtotal"/>
                                 </tree>
                             </field>
-                            <group class="oe_right">
-                                <field name="total_amount"/>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="total_amount" widget="monetary" string="Subtotal"/>
+                                <field name="total_imposto" widget="monetary" string="Imposto"/>
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="total_geral"/>
+                                </div>
+                                <field name="total_geral" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
                             </group>
                         </page>
                     </notebook>
@@ -74,30 +111,41 @@
         <field name="arch" type="xml">
             <form string="Restaurante">
                 <header>
-                    <field name="status" widget="statusbar" statusbar_visible="draft,confirmed,in_prep,delivered"/>
+                    <button name="action_confirm" string="Confirmar" type="object" class="oe_highlight" invisible="status != 'draft'"/>
+                    <button name="action_in_prep" string="Preparar" type="object" class="oe_highlight" invisible="status != 'confirmed'"/>
+                    <button name="action_deliver" string="Entregar" type="object" class="oe_highlight" invisible="status != 'in_prep'"/>
+                    <button name="action_print_restaurante" string="Imprimir" type="object" class="oe_highlight"/>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,confirmed,in_prep,delivered" options="{'clickable': '1'}"/>
                 </header>
                 <sheet>
+                    <field name="currency_id" invisible="1"/>
                     <group>
                         <group>
                             <field name="name"/>
-                            <field name="room_id"/>
-                            <field name="booking_id"/>
-                            <field name="date"/>
+                            <field name="room_id" readonly="1" force_save="1"/>
+                            <field name="booking_id" readonly="status != 'draft'"/>
+                            <field name="date" readonly="status != 'draft'"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Itens">
-                            <field name="line_ids">
+                            <field name="line_ids" readonly="status != 'draft'">
                                 <tree editable="bottom">
-                                    <field name="name"/>
+                                    <field name="servico_id"/>
                                     <field name="qty"/>
                                     <field name="price"/>
+                                    <field name="tax_id"/>
                                     <field name="subtotal"/>
                                 </tree>
                             </field>
-                            <group class="oe_right">
-                                <field name="total_amount"/>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="total_amount" widget="monetary" string="Subtotal"/>
+                                <field name="total_imposto" widget="monetary" string="Imposto"/>
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="total_geral"/>
+                                </div>
+                                <field name="total_geral" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
                             </group>
                         </page>
                     </notebook>
@@ -113,10 +161,14 @@
         <field name="arch" type="xml">
             <tree string="Transporte">
                 <field name="name"/>
+                <field name="booking_id"/>
+                <field name="room_id"/>
                 <field name="guest_name"/>
-                <field name="type"/>
+                <field name="servico_id"/>
+                <field name="tipo_trajeto"/>
+                <field name="data_hora_viagem"/>
                 <field name="status" widget="badge" decoration-success="status=='completed'"/>
-                <field name="charge"/>
+                <field name="total_geral" string="Total" widget="monetary"/>
             </tree>
         </field>
     </record>
@@ -127,24 +179,54 @@
         <field name="arch" type="xml">
             <form string="Transporte">
                 <header>
-                    <field name="status" widget="statusbar" statusbar_visible="draft,confirmed,in_progress,completed"/>
+                    <button name="action_confirm" string="Confirmar" type="object" class="oe_highlight" invisible="status != 'draft'"/>
+                    <button name="action_in_progress" string="Iniciar Viagem" type="object" class="oe_highlight" invisible="status != 'confirmed'"/>
+                    <button name="action_complete" string="Concluir" type="object" class="oe_highlight" invisible="status != 'in_progress'"/>
+                    <button name="action_print_transporte" string="Imprimir" type="object" class="oe_highlight"/>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,confirmed,in_progress,completed" options="{'clickable': '1'}"/>
                 </header>
                 <sheet>
-                    <group>
-                        <group>
+                    <field name="currency_id" invisible="1"/>
+                    <div class="oe_title">
+                        <h1>
                             <field name="name"/>
-                            <field name="booking_id"/>
-                            <field name="guest_name"/>
-                            <field name="type"/>
-                            <field name="company_id" groups="base.group_multi_company"/>
+                        </h1>
+                    </div>
+                    <group string="Associação à Reserva">
+                        <group>
+                            <field name="booking_id" readonly="status != 'draft'"/>
+                            <field name="room_id" readonly="1" force_save="1"/>
+                            <field name="guest_name" readonly="status != 'draft'"/>
                         </group>
                         <group>
-                            <field name="pickup_from"/>
-                            <field name="drop_at"/>
-                            <field name="distance"/>
-                            <field name="vehicle"/>
-                            <field name="driver"/>
-                            <field name="charge"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Detalhes da Viagem">
+                        <group>
+                            <field name="servico_id" readonly="status != 'draft'"/>
+                            <field name="tipo_trajeto" readonly="status != 'draft'"/>
+                            <field name="local_origem" readonly="status != 'draft'"/>
+                            <field name="local_destino" readonly="status != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="data_hora_viagem" readonly="status != 'draft'"/>
+                            <field name="num_passageiros" readonly="status != 'draft'"/>
+                            <field name="notas_voo" readonly="status != 'draft'"/>
+                        </group>
+                    </group>
+                    <group string="Valores do Serviço">
+                        <group>
+                            <field name="preco_base" readonly="status != 'draft'"/>
+                            <field name="imposto_id" readonly="status != 'draft'"/>
+                        </group>
+                        <group class="oe_subtotal_footer oe_right">
+                            <field name="subtotal" widget="monetary" string="Subtotal" force_save="1"/>
+                            <field name="imposto" widget="monetary" string="Imposto" force_save="1"/>
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label for="total_geral"/>
+                            </div>
+                            <field name="total_geral" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" force_save="1"/>
                         </group>
                     </group>
                 </sheet>
@@ -218,16 +300,26 @@
                             <field name="transport_request_ids" readonly="1">
                                 <tree>
                                     <field name="name"/>
-                                    <field name="type"/>
+                                    <field name="servico_id"/>
+                                    <field name="tipo_trajeto"/>
                                     <field name="status"/>
-                                    <field name="charge"/>
+                                    <field name="total_geral" string="Total"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Consumos de Ponto de Venda (POS)" name="pos_orders">
+                            <field name="pos_order_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="date_order"/>
+                                    <field name="amount_total" sum="Total POS"/>
                                 </tree>
                             </field>
                         </page>
                     </notebook>
                     <group class="oe_subtotal_footer oe_right">
                         <field name="room_charge_total"/>
-                        <field name="grand_total" class="oe_subtotal_footer_separator"/>
+                                <field name="grand_total" class="oe_subtotal_footer_separator"/>
                     </group>
                 </sheet>
             </form>
@@ -240,9 +332,117 @@
     <record id="action_transport" model="ir.actions.act_window"><field name="name">Pedidos de Transporte</field><field name="res_model">hotel.transport.request</field><field name="view_mode">tree,form</field></record>
     <record id="action_folio" model="ir.actions.act_window"><field name="name">Folios de Hóspedes</field><field name="res_model">hotel.folio</field><field name="view_mode">tree,form</field></record>
 
-    <menuitem id="menu_laundry_orders" name="Pedidos" parent="menu_hotel_laundry" action="action_laundry" sequence="1"/>
-    <menuitem id="menu_restaurant_orders" name="Pedidos" parent="menu_hotel_restaurant" action="action_restaurant" sequence="1"/>
-    <menuitem id="menu_transport_orders" name="Pedidos" parent="menu_hotel_transport" action="action_transport" sequence="1"/>
-    <menuitem id="menu_folios_orders" name="Todos os Folios" parent="menu_hotel_folios" action="action_folio" sequence="1"/>
+    <!-- Serviços de Lavandaria -->
+    <record id="view_lavanderia_servico_tree" model="ir.ui.view">
+        <field name="name">hotel.lavanderia.servico.tree</field>
+        <field name="model">hotel.lavanderia.servico</field>
+        <field name="arch" type="xml">
+            <tree string="Serviços de Lavandaria" editable="bottom">
+                <field name="name"/>
+                <field name="preco"/>
+                <field name="imposto_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_lavanderia_servico_form" model="ir.ui.view">
+        <field name="name">hotel.lavanderia.servico.form</field>
+        <field name="model">hotel.lavanderia.servico</field>
+        <field name="arch" type="xml">
+            <form string="Serviço de Lavandaria">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="preco"/>
+                        <field name="imposto_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_lavanderia_servico" model="ir.actions.act_window">
+        <field name="name">Serviços de Lavandaria</field>
+        <field name="res_model">hotel.lavanderia.servico</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Serviços do Restaurante -->
+    <record id="view_restaurante_servico_tree" model="ir.ui.view">
+        <field name="name">hotel.restaurante.servico.tree</field>
+        <field name="model">hotel.restaurante.servico</field>
+        <field name="arch" type="xml">
+            <tree string="Serviços do Restaurante" editable="bottom">
+                <field name="name"/>
+                <field name="preco"/>
+                <field name="imposto_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_restaurante_servico_form" model="ir.ui.view">
+        <field name="name">hotel.restaurante.servico.form</field>
+        <field name="model">hotel.restaurante.servico</field>
+        <field name="arch" type="xml">
+            <form string="Serviço do Restaurante">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="preco"/>
+                        <field name="imposto_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_restaurante_servico" model="ir.actions.act_window">
+        <field name="name">Serviços do Restaurante</field>
+        <field name="res_model">hotel.restaurante.servico</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Serviços de Transporte -->
+    <record id="view_transporte_servico_tree" model="ir.ui.view">
+        <field name="name">hotel.transporte.servico.tree</field>
+        <field name="model">hotel.transporte.servico</field>
+        <field name="arch" type="xml">
+            <tree string="Serviços de Transporte" editable="bottom">
+                <field name="name"/>
+                <field name="preco"/>
+                <field name="imposto_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_transporte_servico_form" model="ir.ui.view">
+        <field name="name">hotel.transporte.servico.form</field>
+        <field name="model">hotel.transporte.servico</field>
+        <field name="arch" type="xml">
+            <form string="Serviço de Transporte">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="preco"/>
+                        <field name="imposto_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_transporte_servico" model="ir.actions.act_window">
+        <field name="name">Serviços de Transporte</field>
+        <field name="res_model">hotel.transporte.servico</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_laundry_orders" name="Pedidos" parent="menu_hotel_laundry" action="action_laundry" sequence="1" groups="dl_hotel_management.group_hotel_recepcao,dl_hotel_management.group_hotel_manager"/>
+    <menuitem id="menu_laundry_services" name="Serviços de Lavandaria" parent="menu_hotel_laundry" action="action_lavanderia_servico" sequence="10" groups="dl_hotel_management.group_hotel_manager"/>
+    <menuitem id="menu_restaurant_orders" name="Pedidos" parent="menu_hotel_restaurant" action="action_restaurant" sequence="1" groups="dl_hotel_management.group_hotel_recepcao,dl_hotel_management.group_hotel_manager"/>
+    <menuitem id="menu_restaurant_services" name="Serviços do Restaurante" parent="menu_hotel_restaurant" action="action_restaurante_servico" sequence="10" groups="dl_hotel_management.group_hotel_manager"/>
+    <menuitem id="menu_transport_orders" name="Pedidos" parent="menu_hotel_transport" action="action_transport" sequence="1" groups="dl_hotel_management.group_hotel_recepcao,dl_hotel_management.group_hotel_manager"/>
+    <menuitem id="menu_transport_services" name="Serviços de Transporte" parent="menu_hotel_transport" action="action_transporte_servico" sequence="10" groups="dl_hotel_management.group_hotel_manager"/>
+    <menuitem id="menu_folios_orders" name="Todos os Folios" parent="menu_hotel_folios" action="action_folio" sequence="1" groups="dl_hotel_management.group_hotel_recepcao,dl_hotel_management.group_hotel_manager"/>
 
 </odoo>
