@@ -58,7 +58,10 @@
 
     # Padrão de imagem de alta conversão para a loja
     'images': [
-        'static/description/main_screenshot.png'
+        'static/description/main_screenshot.png',
+        'static/description/imagens_para_index/matriz_ocupacao1.png',
+        'static/description/imagens_para_index/portal_hospede_verificar_vaga.png',
+        'static/description/imagens_para_index/analise_ocupacao.png',
     ],
     
     'assets': {
