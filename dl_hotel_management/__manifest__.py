@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Digitalub - Gestão Hoteleira Completa',
-    'version': '17.0.1.0.0',
+    'name': 'Digitalub - Gestão Hoteleira Completa (PMS)',
+    'version': '17.0.1.0.1',
     'category': 'Industries',
     'summary': 'Gestão completa de quartos, reservas, lavandaria, restaurante e transporte integrado.',
     'description': """
@@ -13,8 +13,9 @@
         - Controlo de Transporte e Transfers de Hóspedes.
         - Faturação unificada de consumos e estadias (Hotel Folios).
     """,
-    'author': 'DIGITALUB ANGOLA',
-    'website': 'https://apps.digitalub.ao/loja/',
+    'author': 'DIGITALUB ANGOLA, LDA',
+    'website': 'https://www.digitalub.ao',
+    'support': 'suporte@digitalub.ao',
     'license': 'OPL-1',  # Alterado para OPL-1 para proteger um módulo deste valor comercial
 
     # Configuração de Preço Comercial Recomendado
