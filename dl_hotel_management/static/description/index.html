@@ -1,972 +1,206 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Management System - Complete Hospitality PMS Suite - DIGITALUB ANGOLA</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-
-        /* Wrapper & Base Styles */
-        .digitalub-wrapper {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #1E293B;
-            background-color: #F8FAFC;
-            line-height: 1.6;
-            margin: 0 auto; 
-            max-width: 1200px;
-            padding: 20px;
-        }
-
-        .digitalub-wrapper h1, 
-        .digitalub-wrapper h2, 
-        .digitalub-wrapper h3, 
-        .digitalub-wrapper h4, 
-        .digitalub-wrapper h5, 
-        .digitalub-wrapper h6 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #0F172A;
-            font-weight: 700;
-        }
-
-        /* Hero / Header Section */
-        .digitalub-header {
-            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-            border-radius: 24px;
-            color: white;
-            padding: 70px 40px 50px 40px;
-            margin-bottom: 50px;
-            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .digitalub-badge-container {
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .digitalub-badge {
-            background: rgba(59, 130, 246, 0.2);
-            border: 1px solid rgba(59, 130, 246, 0.4);
-            color: #60A5FA;
-            padding: 6px 18px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-
-        .digitalub-badge-success {
-            background: rgba(16, 185, 129, 0.2);
-            border: 1px solid rgba(16, 185, 129, 0.4);
-            color: #34D399;
-        }
-
-        .digitalub-title {
-            font-size: 3.2rem;
-            font-weight: 800;
-            margin-top: 0;
-            margin-bottom: 20px;
-            line-height: 1.15;
-            letter-spacing: -1px;
-            color: #FFFFFF;
-        }
-
-        .digitalub-subtitle {
-            font-size: 1.35rem;
-            color: #94A3B8;
-            max-width: 850px;
-            margin: 0 auto 35px auto;
-            font-weight: 400;
-            line-height: 1.5;
-        }
-
-        .digitalub-header-stats {
-            display: inline-flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 15px 30px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            font-size: 0.95rem;
-            color: #E2E8F0;
-            font-weight: 500;
-            margin-bottom: 40px;
-        }
-
-        .digitalub-header-stats span {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .digitalub-header-stats i {
-            color: #10B981;
-        }
-
-        /* Browser Window Mockup for Hero Image */
-        .browser-mockup {
-            background: #FFFFFF;
-            border: 1px solid #E2E8F0;
-            border-radius: 16px;
-            box-shadow: 0 30px 60px rgba(15, 23, 42, 0.2);
-            overflow: hidden;
-            max-width: 1000px;
-            margin: 0 auto -120px auto; /* Pulls into the next section for a modern overlap effect */
-            z-index: 10;
-            position: relative;
-        }
-
-        .browser-bar {
-            background: #F1F5F9;
-            border-bottom: 1px solid #E2E8F0;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .browser-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-        .dot-red { background: #EF4444; }
-        .dot-yellow { background: #F59E0B; }
-        .dot-green { background: #10B981; }
-
-        .browser-address {
-            background: #FFFFFF;
-            border: 1px solid #E2E8F0;
-            border-radius: 6px;
-            flex-grow: 1;
-            margin-left: 20px;
-            padding: 4px 15px;
-            font-size: 0.8rem;
-            color: #64748B;
-            text-align: left;
-            font-family: monospace;
-            max-width: 400px;
-        }
-
-        .browser-content img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* Spacer for Hero overlap */
-        .hero-overlap-spacer {
-            height: 150px;
-        }
-
-        /* Section Container */
-        .section-container {
-            margin-bottom: 80px;
-            padding: 10px 0;
-        }
-
-        .section-header {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto 50px auto;
-        }
-
-        .section-title {
-            font-size: 2.3rem;
-            font-weight: 800;
-            color: #0F172A;
-            letter-spacing: -0.5px;
-            margin-bottom: 15px;
-        }
-
-        .section-subtitle {
-            font-size: 1.15rem;
-            color: #64748B;
-            line-height: 1.5;
-        }
-
-        /* Two-Column Alternating Blocks */
-        .feature-block {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 50px;
-            margin-bottom: 70px;
-        }
-
-        .feature-block:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-
-        .feature-content {
-            flex: 1 1 450px;
-        }
-
-        .feature-visual {
-            flex: 1 1 500px;
-        }
-
-        .feature-tag {
-            color: #2563EB;
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .feature-title {
-            font-size: 1.9rem;
-            font-weight: 800;
-            margin-top: 5px;
-            margin-bottom: 20px;
-            color: #0F172A;
-            line-height: 1.25;
-        }
-
-        .feature-desc {
-            font-size: 1.05rem;
-            color: #475569;
-            margin-bottom: 25px;
-        }
-
-        .feature-bullets {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .feature-bullets li {
-            position: relative;
-            padding-left: 28px;
-            margin-bottom: 15px;
-            font-size: 1rem;
-            color: #334155;
-            line-height: 1.5;
-        }
-
-        .feature-bullets li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            top: 2px;
-            color: #10B981;
-            font-weight: 900;
-            font-size: 1.1rem;
-        }
-
-        .feature-bullets li strong {
-            color: #0F172A;
-        }
-
-        /* Media Frame style */
-        .media-frame {
-            background: #FFFFFF;
-            border: 1px solid #E2E8F0;
-            border-radius: 16px;
-            padding: 12px;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            overflow: hidden;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .media-frame:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
-            border-color: #CBD5E1;
-        }
-
-        .media-frame img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            display: block;
-        }
-
-        .media-caption {
-            font-size: 0.8rem;
-            color: #64748B;
-            text-align: center;
-            margin-top: 10px;
-            font-weight: 500;
-        }
-
-        /* Grid for improvements and safety checks */
-        .improvements-box {
-            background: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%);
-            border: 1px solid #E2E8F0;
-            border-radius: 24px;
-            padding: 50px 40px;
-            margin-bottom: 80px;
-        }
-
-        .improvement-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-        }
-
-        .improvement-item {
-            background: #FFFFFF;
-            border: 1px solid #E2E8F0;
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
-            transition: all 0.25s ease;
-        }
-
-        .improvement-item:hover {
-            border-color: #93C5FD;
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.05);
-        }
-
-        .improvement-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .improvement-header i {
-            font-size: 1.25rem;
-            color: #2563EB;
-        }
-
-        .improvement-header h5 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin: 0;
-            color: #0F172A;
-        }
-
-        .improvement-text {
-            font-size: 0.95rem;
-            color: #64748B;
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        /* Showcase Horizontal Cards for Services (Alternating) */
-        .service-showcase-list {
-            display: flex;
-            flex-direction: column;
-            gap: 50px;
-            margin-top: 40px;
-        }
-
-        .service-showcase-item {
-            background: #FFFFFF;
-            border: 1px solid #E2E8F0;
-            border-radius: 20px;
-            padding: 30px;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 40px;
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.02);
-            transition: border-color 0.3s ease;
-        }
-
-        .service-showcase-item:hover {
-            border-color: #3B82F6;
-        }
-
-        .service-showcase-item:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-
-        .service-showcase-content {
-            flex: 1 1 350px;
-        }
-
-        .service-showcase-visual {
-            flex: 1 2 600px;
-        }
-
-        .service-icon-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-
-        .service-icon-title i {
-            font-size: 1.5rem;
-            color: #2563EB;
-        }
-
-        .service-icon-title h4 {
-            font-size: 1.4rem;
-            margin: 0;
-            color: #0F172A;
-            font-weight: 800;
-        }
-
-        .service-desc {
-            font-size: 1rem;
-            color: #475569;
-            margin-bottom: 0;
-            line-height: 1.6;
-        }
-
-        /* 3-Column Balanced Gallery for BI & Reports */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            margin-top: 45px;
-        }
-
-        .gallery-item {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .gallery-title {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: #0F172A;
-            margin-bottom: 2px;
-            text-align: center;
-        }
-
-        .gallery-desc {
-            font-size: 0.95rem;
-            color: #475569;
-            text-align: center;
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        /* Summary Badges Cards */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-        }
-
-        .digitalub-card {
-            background: #FFFFFF;
-            border: 1px solid #E2E8F0;
-            border-radius: 20px;
-            padding: 30px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(15, 23, 42, 0.01);
-        }
-
-        .digitalub-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(15, 23, 42, 0.05);
-            border-color: #3B82F6;
-        }
-
-        .card-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            margin-bottom: 20px;
-        }
-
-        .icon-blue { background: #EFF6FF; color: #2563EB; }
-        .icon-emerald { background: #ECFDF5; color: #059669; }
-        .icon-amber { background: #FFFBEB; color: #D97706; }
-        .icon-purple { background: #F5F3FF; color: #7C3AED; }
-
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #0F172A;
-        }
-
-        .card-desc {
-            font-size: 0.95rem;
-            color: #475569;
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        /* Call To Action Box (Footer) */
-        .digitalub-cta {
-            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-            border-radius: 24px;
-            padding: 60px 40px;
-            color: white;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15);
-            margin-top: 60px;
-        }
-
-        .digitalub-cta h3 {
-            font-size: 2.3rem;
-            font-weight: 800;
-            color: #FFFFFF;
-            margin-top: 0;
-            margin-bottom: 15px;
-        }
-
-        .digitalub-cta p {
-            font-size: 1.15rem;
-            color: #94A3B8;
-            max-width: 750px;
-            margin: 0 auto 35px auto;
-            line-height: 1.6;
-        }
-
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .btn-cta {
-            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
-            color: white !important;
-            font-weight: 700;
-            border-radius: 50px;
-            padding: 16px 40px;
-            font-size: 1.05rem;
-            transition: all 0.2s ease;
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
-            border: none;
-            display: inline-block;
-            text-decoration: none;
-            letter-spacing: 0.5px;
-        }
-
-        .btn-cta:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.5);
-            color: white !important;
-        }
-
-        .btn-secondary-cta {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #FFFFFF !important;
-            font-weight: 600;
-            border-radius: 50px;
-            padding: 16px 35px;
-            font-size: 1.05rem;
-            transition: all 0.2s ease;
-            display: inline-block;
-            text-decoration: none;
-        }
-
-        .btn-secondary-cta:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: #FFFFFF !important;
-        }
-
-        /* Responsive Layouts */
-        @media (max-width: 992px) {
-            .browser-mockup {
-                margin-bottom: 0px;
-            }
-            .hero-overlap-spacer {
-                display: none;
-            }
-            .digitalub-header {
-                padding: 50px 20px;
-            }
-            .digitalub-title {
-                font-size: 2.5rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .section-title {
-                font-size: 1.8rem;
-            }
-            .feature-title {
-                font-size: 1.5rem;
-            }
-            .feature-block, .service-showcase-item {
-                gap: 30px;
-            }
-            .digitalub-cta h3 {
-                font-size: 1.7rem;
-            }
-            .cta-buttons {
-                flex-direction: column;
-                width: 100%;
-            }
-            .btn-cta, .btn-secondary-cta {
-                width: 100%;
-                text-align: center;
-            }
-        }
-    </style>
-</head>
-<body>
-
-<div class="digitalub-wrapper">
-<div style="text-align: center; margin: 20px auto 35px auto; max-width: 1200px;">
-    <img src="banner.png" alt="Official Banner" style="width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);" />
-</div>
-
-    <!-- Header / Hero Section -->
-    <header class="digitalub-header">
-        <div class="digitalub-badge-container">
-            <span class="digitalub-badge">Odoo 17 Ready</span>
-            <span class="digitalub-badge digitalub-badge-success">Enterprise PMS Suite</span>
+<section class="container my-5" style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1E293B; max-width: 1140px;">
+
+  <!-- BANNER PRINCIPAL OFICIAL -->
+  <div class="text-center mb-5">
+    <img src="banner.png" alt="Gestão Hoteleira Completa: Do Check-in à Faturação - Banner Oficial" class="img-fluid rounded-4 shadow-sm" style="width: 100%; border: 1px solid #E2E8F0;" />
+  </div>
+
+  <!-- BLOCO 1: HERO HEADER (Proposta de Valor Imediata) -->
+  <div class="p-4 p-md-5 mb-5 rounded-4 text-white shadow-sm" style="background: linear-gradient(135deg, #0B1F44 0%, #1259C3 100%);">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <!-- Badges no Topo -->
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <span class="badge px-3 py-2 rounded-pill fw-semibold" style="background-color: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.3); color: #FFFFFF; font-size: 0.8rem;">Digitalub Vertical Solutions</span>
+          <span class="badge px-3 py-2 rounded-pill fw-semibold" style="background-color: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.3); color: #FFFFFF; font-size: 0.8rem;">Hospitality & PMS Suite</span>
         </div>
-        <h1 class="digitalub-title">Digitalub Hotel Management System</h1>
-        <p class="digitalub-subtitle">The definitive PMS suite for professional hospitality operations, room bookings, guest folio billing, and real-time revenue analytics in Odoo 17.</p>
         
-        <div class="digitalub-header-stats">
-            <span><i class="fa fa-check-circle"></i> Interactive Occupancy Matrix</span>
-            <span>|</span>
-            <span><i class="fa fa-check-circle"></i> Multi-Currency Invoicing &amp; Tax Ready</span>
-            <span>|</span>
-            <span><i class="fa fa-check-circle"></i> Automated Booking Workflows</span>
+        <!-- Título H1 Focado no Benefício -->
+        <h1 class="display-6 fw-bold mb-3" style="color: #FFFFFF; letter-spacing: -0.5px; line-height: 1.2;">
+          Gestão Hoteleira Completa: Do Check-in à Faturação
+        </h1>
+        
+        <!-- Subtítulo Lead -->
+        <p class="lead mb-4" style="color: #E2E8F0; font-size: 1.15rem; line-height: 1.6; max-width: 650px;">
+          Transforme a operação do seu hotel, resort ou pousada. Matriz visual de ocupação (Room Rack), folios integrados de consumos, governança e faturação certificada.
+        </p>
+        
+        <!-- Badges de Compatibilidade -->
+        <div class="d-flex flex-wrap gap-2 align-items-center">
+          <span class="badge bg-white text-dark px-3 py-2 rounded-pill fw-bold" style="font-size: 0.8rem;">✔ Odoo 17.0</span>
+          <span class="badge px-3 py-2 rounded-pill fw-semibold text-white" style="background-color: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.25); font-size: 0.8rem;">Community & Enterprise</span>
+          <span class="badge px-3 py-2 rounded-pill fw-semibold" style="background-color: rgba(16, 185, 129, 0.25); border: 1px solid #10B981; font-size: 0.8rem; color: #A7F3D0;">Plug &amp; Play / Ready for Production</span>
         </div>
-
-        <!-- Custom Styled Browser Mockup displaying the main high-res GIF -->
-        <div class="browser-mockup">
-            <div class="browser-bar">
-                <span class="browser-dot dot-red"></span>
-                <span class="browser-dot dot-yellow"></span>
-                <span class="browser-dot dot-green"></span>
-                <span class="browser-address">http://localhost:8069/web#action=hotel_booking</span>
-            </div>
-            <div class="browser-content">
-                <img src="imagens_para_index/reservas_de_quarto.gif" alt="Main Hotel Booking Console in Odoo 17">
-            </div>
+      </div>
+      
+      <!-- Coluna da Direita: Card Translúcido -->
+      <div class="col-lg-4 text-center">
+        <div class="p-4 rounded-4 shadow-sm" style="background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.25);">
+          <span class="badge px-3 py-2 rounded-pill mb-2 fw-semibold" style="background-color: rgba(255, 255, 255, 0.2); color: #FFFFFF; font-size: 0.75rem; letter-spacing: 0.5px;">DESTAQUE OPERACIONAL</span>
+          <div class="display-4 fw-bold my-2" style="color: #FFFFFF; letter-spacing: -1px;">
+            RevPAR +35%
+          </div>
+          <p class="fw-semibold mb-1" style="color: #BAE6FD; font-size: 1.05rem;">
+            Room Rack Interativo
+          </p>
+          <p class="small mb-0" style="color: #E2E8F0; font-size: 0.85rem;">
+            Aumento substancial da taxa de ocupação e controlo em tempo real.
+          </p>
         </div>
-    </header>
+      </div>
+    </div>
+  </div>
 
-    <!-- Spacer to adjust the layout overlap in desktop resolutions -->
-    <div class="hero-overlap-spacer"></div>
-
-    <!-- WHAT'S NEW SECTION (RECENT UPGRADES & RESTRICTIONS) -->
-    <section class="improvements-box">
-        <div class="text-left">
-            <span class="feature-tag">Stability &amp; Enterprise Robustness</span>
-            <h2 class="section-title">Smart Anti-Human-Error Operational Safeguards</h2>
-            <p class="section-subtitle" style="text-align: left; max-width: 950px; margin-bottom: 25px;">
-                Engineered with strict business validations at the Odoo ORM layer to ensure front-desk staff operate with zero errors, preventing financial leaks and booking discrepancies.
-            </p>
-
-            <div class="improvement-grid">
-                <div class="improvement-item">
-                    <div class="improvement-header">
-                        <i class="fa fa-calendar-times-o" style="color: #EF4444;"></i>
-                        <h5>Strict Chronological Coherence</h5>
-                    </div>
-                    <p class="improvement-text">Hard constraint blocking bookings where Check-Out date is prior to or identical to Check-In, eliminating inverted timeline errors.</p>
-                </div>
-                <div class="improvement-item">
-                    <div class="improvement-header">
-                        <i class="fa fa-ban" style="color: #EF4444;"></i>
-                        <h5>Guaranteed Zero Overbooking</h5>
-                    </div>
-                    <p class="improvement-text">Rigorous native validator preventing duplicate active reservations from ever occupying the same room during overlapping dates.</p>
-                </div>
-                <div class="improvement-item">
-                    <div class="improvement-header">
-                        <i class="fa fa-users" style="color: #F59E0B;"></i>
-                        <h5>Capacity Threshold Alert</h5>
-                    </div>
-                    <p class="improvement-text">Smart interactive indicator notifying the front-desk agent if the total guest count exceeds the physical room capacity limit.</p>
-                </div>
-                <div class="improvement-item">
-                    <div class="improvement-header">
-                        <i class="fa fa-lock" style="color: #EF4444;"></i>
-                        <h5>Folio Financial Integrity</h5>
-                    </div>
-                    <p class="improvement-text">Once a stay is finalized (Checked Out), cancelled, or marked as No Show, the folio is locked against unauthorized modifications.</p>
-                </div>
-                <div class="improvement-item">
-                    <div class="improvement-header">
-                        <i class="fa fa-user-secret" style="color: #F59E0B;"></i>
-                        <h5>Locked Primary Guest</h5>
-                    </div>
-                    <p class="improvement-text">Protects primary guest identity once a booking is confirmed or active, guaranteeing tamper-proof audit trails for accounting.</p>
-                </div>
-                <div class="improvement-item">
-                    <div class="improvement-header">
-                        <i class="fa fa-check-square-o" style="color: #10B981;"></i>
-                        <h5>Duplicate Stay Prevention</h5>
-                    </div>
-                    <p class="improvement-text">Prevents the same guest from holding multiple conflicting active stays across different rooms for overlapping dates.</p>
-                </div>
-            </div>
+  <!-- BLOCO 2: CARDS DE BENEFÍCIOS (Os 3 Pilares) -->
+  <div class="row g-4 mb-5">
+    <div class="col-md-4">
+      <div class="p-4 rounded-4 h-100 shadow-sm" style="background-color: #F8FAFC; border-top: 4px solid #1259C3; border-left: 1px solid #E2E8F0; border-right: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0;">
+        <div class="d-inline-flex p-3 rounded-3 mb-3" style="background-color: rgba(18, 89, 195, 0.1); color: #1259C3;">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
         </div>
-    </section>
-
-    <!-- CORE FEATURES SECTION -->
-    <section class="section-container">
-        <div class="section-header">
-            <h2 class="section-title">Centralized Hospitality Operations Console</h2>
-            <p class="section-subtitle">Everything your team needs to oversee rooms, guests, and folio billing without leaving Odoo.</p>
+        <h3 class="h5 fw-bold mb-2" style="color: #0B1F44;">Matriz Visual de Ocupação em Tempo Real</h3>
+        <p class="text-secondary mb-0 small" style="line-height: 1.6;">
+          Quadro interativo tipo Room Rack para visualizar vagas, arrastar check-ins, atribuir hóspedes e gerir reservas em segundos sem sobreposições.
+        </p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="p-4 rounded-4 h-100 shadow-sm" style="background-color: #F8FAFC; border-top: 4px solid #1259C3; border-left: 1px solid #E2E8F0; border-right: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0;">
+        <div class="d-inline-flex p-3 rounded-3 mb-3" style="background-color: rgba(18, 89, 195, 0.1); color: #1259C3;">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
         </div>
-
-        <!-- Feature 1: Matriz de Ocupação -->
-        <div class="feature-block">
-            <div class="feature-content">
-                <span class="feature-tag">Visual Front-Desk Operations</span>
-                <h3 class="feature-title">Interactive Visual Occupancy Matrix</h3>
-                <p class="feature-desc">Daily room allocation becomes effortless with our intuitive real-time timeline grid.</p>
-                <ul class="feature-bullets">
-                    <li><strong>Fast Grid Booking:</strong> Click and drag across the timeline to create instant reservations for the corresponding room.</li>
-                    <li><strong>Dynamic Color Coding:</strong> Instantly distinguish Vacant, Reserved, Occupied, and Dirty rooms at a glance.</li>
-                    <li><strong>Real-Time Availability:</strong> Synchronizes live with Odoo's core booking engine, eliminating double bookings.</li>
-                </ul>
-            </div>
-            <div class="feature-visual">
-                <div class="media-frame" style="margin-bottom: 20px;">
-                    <img src="imagens_para_index/matriz_ocupacao1.png" alt="Quadro da Matriz de Ocupação Geral">
-                    <div class="media-caption">Main Reservation Matrix &amp; Timeline Grid</div>
-                </div>
-                <div class="media-frame">
-                    <img src="imagens_para_index/marcacao_pela_matriz.gif" alt="Demo de Reserva Direta pela Matriz">
-                    <div class="media-caption">Visual Demonstration of One-Click Booking on the Matrix</div>
-                </div>
-            </div>
+        <h3 class="h5 fw-bold mb-2" style="color: #0B1F44;">Folio Centralizado Multi-Departamento</h3>
+        <p class="text-secondary mb-0 small" style="line-height: 1.6;">
+          Lançamento instantâneo de consumos do restaurante, bar, lavandaria, minibar e transfers na conta do hóspede, eliminando extravio de comandas.
+        </p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="p-4 rounded-4 h-100 shadow-sm" style="background-color: #F8FAFC; border-top: 4px solid #1259C3; border-left: 1px solid #E2E8F0; border-right: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0;">
+        <div class="d-inline-flex p-3 rounded-3 mb-3" style="background-color: rgba(18, 89, 195, 0.1); color: #1259C3;">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
         </div>
+        <h3 class="h5 fw-bold mb-2" style="color: #0B1F44;">Portal de Auto-Reserva e Faturação Fiscal</h3>
+        <p class="text-secondary mb-0 small" style="line-height: 1.6;">
+          Portal web para hóspedes consultarem disponibilidade e confirmação de reserva, com faturação homologada no check-out integrado ao POS.
+        </p>
+      </div>
+    </div>
+  </div>
 
-        <!-- Feature 2: Automação e Housekeeping -->
-        <div class="feature-block">
-            <div class="feature-content">
-                <span class="feature-tag">Workflow Automation</span>
-                <h3 class="feature-title">Automated Check-In &amp; Housekeeping Management</h3>
-                <p class="feature-desc">Minimize manual administrative tasks with automated booking lifecycle triggers.</p>
-                <ul class="feature-bullets">
-                    <li><strong>Automated Check-In (Cron):</strong> Automatically transitions confirmed bookings to Active status when check-in hour arrives, ensuring accurate live room racks.</li>
-                    <li><strong>Automated Housekeeping:</strong> Upon Check-Out, room housekeeping status immediately toggles to <i>Dirty</i>, notifying the cleaning team in real time.</li>
-                    <li><strong>Pending Service Auto-Completion:</strong> Unfinalized room service orders (laundry, dining, transfers) are automatically completed upon folio closing.</li>
-                </ul>
-            </div>
-            <div class="feature-visual">
-                <div class="media-frame" style="margin-bottom: 20px;">
-                    <img src="imagens_para_index/visao_geral_quartos.png" alt="Visão Geral do Status dos Quartos">
-                    <div class="media-caption">Kanban Room Rack by Floors with Live Housekeeping Indicators</div>
-                </div>
-                <div class="media-frame">
-                    <img src="imagens_para_index/criar_reserva_pela_matriz.png" alt="Popup de Criação de Reserva no Odoo">
-                    <div class="media-caption">Simplified Quick-Booking Modal Triggered from the Matrix</div>
-                </div>
-            </div>
+  <!-- BLOCO 3: FLUXO OPERACIONAL EM 3 PASSOS (Showcase Visual) -->
+  <div class="mb-5">
+    <div class="text-center mb-5">
+      <span class="badge px-3 py-2 rounded-pill text-uppercase fw-semibold" style="background-color: rgba(18, 89, 195, 0.1); color: #1259C3; font-size: 0.8rem; letter-spacing: 0.5px;">Workflow Guiado</span>
+      <h2 class="h3 fw-bold mt-2" style="color: #0B1F44;">Como Funciona na Prática</h2>
+      <p class="text-muted mx-auto" style="max-width: 600px;">Implementação descomplicada com retorno operacional imediato em 3 etapas simples.</p>
+    </div>
+
+    <!-- Passo 1 -->
+    <div class="row align-items-center g-4 mb-5">
+      <div class="col-lg-5">
+        <span class="badge px-3 py-2 rounded-pill fw-bold text-white mb-3" style="background-color: #1259C3;">Passo 1</span>
+        <h3 class="h4 fw-bold mb-3" style="color: #0B1F44;">Matriz Visual de Ocupação e Gestão de Quartos</h3>
+        <p class="text-secondary mb-0" style="line-height: 1.6;">Controle visual dinâmico com código de cores por estado do quarto (Livre, Ocupado, Limpeza, Manutenção) e marcação rápida de reservas.</p>
+      </div>
+      <div class="col-lg-7 text-center">
+        <img src="imagens_para_index/matriz_ocupacao1.png" alt="Matriz Visual de Ocupação e Gestão de Quartos" class="img-fluid rounded-4 shadow-sm" style="border: 1px solid #E2E8F0; width: 100%;" />
+      </div>
+    </div>
+
+    <!-- Passo 2 (flex-lg-row-reverse) -->
+    <div class="row align-items-center flex-lg-row-reverse g-4 mb-5">
+      <div class="col-lg-5">
+        <span class="badge px-3 py-2 rounded-pill fw-bold text-white mb-3" style="background-color: #1259C3;">Passo 2</span>
+        <h3 class="h4 fw-bold mb-3" style="color: #0B1F44;">Portal Web e Atendimento ao Hóspede</h3>
+        <p class="text-secondary mb-0" style="line-height: 1.6;">Permita que clientes reservem alojamento online ou atenda na receção com check-in ágil, registo de acompanhantes e emissão de chaves.</p>
+      </div>
+      <div class="col-lg-7 text-center">
+        <img src="imagens_para_index/portal_hospede_verificar_vaga.png" alt="Portal Web e Atendimento ao Hóspede" class="img-fluid rounded-4 shadow-sm" style="border: 1px solid #E2E8F0; width: 100%;" />
+      </div>
+    </div>
+
+    <!-- Passo 3 -->
+    <div class="row align-items-center g-4">
+      <div class="col-lg-5">
+        <span class="badge px-3 py-2 rounded-pill fw-bold text-white mb-3" style="background-color: #1259C3;">Passo 3</span>
+        <h3 class="h4 fw-bold mb-3" style="color: #0B1F44;">Checkout Expresso e Faturação Certificada</h3>
+        <p class="text-secondary mb-0" style="line-height: 1.6;">Encerre o folio com o detalhe de todos os serviços prestados e emita a fatura certificada no ato do pagamento, integrada à contabilidade.</p>
+      </div>
+      <div class="col-lg-7 text-center">
+        <img src="imagens_para_index/emitir_factura_certificada.png" alt="Checkout Expresso e Faturação Certificada" class="img-fluid rounded-4 shadow-sm" style="border: 1px solid #E2E8F0; width: 100%;" />
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO 4: TABELA DE ESPECIFICAÇÕES E COMPATIBILIDADE -->
+  <div class="card p-4 p-md-5 mb-5 rounded-4 shadow-sm bg-white" style="border: 1px solid #E2E8F0;">
+    <div class="d-flex align-items-center mb-4">
+      <div class="p-2 rounded-3 me-3" style="background-color: rgba(18, 89, 195, 0.1); color: #1259C3;">
+        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      </div>
+      <div>
+        <h3 class="h4 fw-bold mb-1" style="color: #0B1F44;">Especificações Técnicas &amp; Compatibilidade</h3>
+        <p class="text-muted mb-0 small">Garantia de total interoperabilidade com a arquitetura oficial Odoo</p>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-borderless align-middle mb-0">
+        <tbody>
+          <tr style="border-bottom: 1px solid #F1F5F9;">
+            <td class="fw-semibold text-secondary py-3" style="width: 32%;">Versões Suportadas</td>
+            <td class="py-3 text-dark fw-medium">Odoo 17.0 (Community & Enterprise)</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #F1F5F9;">
+            <td class="fw-semibold text-secondary py-3">Módulos Nativos Necessários</td>
+            <td class="py-3 text-dark fw-medium"><code>base, web, mail, account, sale, point_of_sale</code></td>
+          </tr>
+          <tr style="border-bottom: 1px solid #F1F5F9;">
+            <td class="fw-semibold text-secondary py-3">Integração com Ecossistema</td>
+            <td class="py-3 text-dark fw-medium">Totalmente compatível com InvoiceOne e módulos de certificação fiscal de Angola</td>
+          </tr>
+          <tr>
+            <td class="fw-semibold text-secondary py-3">Tipo de Instalação</td>
+            <td class="py-3 text-dark fw-medium">Standard Odoo Addon &bull; Sem dependências externas complexas &bull; Instalação Plug &amp; Play</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- BLOCO 5: SEÇÃO DE GARANTIA E CONFIANÇA -->
+  <div class="p-4 p-md-5 mb-4 rounded-4 shadow-sm" style="background-color: #F1F5F9; border: 1px solid #E2E8F0;">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <div class="d-flex align-items-center mb-3">
+          <span class="badge px-3 py-2 rounded-pill me-2 text-white fw-semibold" style="background-color: #0B1F44;">DIGITALUB ANGOLA</span>
+          <span class="badge px-3 py-2 rounded-pill text-white fw-semibold" style="background-color: #1259C3;">Engenharia ERP Oficial</span>
         </div>
-
-        <!-- Feature 3: Faturação Certificada AGT Angola -->
-        <div class="feature-block">
-            <div class="feature-content">
-                <span class="feature-tag">Unified Billing &amp; Fiscal Compliance</span>
-                <h3 class="feature-title">Certified Folio Billing &amp; Multi-Currency Invoicing</h3>
-                <p class="feature-desc">Generate legally compliant customer invoices directly from guest folios, supporting global taxation, fiscal rules, and multi-currency transactions.</p>
-                <ul class="feature-bullets">
-                    <li><strong>Mandatory Fiscal Data Validation:</strong> Validates complete tax ID (VAT/NIF), billing address, and country before generating official invoices.</li>
-                    <li><strong>Native account.move Bridge:</strong> Convert entire hotel folios (Accommodation + Laundry + Restaurant + POS) into certified customer invoices in 1 click.</li>
-                    <li><strong>Locked Folio Closure:</strong> Post-invoicing, the folio is marked as Closed, sealing financial accounting records against unauthorized adjustments.</li>
-                </ul>
-            </div>
-            <div class="feature-visual">
-                <div class="media-frame">
-                    <img src="imagens_para_index/emitir_factura_certificada.png" alt="Geração de Fatura Certificada AGT no Odoo">
-                    <div class="media-caption">Folio Closure &amp; Pre-Invoicing Fiscal Validation Console</div>
-                </div>
-            </div>
+        <h3 class="h4 fw-bold mb-2" style="color: #0B1F44;">Desenvolvido por Digitalub — Soluções Digitais</h3>
+        <p class="text-secondary mb-3" style="line-height: 1.6;">
+          Especialistas de referência em arquitetura ERP Odoo, soluções de alta performance e conformidade fiscal e regulatória para Angola. Os nossos módulos são desenvolvidos sob rigorosos padrões de código limpo, testes contínuos e estabilidade em produção.
+        </p>
+        <div class="d-flex flex-wrap gap-3 align-items-center">
+          <div class="d-flex align-items-center text-secondary small fw-medium">
+            <span class="me-2" style="color: #10B981; font-size: 1.1rem;">✔</span> Suporte Gratuito para Correção de Bugs (60 Dias)
+          </div>
+          <div class="d-flex align-items-center text-secondary small fw-medium">
+            <span class="me-2" style="color: #10B981; font-size: 1.1rem;">✔</span> Código Fonte Aberto &bull; Odoo.sh &amp; On-Premise
+          </div>
         </div>
+      </div>
+      <div class="col-lg-4 text-lg-end">
+        <a href="mailto:suporte@digitalub.ao?subject=Suporte%20M%C3%B3dulo%20dl_hotel_management" class="btn btn-lg px-4 py-3 rounded-pill text-white fw-bold shadow-sm" style="background-color: #1259C3; text-decoration: none; display: inline-block;">
+          Solicitar Suporte Técnico
+        </a>
+        <div class="mt-2 small text-muted">Portal oficial: <a href="https://www.digitalub.ao" target="_blank" style="color: #1259C3; text-decoration: none; font-weight: 500;">www.digitalub.ao</a></div>
+      </div>
+    </div>
+  </div>
 
-        <!-- Feature 4: Portal do Hóspede & WhatsApp -->
-        <div class="feature-block">
-            <div class="feature-content">
-                <span class="feature-tag">Modern Guest Experience</span>
-                <h3 class="feature-title">Self-Service Guest Portal &amp; WhatsApp Booking</h3>
-                <p class="feature-desc">Revolutionary direct-booking portal giving guests full autonomy to check room vacancies, submit reservations, and connect via WhatsApp.</p>
-                <ul class="feature-bullets">
-                    <li><strong>Direct Chat Booking Link:</strong> Share the booking portal link directly in WhatsApp chats for instant mobile booking.</li>
-                    <li><strong>Live Vacancy Verification:</strong> Guests can query real-time room availability, photos, and room type specifications.</li>
-                    <li><strong>Autonomous Registration:</strong> Guests input details and upload bank transfer slips directly, speeding up front-desk check-in.</li>
-                </ul>
-            </div>
-            <div class="feature-visual">
-                <div class="media-frame">
-                    <img src="imagens_para_index/portal_hospede_verificar_vaga.png" alt="Portal do Hóspede - Verificação de Vagas">
-                    <div class="media-caption">Self-Service Guest Booking Portal with Real-Time Vacancy Lookup</div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- RODAPÉ INSTITUCIONAL -->
+  <div class="text-center text-muted small py-3">
+    &copy; 2026 <strong>DIGITALUB ANGOLA, LDA</strong> &middot; Todos os direitos reservados. Odoo &eacute; uma marca registada de Odoo S.A.
+  </div>
 
-    <!-- SECTION: SERVICES SHOWCASE (REORGANIZED FOR HARMONIC DISPLAY) -->
-    <section class="section-container">
-        <div class="section-header">
-            <span class="feature-tag">Multi-Department Room Charges</span>
-            <h2 class="section-title">Integrated Room Orders &amp; Consumption Billing</h2>
-            <p class="section-subtitle">Seamlessly charge ancillary hotel services directly to the guest's folio in real time across all operational departments.</p>
-        </div>
-
-        <div class="service-showcase-list">
-            <!-- Service 1: Restaurante / Room Service -->
-            <div class="service-showcase-item">
-                <div class="service-showcase-content">
-                    <div class="service-icon-title">
-                        <i class="fa fa-cutlery"></i>
-                        <h4>Restaurant &amp; Room Service</h4>
-                    </div>
-                    <p class="service-desc">
-                        Quick order entry for breakfast, lunch, beverages, and in-room dining. Restaurant kitchen orders calculate applicable taxes and post directly to the guest's folio ledger.
-                    </p>
-                </div>
-                <div class="service-showcase-visual">
-                    <div class="media-frame">
-                        <img src="imagens_para_index/pedidos_restaurante.png" alt="Pedidos de Restaurante Associados ao Quarto">
-                        <div class="media-caption">Meal Order Logging &amp; Integrated Folio Billing</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Service 2: Lavandaria -->
-            <div class="service-showcase-item">
-                <div class="service-showcase-content">
-                    <div class="service-icon-title">
-                        <i class="fa fa-refresh"></i>
-                        <h4>Hospitality Laundry &amp; Dry Cleaning</h4>
-                    </div>
-                    <p class="service-desc">
-                        Track washing, pressing, and dry-cleaning cycles for guest garments. Items feature preconfigured unit pricing and automatic tax calculations.
-                    </p>
-                </div>
-                <div class="service-showcase-visual">
-                    <div class="media-frame">
-                        <img src="imagens_para_index/pedidos_lavandaria.png" alt="Serviços de Lavandaria do Quarto">
-                        <div class="media-caption">Laundry Item Processing &amp; Cleaning Status Workflow</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Service 3: Transfers & Transporte -->
-            <div class="service-showcase-item">
-                <div class="service-showcase-content">
-                    <div class="service-icon-title">
-                        <i class="fa fa-car"></i>
-                        <h4>Airport Transfers &amp; Chauffeur Logistics</h4>
-                    </div>
-                    <p class="service-desc">
-                        Schedule airport shuttles, city tours, and VIP executive transportation. Record route types, designated rates, and assigned drivers seamlessly attached to the guest folio.
-                    </p>
-                </div>
-                <div class="service-showcase-visual">
-                    <div class="media-frame">
-                        <img src="imagens_para_index/pedidos_transporte.png" alt="Registo de Pedidos de Transporte Aeroporto">
-                        <div class="media-caption">Airport Shuttle Dispatch &amp; Route Rate Scheduling</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION: BI & REPORTING -->
-    <section class="section-container">
-        <div class="section-header">
-            <span class="feature-tag">Executive Intelligence</span>
-            <h2 class="section-title">Hospitality BI, Occupancy Heatmaps &amp; Financial Analytics</h2>
-            <p class="section-subtitle">Track key hospitality performance indicators (KPIs) daily, by room category, or by revenue department.</p>
-        </div>
-
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <div class="media-frame">
-                    <img src="imagens_para_index/analise_ocupacao.png" alt="BI de Análise de Ocupação de Quartos">
-                </div>
-                <h4 class="gallery-title">Real-Time Occupancy Rate BI</h4>
-                <p class="gallery-desc">Dynamic analytics with interactive pivot tables and charts tracking room occupancy trends and seasonal variations.</p>
-            </div>
-            <div class="gallery-item">
-                <div class="media-frame">
-                    <img src="imagens_para_index/analise_por_area.png" alt="BI de Análise de Receita por Setores">
-                </div>
-                <h4 class="gallery-title">Departmental Revenue Breakdown</h4>
-                <p class="gallery-desc">Consolidated visual breakdown of revenue generated by accommodation, dining, laundry, transfers, and front-desk POS sales.</p>
-            </div>
-            <div class="gallery-item">
-                <div class="media-frame">
-                    <img src="imagens_para_index/relatorio_ocupacao.png" alt="Ficha de Reserva e Relatório em PDF">
-                </div>
-                <h4 class="gallery-title">Comprehensive PDF &amp; Folio Reports</h4>
-                <p class="gallery-desc">Generate high-resolution PDF audit sheets, folio statements, and management summaries in 1 click.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- SUMMARY OF EXTRA FEATURES -->
-    <section class="section-container">
-        <div class="section-header">
-            <h2 class="section-title">Enterprise Technical Architecture</h2>
-            <p class="section-subtitle">Built following strict Odoo ERP framework standards and modular best practices.</p>
-        </div>
-
-        <div class="cards-grid">
-            <div class="digitalub-card">
-                <div class="card-icon icon-blue">
-                    <i class="fa fa-envelope-o"></i>
-                </div>
-                <h4 class="card-title">Automated Communications</h4>
-                <p class="card-desc">Automated email dispatch of confirmation booking vouchers upon validation, and detailed checkout folio statements with thank-you notes.</p>
-            </div>
-            <div class="digitalub-card">
-                <div class="card-icon icon-emerald">
-                    <i class="fa fa-shield"></i>
-                </div>
-                <h4 class="card-title">Granular Access Roles &amp; Security</h4>
-                <p class="card-desc">Pre-configured role-based security groups (CSV) separating Receptionists, Hotel Managers, Housekeeping staff, and Billing Accountants.</p>
-            </div>
-            <div class="digitalub-card">
-                <div class="card-icon icon-amber">
-                    <i class="fa fa-shopping-cart"></i>
-                </div>
-                <h4 class="card-title">Native POS Terminal Integration</h4>
-                <p class="card-desc">Allows guests to purchase snacks, cocktails, or souvenirs at hotel retail outlets and post charges directly to their room folio.</p>
-            </div>
-            <div class="digitalub-card">
-                <div class="card-icon icon-purple">
-                    <i class="fa fa-money"></i>
-                </div>
-                <h4 class="card-title">Dynamic Room Pricing Tiers</h4>
-                <p class="card-desc">Automated pricing calculation based on configured room categories, seasonal price lists, and reception-level authorized discounts.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- CALL TO ACTION (Footer) -->
-    <section class="digitalub-cta">
-        <h3>Ready to Transform Your Hotel Operations?</h3>
-        <p>Supercharge hospitality efficiency with an enterprise PMS fully integrated into Odoo 17, designed for high occupancy, multi-service billing, and complete reliability.</p>
-        <div class="cta-buttons">
-            <a href="mailto:suporte@digitalub.ao" class="btn-cta">
-                <i class="fa fa-envelope-o mr-2"></i> Request Enterprise Demo / Support
-            </a>
-            <a href="https://www.digitalub.ao" target="_blank" class="btn-secondary-cta">
-                <i class="fa fa-globe mr-2"></i> Visit Digitalub Official Website
-            </a>
-        </div>
-    </section>
-</div>
-
-</body>
-</html>
+</section>
