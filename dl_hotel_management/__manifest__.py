@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Complete Hotel & Hospitality Management PMS',
-    'version': '17.0.1.0.5',
+    'version': '17.0.1.0.6',
     'category': 'Industries',
     'summary': 'All-in-One Hotel PMS: Room Bookings, Guest Folios, Housekeeping, Dining & Billing Management',
     'description': """
