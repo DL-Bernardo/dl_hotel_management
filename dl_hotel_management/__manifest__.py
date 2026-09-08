@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Hotel Management System - Complete Hospitality PMS Suite',
-    'version': '17.0.1.0.2',
+    'name': 'Complete Hotel & Hospitality Management PMS',
+    'version': '17.0.1.0.3',
     'category': 'Industries',
-    'summary': 'All-in-One Hotel PMS: Room Bookings, Folio Billing, Interactive Occupancy Matrix, Housekeeping, Restaurant & Laundry',
+    'summary': 'All-in-One Hotel PMS: Room Bookings, Guest Folios, Housekeeping, Dining & Billing Management',
     'description': """
         Enterprise Hotel Management System (PMS) for Odoo 17.
         Key Features:
@@ -20,7 +20,7 @@
     'license': 'OPL-1',
 
     # Configuração de Preço Comercial Recomendado
-    'price': 650.00,
+    'price': 460.0,
     'currency': 'EUR',
 
     # Dependências do módulo
