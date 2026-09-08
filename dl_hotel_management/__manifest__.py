@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Complete Hotel & Hospitality Management PMS',
-    'version': '17.0.1.0.3',
+    'version': '17.0.1.0.4',
     'category': 'Industries',
     'summary': 'All-in-One Hotel PMS: Room Bookings, Guest Folios, Housekeeping, Dining & Billing Management',
     'description': """
@@ -60,7 +60,7 @@
 
     # Padrão de imagem de alta conversão para a loja
     'images': [
-        'static/description/main_screenshot.png',
+        'static/description/banner.png',
         'static/description/imagens_para_index/matriz_ocupacao1.png',
         'static/description/imagens_para_index/portal_hospede_verificar_vaga.png',
         'static/description/imagens_para_index/analise_ocupacao.png',
