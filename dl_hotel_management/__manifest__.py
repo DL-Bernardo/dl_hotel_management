@@ -1,22 +1,23 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Digitalub - Gestão Hoteleira Completa (PMS)',
-    'version': '17.0.1.0.1',
+    'name': 'Hotel Management System - Complete Hospitality PMS Suite',
+    'version': '17.0.1.0.2',
     'category': 'Industries',
-    'summary': 'Gestão completa de quartos, reservas, lavandaria, restaurante e transporte integrado.',
+    'summary': 'All-in-One Hotel PMS: Room Bookings, Folio Billing, Interactive Occupancy Matrix, Housekeeping, Restaurant & Laundry',
     'description': """
-        Módulo de Gestão Hoteleira (PMS) avançado e integrado para o Odoo 17.
-        Funcionalidades:
-        - Gestão de Status de Quartos com Vista Kanban intuitiva.
-        - Ciclo completo de Reservas (Check-in, Check-out e No-show).
-        - Integração de Serviços de Lavandaria e Restaurante diretamente no quarto.
-        - Controlo de Transporte e Transfers de Hóspedes.
-        - Faturação unificada de consumos e estadias (Hotel Folios).
+        Enterprise Hotel Management System (PMS) for Odoo 17.
+        Key Features:
+        - Interactive Visual Occupancy Matrix & Kanban Room Rack.
+        - End-to-end Booking Lifecycle (Check-in, Check-out, No-Show management).
+        - Multi-Department Room Folio Billing (Laundry, Restaurant, Minibar).
+        - Guest Transportation & Airport Shuttle Fleet Logistics.
+        - Comprehensive Hospitality BI: Occupancy Rates, RevPAR & Financial Analytics.
+        - Self-Service Guest Booking Portal with WhatsApp & Email confirmations.
     """,
     'author': 'DIGITALUB ANGOLA, LDA',
     'website': 'https://www.digitalub.ao',
     'support': 'suporte@digitalub.ao',
-    'license': 'OPL-1',  # Alterado para OPL-1 para proteger um módulo deste valor comercial
+    'license': 'OPL-1',
 
     # Configuração de Preço Comercial Recomendado
     'price': 650.00,
