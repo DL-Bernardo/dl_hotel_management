@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Complete Hotel & Hospitality Management PMS',
-    'version': '17.0.1.0.7',
+    'version': '17.0.1.0.8',
     'category': 'Industries',
     'summary': 'All-in-One Hotel PMS: Room Bookings, Guest Folios, Housekeeping, Dining & Billing Management',
     'description': """
@@ -21,7 +21,7 @@
 
     # Configuração de Preço Comercial Recomendado
     'price': 490.0,
-    'currency': 'EUR',
+    'currency': 'USD',
 
     # Dependências do módulo
     'depends': [
