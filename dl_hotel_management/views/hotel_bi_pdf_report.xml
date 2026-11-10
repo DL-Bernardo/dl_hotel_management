@@ -7,7 +7,6 @@
         <field name="model">hotel.booking</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">dl_hotel_management.report_bi_ocupacao_template</field>
-        <field name="report_file">dl_hotel_management.report_bi_ocupacao_template</field>
         <field name="print_report_name">'Relatorio_BI_Ocupacao_%s' % (fields.Date.today())</field>
         <field name="binding_model_id" eval="False"/>
     </record>
@@ -17,7 +16,6 @@
         <field name="model">hotel.laundry.line</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">dl_hotel_management.report_bi_lavanderia_template</field>
-        <field name="report_file">dl_hotel_management.report_bi_lavanderia_template</field>
         <field name="print_report_name">'Relatorio_BI_Lavanderia_%s' % (fields.Date.today())</field>
         <field name="binding_model_id" eval="False"/>
     </record>
@@ -27,7 +25,6 @@
         <field name="model">hotel.restaurant.line</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">dl_hotel_management.report_bi_restaurante_template</field>
-        <field name="report_file">dl_hotel_management.report_bi_restaurante_template</field>
         <field name="print_report_name">'Relatorio_BI_Restaurante_%s' % (fields.Date.today())</field>
         <field name="binding_model_id" eval="False"/>
     </record>
@@ -37,7 +34,6 @@
         <field name="model">hotel.transport.request</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">dl_hotel_management.report_bi_transporte_template</field>
-        <field name="report_file">dl_hotel_management.report_bi_transporte_template</field>
         <field name="print_report_name">'Relatorio_BI_Transporte_%s' % (fields.Date.today())</field>
         <field name="binding_model_id" eval="False"/>
     </record>

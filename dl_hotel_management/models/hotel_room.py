@@ -16,7 +16,7 @@ class HotelRoomType(models.Model):
 
     name = fields.Char(string='Tipo (Ex: Standard, Deluxe)', required=True)
     base_price = fields.Float(string='Preço Base por Noite', required=True, default=0.0)
-    tax_id = fields.Many2one('account.tax', string='Imposto', required=True, domain=[('type_tax_use', '=', 'sale')])
+    tax_id = fields.Many2one('account.tax', string='Imposto', domain=[('type_tax_use', '=', 'sale')])
     description = fields.Text(string='Descrição')
     company_id = fields.Many2one('res.company', string='Hotel/Empresa', default=lambda self: self.env.company, required=True)
 

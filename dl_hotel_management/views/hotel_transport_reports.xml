@@ -6,7 +6,6 @@
         <field name="model">hotel.transport.request</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">dl_hotel_management.report_hotel_transport</field>
-        <field name="report_file">dl_hotel_management.report_hotel_transport</field>
         <field name="print_report_name">'Ordem_Servico_Transporte_%s' % (object.name)</field>
         <field name="binding_model_id" ref="model_hotel_transport_request"/>
         <field name="binding_type">report</field>

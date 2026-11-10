@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="dl_hotel_management.PivotView.Buttons" t-inherit="web.PivotView.Buttons" t-inherit-mode="primary">
-        <xpath expr="//div[hasclass('o_pivot_buttons')]" position="inside">
+        <xpath expr="//div[hasclass('btn-group')][last()]" position="after">
             <button type="button" class="btn btn-primary o_bi_print_pdf ms-2" t-on-click="onPrintPdfClick">
                 <i class="fa fa-print me-1"/>Imprimir PDF
             </button>

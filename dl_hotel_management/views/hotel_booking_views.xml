@@ -16,7 +16,7 @@
         <field name="name">hotel.booking.tree</field>
         <field name="model">hotel.booking</field>
         <field name="arch" type="xml">
-            <tree string="Reservas" decoration-success="status=='checked_in'" decoration-info="status=='confirmed'" decoration-muted="status=='draft'">
+            <list string="Reservas" decoration-success="status=='checked_in'" decoration-info="status=='confirmed'" decoration-muted="status=='draft'">
                 <field name="name"/>
                 <field name="partner_id"/>
                 <field name="check_in"/>
@@ -28,7 +28,7 @@
                        decoration-warning="status == 'checked_out'"
                        decoration-danger="status == 'cancelled'"/>
                 <field name="total_amount_with_tax" string="Total" widget="monetary"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -81,7 +81,7 @@
                     <notebook>
                         <page string="Quartos na Reserva" name="rooms">
                             <field name="room_line_ids" readonly="status != 'draft'">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="room_id"/>
                                     <field name="room_type_id"/>
                                     <field name="check_in"/>
@@ -91,7 +91,7 @@
                                     <field name="subtotal" sum="Subtotal"/>
                                     <field name="price_tax" sum="Imposto"/>
                                     <field name="price_total" sum="Total"/>
-                                </tree>
+                                </list>
                             </field>
                             <group class="oe_subtotal_footer oe_right">
                                 <field name="total_amount" widget="monetary" string="Subtotal"/>
@@ -104,12 +104,12 @@
                         </page>
                         <page string="Hóspedes Registrados" name="guests">
                             <field name="guest_line_ids" readonly="status != 'draft'">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="name"/>
                                     <field name="room_id"/>
                                     <field name="document_type"/>
                                     <field name="document_number"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Extrato de Conta / Fólio" name="folio_extract">
@@ -135,20 +135,16 @@
                         </page>
                         <page string="Consumos do POS" name="pos_orders">
                             <field name="pos_order_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="name"/>
                                     <field name="date_order"/>
                                     <field name="amount_total" sum="Total POS"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -156,7 +152,7 @@
     <record id="action_hotel_booking" model="ir.actions.act_window">
         <field name="name">Reservas</field>
         <field name="res_model">hotel.booking</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Crie a primeira reserva do hotel!
