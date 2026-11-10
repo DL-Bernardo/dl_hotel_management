@@ -46,10 +46,10 @@
         <field name="arch" type="xml">
             <form string="Lavanderia">
                 <header>
-                    <button name="action_confirm" string="Confirmar" type="object" class="oe_highlight" invisible="status != 'draft'"/>
-                    <button name="action_pickup" string="Recolher" type="object" class="oe_highlight" invisible="status != 'confirmed'"/>
-                    <button name="action_process" string="Processar" type="object" class="oe_highlight" invisible="status != 'pickup'"/>
-                    <button name="action_deliver" string="Entregar" type="object" class="oe_highlight" invisible="status != 'in_process'"/>
+                    <button name="action_confirm" string="Confirmar" type="object" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'draft')]}"/>
+                    <button name="action_pickup" string="Recolher" type="object" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'confirmed')]}"/>
+                    <button name="action_process" string="Processar" type="object" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'pickup')]}"/>
+                    <button name="action_deliver" string="Entregar" type="object" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'in_process')]}"/>
                     <button name="action_print_lavandaria" string="Imprimir" type="object" class="oe_highlight"/>
                     <field name="status" widget="statusbar" statusbar_visible="draft,confirmed,pickup,in_process,delivered" options="{'clickable': '1'}"/>
                 </header>
@@ -59,14 +59,14 @@
                         <group>
                             <field name="name"/>
                             <field name="room_id" readonly="1" force_save="1"/>
-                            <field name="booking_id" readonly="status != 'draft'"/>
-                            <field name="date" readonly="status != 'draft'"/>
+                            <field name="booking_id" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="date" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Itens">
-                            <field name="line_ids" readonly="status != 'draft'">
+                            <field name="line_ids" attrs="{'readonly': [('status', '!=', 'draft')]}">
                                 <tree editable="bottom">
                                     <field name="servico_id"/>
                                     <field name="qty"/>
@@ -111,9 +111,9 @@
         <field name="arch" type="xml">
             <form string="Restaurante">
                 <header>
-                    <button name="action_confirm" string="Confirmar" type="object" class="oe_highlight" invisible="status != 'draft'"/>
-                    <button name="action_in_prep" string="Preparar" type="object" class="oe_highlight" invisible="status != 'confirmed'"/>
-                    <button name="action_deliver" string="Entregar" type="object" class="oe_highlight" invisible="status != 'in_prep'"/>
+                    <button name="action_confirm" string="Confirmar" type="object" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'draft')]}"/>
+                    <button name="action_in_prep" string="Preparar" type="object" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'confirmed')]}"/>
+                    <button name="action_deliver" string="Entregar" type="object" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'in_prep')]}"/>
                     <button name="action_print_restaurante" string="Imprimir" type="object" class="oe_highlight"/>
                     <field name="status" widget="statusbar" statusbar_visible="draft,confirmed,in_prep,delivered" options="{'clickable': '1'}"/>
                 </header>
@@ -123,14 +123,14 @@
                         <group>
                             <field name="name"/>
                             <field name="room_id" readonly="1" force_save="1"/>
-                            <field name="booking_id" readonly="status != 'draft'"/>
-                            <field name="date" readonly="status != 'draft'"/>
+                            <field name="booking_id" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="date" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Itens">
-                            <field name="line_ids" readonly="status != 'draft'">
+                            <field name="line_ids" attrs="{'readonly': [('status', '!=', 'draft')]}">
                                 <tree editable="bottom">
                                     <field name="servico_id"/>
                                     <field name="qty"/>
@@ -179,9 +179,9 @@
         <field name="arch" type="xml">
             <form string="Transporte">
                 <header>
-                    <button name="action_confirm" string="Confirmar" type="object" class="oe_highlight" invisible="status != 'draft'"/>
-                    <button name="action_in_progress" string="Iniciar Viagem" type="object" class="oe_highlight" invisible="status != 'confirmed'"/>
-                    <button name="action_complete" string="Concluir" type="object" class="oe_highlight" invisible="status != 'in_progress'"/>
+                    <button name="action_confirm" string="Confirmar" type="object" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'draft')]}"/>
+                    <button name="action_in_progress" string="Iniciar Viagem" type="object" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'confirmed')]}"/>
+                    <button name="action_complete" string="Concluir" type="object" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'in_progress')]}"/>
                     <button name="action_print_transporte" string="Imprimir" type="object" class="oe_highlight"/>
                     <field name="status" widget="statusbar" statusbar_visible="draft,confirmed,in_progress,completed" options="{'clickable': '1'}"/>
                 </header>
@@ -194,9 +194,9 @@
                     </div>
                     <group string="Associação à Reserva">
                         <group>
-                            <field name="booking_id" readonly="status != 'draft'"/>
+                            <field name="booking_id" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
                             <field name="room_id" readonly="1" force_save="1"/>
-                            <field name="guest_name" readonly="status != 'draft'"/>
+                            <field name="guest_name" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
                         </group>
                         <group>
                             <field name="company_id" groups="base.group_multi_company"/>
@@ -204,21 +204,21 @@
                     </group>
                     <group string="Detalhes da Viagem">
                         <group>
-                            <field name="servico_id" readonly="status != 'draft'"/>
-                            <field name="tipo_trajeto" readonly="status != 'draft'"/>
-                            <field name="local_origem" readonly="status != 'draft'"/>
-                            <field name="local_destino" readonly="status != 'draft'"/>
+                            <field name="servico_id" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="tipo_trajeto" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="local_origem" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="local_destino" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
                         </group>
                         <group>
-                            <field name="data_hora_viagem" readonly="status != 'draft'"/>
-                            <field name="num_passageiros" readonly="status != 'draft'"/>
-                            <field name="notas_voo" readonly="status != 'draft'"/>
+                            <field name="data_hora_viagem" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="num_passageiros" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="notas_voo" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
                         </group>
                     </group>
                     <group string="Valores do Serviço">
                         <group>
-                            <field name="preco_base" readonly="status != 'draft'"/>
-                            <field name="imposto_id" readonly="status != 'draft'"/>
+                            <field name="preco_base" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="imposto_id" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
                         </group>
                         <group class="oe_subtotal_footer oe_right">
                             <field name="subtotal" widget="monetary" string="Subtotal" force_save="1"/>
@@ -255,12 +255,12 @@
         <field name="arch" type="xml">
             <form string="Folio">
                 <header>
-                    <button name="action_create_invoice" string="Emitir Fatura Certificada" type="object" class="oe_highlight" invisible="status == 'closed' or invoice_id"/>
+                    <button name="action_create_invoice" string="Emitir Fatura Certificada" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('status', '=', 'closed'), ('invoice_id', '!=', False)]}"/>
                     <field name="status" widget="statusbar" statusbar_visible="open,closed"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" invisible="not invoice_id">
+                        <button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('invoice_id', '=', False)]}">
                             <div class="o_stat_info">
                                 <span class="o_stat_text">Fatura Odoo</span>
                             </div>

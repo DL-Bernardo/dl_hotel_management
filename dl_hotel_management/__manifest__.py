@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Complete Hotel & Hospitality Management PMS',
-    'version': '17.0.1.0.8',
+    'version': '15.0.1.0.8',
     'category': 'Industries',
     'summary': 'All-in-One Hotel PMS: Room Bookings, Guest Folios, Housekeeping, Dining & Billing Management',
     'description': """
@@ -43,7 +43,6 @@
         'data/laundry_service_data.xml',
         'data/restaurant_service_data.xml',
         'data/transport_service_data.xml',
-        'data/hotel_email_templates.xml',
         'views/hotel_menus.xml',
         'views/hotel_room_views.xml',
         'views/hotel_services_views.xml',
@@ -51,6 +50,7 @@
         'views/pos_order_views.xml',
         'views/hotel_portal_templates.xml',
         'views/hotel_booking_reports.xml',
+        'data/hotel_email_templates.xml',
         'views/hotel_laundry_reports.xml',
         'views/hotel_restaurant_reports.xml',
         'views/hotel_transport_reports.xml',
@@ -68,11 +68,15 @@
     ],
     
     'assets': {
+        'web.assets_qweb': [
+            'dl_hotel_management/static/src/xml/bi_pivot_view.xml',
+            'dl_hotel_management/static/src/xml/occupancy_matrix.xml',
+        ],
         'web.assets_backend': [
             'dl_hotel_management/static/src/js/bi_pivot_view.js',
-            'dl_hotel_management/static/src/xml/bi_pivot_view.xml',
+            
             'dl_hotel_management/static/src/js/occupancy_matrix.js',
-            'dl_hotel_management/static/src/xml/occupancy_matrix.xml',
+            
             'dl_hotel_management/static/src/css/occupancy_matrix.css',
         ],
         'web.assets_frontend': [
