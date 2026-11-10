@@ -8,7 +8,6 @@
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
-            <field name="sale_line_warn">no-message</field>
         </record>
 
         <!-- Serviço de Lavandaria -->
@@ -18,7 +17,6 @@
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
-            <field name="sale_line_warn">no-message</field>
         </record>
 
         <!-- Serviço de Restaurante -->
@@ -28,7 +26,6 @@
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
-            <field name="sale_line_warn">no-message</field>
         </record>
 
         <!-- Serviço de Transporte -->
@@ -38,7 +35,6 @@
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
-            <field name="sale_line_warn">no-message</field>
         </record>
     </data>
 </odoo>

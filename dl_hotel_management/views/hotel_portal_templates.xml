@@ -444,23 +444,5 @@
             </div>
         </t>
     </template>
-    <!-- Traduções para Português do Painel do Portal -->
-    <template id="portal_layout_my_account_pt" inherit_id="portal.portal_layout" name="Portal Layout My Account PT">
-        <xpath expr="//div[hasclass('wrapper')]/h3[hasclass('my-3')]" position="replace">
-            <h3 class="my-3">A Minha Conta</h3>
-        </xpath>
-    </template>
-
-    <template id="portal_my_home_invoice_pt" inherit_id="account.portal_my_home_invoice" name="Portal My Home Invoice PT">
-        <xpath expr="//div[@id='portal_client_category']/t/t[@t-set='title']" position="replace">
-            <t t-set="title">As Minhas Faturas</t>
-        </xpath>
-    </template>
-
-    <template id="portal_my_home_security_pt" inherit_id="portal.portal_my_home" name="Portal My Home Security PT">
-        <xpath expr="//div[@id='portal_common_category']/t/t[@t-set='title']" position="replace">
-            <t t-set="title">Conexão e Segurança</t>
-        </xpath>
-    </template>
 
 </odoo>

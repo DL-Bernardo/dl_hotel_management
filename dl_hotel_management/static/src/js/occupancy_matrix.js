@@ -197,5 +197,6 @@ class OccupancyMatrix extends Component {
 }
 
 OccupancyMatrix.template = "dl_hotel_management.OccupancyMatrix";
+OccupancyMatrix.props = { "*": true };
 
 registry.category("actions").add("hotel_occupancy_matrix", OccupancyMatrix);

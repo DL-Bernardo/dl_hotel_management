@@ -62,6 +62,7 @@
     'images': [
         'static/description/banner.png',
         'static/description/imagens_para_index/matriz_ocupacao1.png',
+        'static/description/imagens_para_index/emitir_factura_certificada.png',
         'static/description/imagens_para_index/portal_hospede_verificar_vaga.png',
         'static/description/imagens_para_index/analise_ocupacao.png',
     ],

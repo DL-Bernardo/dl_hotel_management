@@ -74,5 +74,14 @@ export const biGraphView = {
     buttonTemplate: "dl_hotel_management.GraphView.Buttons",
 };
 
-registry.category("views").add("bi_pivot_view", biPivotView);
-registry.category("views").add("bi_graph_view", biGraphView);
+try {
+    const viewRegistry = registry.category("views");
+    if (!viewRegistry.contains("bi_pivot_view")) {
+        viewRegistry.add("bi_pivot_view", biPivotView);
+    }
+    if (!viewRegistry.contains("bi_graph_view")) {
+        viewRegistry.add("bi_graph_view", biGraphView);
+    }
+} catch (e) {
+    // Fallback across Odoo versions
+}
