@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-    <t t-name="dl_hotel_management.OccupancyMatrix" owl="1">
+    <t t-name="dl_hotel_management.OccupancyMatrix">
         <div class="o_occupancy_matrix h-100 d-flex flex-column bg-light">
             <!-- Header bar with Navigation -->
             <div class="d-flex justify-content-between align-items-center p-3 bg-white border-bottom shadow-sm">
