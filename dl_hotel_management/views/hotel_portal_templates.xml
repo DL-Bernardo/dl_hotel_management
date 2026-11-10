@@ -22,7 +22,7 @@
         <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
             <t t-set="portal_client_category_enable" t-value="True"/>
         </xpath>
-        <div id="portal_client_category" position="inside">
+        <xpath expr="(//div[@id='portal_client_category'] | //div[hasclass('o_portal_docs')])[last()]" position="inside">
             <!-- Cartão Minhas Reservas -->
             <t t-call="portal.portal_docs_entry">
                 <t t-set="icon" t-value="'/dl_hotel_management/static/description/icon.svg'"/>
@@ -38,7 +38,7 @@
                 <t t-set="text">Consulte a disponibilidade de quartos em tempo real</t>
                 <t t-set="config_card" t-value="True"/>
             </t>
-        </div>
+        </xpath>
     </template>
 
     <!-- 3. Lista de Reservas (/my/bookings) -->
@@ -328,22 +328,6 @@
         </t>
     </template>
 
-    <!-- 5. Personalização da página de login para colocar um botão proeminente de registo -->
-    <template id="hotel_auth_signup_login_inherit" inherit_id="auth_signup.login" name="Hotel Portal Login Customization">
-        <xpath expr="//div[hasclass('justify-content-between')]" position="replace">
-            <div class="mt-3 text-center">
-                <!-- Botão Criar Conta principal -->
-                <a t-if="signup_enabled" t-attf-href="/web/signup?{{ keep_query() }}" class="btn btn-outline-secondary w-100 fw-bold py-2 mb-2" role="button">
-                    <i class="fa fa-user-plus me-1"/>Criar Conta de Hóspede
-                </a>
-                <!-- Link secundário para Recuperar Senha -->
-                <a t-if="reset_password_enabled" t-attf-href="/web/reset_password?{{ keep_query() }}" class="text-muted small">
-                    Esqueceu-se da palavra-passe?
-                </a>
-            </div>
-        </xpath>
-    </template>
-
     <!-- 6. Tela para o usuário verificar vagas no hotel -->
     <template id="portal_my_vacancies" name="Verificar Vagas no Hotel">
         <t t-call="portal.portal_layout">
@@ -443,24 +427,6 @@
                 </div>
             </div>
         </t>
-    </template>
-    <!-- Traduções para Português do Painel do Portal -->
-    <template id="portal_layout_my_account_pt" inherit_id="portal.portal_layout" name="Portal Layout My Account PT">
-        <xpath expr="//div[hasclass('wrapper')]/h3[hasclass('my-3')]" position="replace">
-            <h3 class="my-3">A Minha Conta</h3>
-        </xpath>
-    </template>
-
-    <template id="portal_my_home_invoice_pt" inherit_id="account.portal_my_home_invoice" name="Portal My Home Invoice PT">
-        <xpath expr="//div[@id='portal_client_category']/t/t[@t-set='title']" position="replace">
-            <t t-set="title">As Minhas Faturas</t>
-        </xpath>
-    </template>
-
-    <template id="portal_my_home_security_pt" inherit_id="portal.portal_my_home" name="Portal My Home Security PT">
-        <xpath expr="//div[@id='portal_common_category']/t/t[@t-set='title']" position="replace">
-            <t t-set="title">Conexão e Segurança</t>
-        </xpath>
     </template>
 
 </odoo>

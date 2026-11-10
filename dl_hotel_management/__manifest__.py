@@ -43,7 +43,6 @@
         'data/laundry_service_data.xml',
         'data/restaurant_service_data.xml',
         'data/transport_service_data.xml',
-        'data/hotel_email_templates.xml',
         'views/hotel_menus.xml',
         'views/hotel_room_views.xml',
         'views/hotel_services_views.xml',
@@ -51,6 +50,7 @@
         'views/pos_order_views.xml',
         'views/hotel_portal_templates.xml',
         'views/hotel_booking_reports.xml',
+        'data/hotel_email_templates.xml',
         'views/hotel_laundry_reports.xml',
         'views/hotel_restaurant_reports.xml',
         'views/hotel_transport_reports.xml',
@@ -62,6 +62,7 @@
     'images': [
         'static/description/banner.png',
         'static/description/imagens_para_index/matriz_ocupacao1.png',
+        'static/description/imagens_para_index/emitir_factura_certificada.png',
         'static/description/imagens_para_index/portal_hospede_verificar_vaga.png',
         'static/description/imagens_para_index/analise_ocupacao.png',
     ],
