@@ -106,7 +106,7 @@
                 </table>
             </field>
             <!-- Linkar o PDF gerado automaticamente -->
-            <field name="report_template_ids" eval="[(4, ref('dl_hotel_management.action_report_hotel_booking'))]"/>
+            <field name="report_template" ref="dl_hotel_management.action_report_hotel_booking"/>
         </record>
 
         <!-- Template de Email de Agradecimento de Check-Out -->
@@ -212,7 +212,7 @@
                 </table>
             </field>
             <!-- Linkar o PDF gerado automaticamente (Extrato de Consumo / Fólio) -->
-            <field name="report_template_ids" eval="[(4, ref('dl_hotel_management.action_report_hotel_booking'))]"/>
+            <field name="report_template" ref="dl_hotel_management.action_report_hotel_booking"/>
         </record>
     </data>
 </odoo>

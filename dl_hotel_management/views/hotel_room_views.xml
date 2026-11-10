@@ -140,7 +140,7 @@
                     <field name="status" widget="statusbar" statusbar_visible="vacant,reserved,occupied"/>
                 </header>
                 <sheet>
-                    <widget name="web_ribbon" title="Inativo" bg_color="text-bg-danger" invisible="is_active"/>
+                    <widget name="web_ribbon" title="Inativo" bg_color="text-bg-danger" attrs="{'invisible': [('is_active', '=', True)]}"/>
                     <div class="oe_title">
                         <h1>
                             <field name="name" placeholder="Ex: Room G101"/>
