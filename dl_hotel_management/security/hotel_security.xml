@@ -11,131 +11,54 @@
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
-        <!-- Grupo Gerente -->
+                <!-- Grupo Gerente -->
         <record id="group_hotel_manager" model="res.groups">
             <field name="name">Gerente / Administrador</field>
-            
             <field name="implied_ids" eval="[(4, ref('group_hotel_recepcao'))]"/>
         </record>
-        <!-- Regra de Empresa para Andares -->
-        <record id="hotel_floor_comp_rule" model="ir.rule">
-            <field name="name">Hotel Floor Multi-Company</field>
-            <field name="model_id" ref="model_hotel_floor"/>
-            <field name="global" eval="True"/>
-            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+
+        <record id="base.group_system" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('group_hotel_manager'))]"/>
         </record>
+        <!-- Regra de Empresa para Andares -->
+        
 
         <!-- Regra de Empresa para Tipos de Quarto -->
-        <record id="hotel_room_type_comp_rule" model="ir.rule">
-            <field name="name">Hotel Room Type Multi-Company</field>
-            <field name="model_id" ref="model_hotel_room_type"/>
-            <field name="global" eval="True"/>
-            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
-        </record>
+        
 
         <!-- Regra de Empresa para Quartos -->
-        <record id="hotel_room_comp_rule" model="ir.rule">
-            <field name="name">Hotel Room Multi-Company</field>
-            <field name="model_id" ref="model_hotel_room"/>
-            <field name="global" eval="True"/>
-            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
-        </record>
+        
 
         <!-- Regra de Empresa para Reservas -->
-        <record id="hotel_booking_comp_rule" model="ir.rule">
-            <field name="name">Hotel Booking Multi-Company</field>
-            <field name="model_id" ref="model_hotel_booking"/>
-            <field name="global" eval="True"/>
-            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
-        </record>
+        
 
         <!-- Regra de Empresa para Folios -->
-        <record id="hotel_folio_comp_rule" model="ir.rule">
-            <field name="name">Hotel Folio Multi-Company</field>
-            <field name="model_id" ref="model_hotel_folio"/>
-            <field name="global" eval="True"/>
-            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
-        </record>
+        
 
         <!-- Regra de Empresa para Lavanderia -->
-        <record id="hotel_laundry_comp_rule" model="ir.rule">
-            <field name="name">Hotel Laundry Multi-Company</field>
-            <field name="model_id" ref="model_hotel_laundry_order"/>
-            <field name="global" eval="True"/>
-            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
-        </record>
+        
 
         <!-- Regra de Empresa para Restaurante -->
-        <record id="hotel_restaurant_comp_rule" model="ir.rule">
-            <field name="name">Hotel Restaurant Multi-Company</field>
-            <field name="model_id" ref="model_hotel_restaurant_order"/>
-            <field name="global" eval="True"/>
-            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
-        </record>
+        
 
         <!-- Regra de Empresa para Transporte -->
-        <record id="hotel_transport_comp_rule" model="ir.rule">
-            <field name="name">Hotel Transport Multi-Company</field>
-            <field name="model_id" ref="model_hotel_transport_request"/>
-            <field name="global" eval="True"/>
-            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
-        </record>
+        
 
         <!-- Regras para Utilizadores do Portal (Restringir ao próprio Hóspede) -->
-        <record id="hotel_booking_portal_rule" model="ir.rule">
-            <field name="name">Portal: Apenas Próprias Reservas</field>
-            <field name="model_id" ref="model_hotel_booking"/>
-            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
-            <field name="domain_force">[('partner_id', '=', user.partner_id.id)]</field>
-        </record>
+        
 
-        <record id="hotel_folio_portal_rule" model="ir.rule">
-            <field name="name">Portal: Apenas Próprios Fólios</field>
-            <field name="model_id" ref="model_hotel_folio"/>
-            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
-            <field name="domain_force">[('booking_id.partner_id', '=', user.partner_id.id)]</field>
-        </record>
+        
 
-        <record id="hotel_restaurant_order_portal_rule" model="ir.rule">
-            <field name="name">Portal: Apenas Próprios Pedidos de Restaurante</field>
-            <field name="model_id" ref="model_hotel_restaurant_order"/>
-            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
-            <field name="domain_force">[('booking_id.partner_id', '=', user.partner_id.id)]</field>
-        </record>
+        
 
-        <record id="hotel_laundry_order_portal_rule" model="ir.rule">
-            <field name="name">Portal: Apenas Próprios Pedidos de Lavandaria</field>
-            <field name="model_id" ref="model_hotel_laundry_order"/>
-            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
-            <field name="domain_force">[('booking_id.partner_id', '=', user.partner_id.id)]</field>
-        </record>
+        
 
-        <record id="hotel_transport_request_portal_rule" model="ir.rule">
-            <field name="name">Portal: Apenas Próprios Pedidos de Transporte</field>
-            <field name="model_id" ref="model_hotel_transport_request"/>
-            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
-            <field name="domain_force">[('booking_id.partner_id', '=', user.partner_id.id)]</field>
-        </record>
+        
 
-        <record id="pos_order_portal_rule" model="ir.rule">
-            <field name="name">Portal: Apenas Próprios Pedidos POS</field>
-            <field name="model_id" ref="point_of_sale.model_pos_order"/>
-            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
-            <field name="domain_force">[('partner_id', '=', user.partner_id.id)]</field>
-        </record>
+        
 
-        <record id="hotel_booking_room_line_portal_rule" model="ir.rule">
-            <field name="name">Portal: Apenas Linhas de Quarto Próprias</field>
-            <field name="model_id" ref="model_hotel_booking_room_line"/>
-            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
-            <field name="domain_force">[('booking_id.partner_id', '=', user.partner_id.id)]</field>
-        </record>
+        
 
-        <record id="hotel_booking_guest_line_portal_rule" model="ir.rule">
-            <field name="name">Portal: Apenas Linhas de Hóspedes Próprias</field>
-            <field name="model_id" ref="model_hotel_booking_guest_line"/>
-            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
-            <field name="domain_force">[('booking_id.partner_id', '=', user.partner_id.id)]</field>
-        </record>
+        
     </data>
 </odoo>

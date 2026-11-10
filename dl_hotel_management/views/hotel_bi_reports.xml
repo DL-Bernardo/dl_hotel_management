@@ -40,7 +40,7 @@
                 <filter string="Este Mês" name="this_month" domain="[('check_in', '&gt;=', context_today().strftime('%Y-%m-01 00:00:00')), ('check_in', '&lt;', (context_today() + relativedelta(months=1)).strftime('%Y-%m-01 00:00:00'))]"/>
                 <filter string="Mês Passado" name="last_month" domain="[('check_in', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01 00:00:00')), ('check_in', '&lt;', context_today().strftime('%Y-%m-01 00:00:00'))]"/>
                 <filter string="Este Ano" name="this_year" domain="[('check_in', '&gt;=', context_today().strftime('%Y-01-01 00:00:00')), ('check_in', '&lt;=', context_today().strftime('%Y-12-31 23:59:59'))]"/>
-                <group expand="0" string="Agrupar Por">
+                <group>
                     <filter string="Quarto" name="group_room" context="{'group_by': 'quarto_id'}"/>
                     <filter string="Data: Mês" name="group_month" context="{'group_by': 'check_in:month'}"/>
                     <filter string="Data: Trimestre" name="group_quarter" context="{'group_by': 'check_in:quarter'}"/>
@@ -88,7 +88,7 @@
                 <filter string="Este Mês" name="this_month" domain="[('date', '&gt;=', context_today().strftime('%Y-%m-01')), ('date', '&lt;', (context_today() + relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
                 <filter string="Mês Passado" name="last_month" domain="[('date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01')), ('date', '&lt;', context_today().strftime('%Y-%m-01'))]"/>
                 <filter string="Este Ano" name="this_year" domain="[('date', '&gt;=', context_today().strftime('%Y-01-01')), ('date', '&lt;=', context_today().strftime('%Y-12-31'))]"/>
-                <group expand="0" string="Agrupar Por">
+                <group>
                     <filter string="Serviço" name="group_service" context="{'group_by': 'servico_id'}"/>
                     <filter string="Data: Mês" name="group_month" context="{'group_by': 'date:month'}"/>
                     <filter string="Data: Trimestre" name="group_quarter" context="{'group_by': 'date:quarter'}"/>
@@ -136,7 +136,7 @@
                 <filter string="Este Mês" name="this_month" domain="[('date', '&gt;=', context_today().strftime('%Y-%m-01')), ('date', '&lt;', (context_today() + relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
                 <filter string="Mês Passado" name="last_month" domain="[('date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01')), ('date', '&lt;', context_today().strftime('%Y-%m-01'))]"/>
                 <filter string="Este Ano" name="this_year" domain="[('date', '&gt;=', context_today().strftime('%Y-01-01')), ('date', '&lt;=', context_today().strftime('%Y-12-31'))]"/>
-                <group expand="0" string="Agrupar Por">
+                <group>
                     <filter string="Prato" name="group_dish" context="{'group_by': 'servico_id'}"/>
                     <filter string="Data: Mês" name="group_month" context="{'group_by': 'date:month'}"/>
                     <filter string="Data: Trimestre" name="group_quarter" context="{'group_by': 'date:quarter'}"/>
@@ -184,7 +184,7 @@
                 <filter string="Este Mês" name="this_month" domain="[('data_hora_viagem', '&gt;=', context_today().strftime('%Y-%m-01 00:00:00')), ('data_hora_viagem', '&lt;', (context_today() + relativedelta(months=1)).strftime('%Y-%m-01 00:00:00'))]"/>
                 <filter string="Mês Passado" name="last_month" domain="[('data_hora_viagem', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01 00:00:00')), ('data_hora_viagem', '&lt;', context_today().strftime('%Y-%m-01 00:00:00'))]"/>
                 <filter string="Este Ano" name="this_year" domain="[('data_hora_viagem', '&gt;=', context_today().strftime('%Y-01-01 00:00:00')), ('data_hora_viagem', '&lt;=', context_today().strftime('%Y-12-31 23:59:59'))]"/>
-                <group expand="0" string="Agrupar Por">
+                <group>
                     <filter string="Serviço/Trajeto" name="group_service" context="{'group_by': 'servico_id'}"/>
                     <filter string="Data: Mês" name="group_month" context="{'group_by': 'data_hora_viagem:month'}"/>
                     <filter string="Data: Trimestre" name="group_quarter" context="{'group_by': 'data_hora_viagem:quarter'}"/>
