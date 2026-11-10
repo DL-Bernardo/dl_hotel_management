@@ -2,22 +2,19 @@
 <odoo>
     <data>
         <!-- Categoria Principal -->
-        <record id="module_category_hotel" model="ir.module.category">
-            <field name="name">Gestão Hoteleira</field>
-            <field name="sequence">20</field>
-        </record>
+        
 
         <!-- Grupo Rececionista -->
         <record id="group_hotel_recepcao" model="res.groups">
             <field name="name">Rececionista</field>
-            <field name="category_id" ref="module_category_hotel"/>
+            
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
         <!-- Grupo Gerente -->
         <record id="group_hotel_manager" model="res.groups">
             <field name="name">Gerente / Administrador</field>
-            <field name="category_id" ref="module_category_hotel"/>
+            
             <field name="implied_ids" eval="[(4, ref('group_hotel_recepcao'))]"/>
         </record>
         <!-- Regra de Empresa para Andares -->
