@@ -328,22 +328,6 @@
         </t>
     </template>
 
-    <!-- 5. Personalização da página de login para colocar um botão proeminente de registo -->
-    <template id="hotel_auth_signup_login_inherit" inherit_id="auth_signup.login" name="Hotel Portal Login Customization">
-        <xpath expr="//div[hasclass('justify-content-between')]" position="replace">
-            <div class="mt-3 text-center">
-                <!-- Botão Criar Conta principal -->
-                <a t-if="signup_enabled" t-attf-href="/web/signup?{{ keep_query() }}" class="btn btn-outline-secondary w-100 fw-bold py-2 mb-2" role="button">
-                    <i class="fa fa-user-plus me-1"/>Criar Conta de Hóspede
-                </a>
-                <!-- Link secundário para Recuperar Senha -->
-                <a t-if="reset_password_enabled" t-attf-href="/web/reset_password?{{ keep_query() }}" class="text-muted small">
-                    Esqueceu-se da palavra-passe?
-                </a>
-            </div>
-        </xpath>
-    </template>
-
     <!-- 6. Tela para o usuário verificar vagas no hotel -->
     <template id="portal_my_vacancies" name="Verificar Vagas no Hotel">
         <t t-call="portal.portal_layout">

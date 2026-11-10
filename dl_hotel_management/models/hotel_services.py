@@ -211,15 +211,22 @@ class HotelRestauranteServico(models.Model):
         pos_categ = self.env['pos.category'].search([('name', 'ilike', 'Restaurante')], limit=1)
         if not pos_categ:
             pos_categ = self.env['pos.category'].create({'name': 'Restaurante'})
-            
-        return {
+        prod_fields = self.env['product.product']._fields
+        vals = {
             'name': self.name,
             'list_price': self.preco,
             'available_in_pos': True,
-            'pos_categ_ids': [(6, 0, [pos_categ.id])] if pos_categ else [],
-            'detailed_type': 'consu',
             'taxes_id': [(6, 0, [self.imposto_id.id])] if self.imposto_id else [],
         }
+        if 'pos_categ_ids' in prod_fields:
+            vals['pos_categ_ids'] = [(6, 0, [pos_categ.id])] if pos_categ else []
+        elif 'pos_categ_id' in prod_fields and pos_categ:
+            vals['pos_categ_id'] = pos_categ.id
+        if 'detailed_type' in prod_fields:
+            vals['detailed_type'] = 'consu'
+        else:
+            vals['type'] = 'consu'
+        return vals
 
     def _register_hook(self):
         super(HotelRestauranteServico, self)._register_hook()

@@ -53,7 +53,6 @@ class HotelFolio(models.Model):
                 'type': 'service',
                 'property_account_income_id': account.id if account else False,
                 'company_id': self.company_id.id,
-                'sale_line_warn': 'no-message',
             })
         return product
 

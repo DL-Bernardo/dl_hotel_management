@@ -6,7 +6,6 @@
         <field name="model">hotel.restaurant.order</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">dl_hotel_management.report_hotel_restaurant</field>
-        <field name="report_file">dl_hotel_management.report_hotel_restaurant</field>
         <field name="print_report_name">'Consumo_Restaurante_%s' % (object.name)</field>
         <field name="binding_model_id" ref="model_hotel_restaurant_order"/>
         <field name="binding_type">report</field>
