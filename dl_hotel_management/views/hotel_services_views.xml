@@ -30,13 +30,13 @@
         <field name="name">hotel.laundry.tree</field>
         <field name="model">hotel.laundry.order</field>
         <field name="arch" type="xml">
-            <tree string="Lavanderia">
+            <list string="Lavanderia">
                 <field name="name"/>
                 <field name="room_id"/>
                 <field name="date"/>
                 <field name="status" widget="badge" decoration-success="status=='delivered'"/>
                 <field name="total_amount"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -67,13 +67,13 @@
                     <notebook>
                         <page string="Itens">
                             <field name="line_ids" readonly="status != 'draft'">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="servico_id"/>
                                     <field name="qty"/>
                                     <field name="price"/>
                                     <field name="tax_id"/>
                                     <field name="subtotal"/>
-                                </tree>
+                                </list>
                             </field>
                             <group class="oe_subtotal_footer oe_right">
                                 <field name="total_amount" widget="monetary" string="Subtotal"/>
@@ -95,13 +95,13 @@
         <field name="name">hotel.restaurant.tree</field>
         <field name="model">hotel.restaurant.order</field>
         <field name="arch" type="xml">
-            <tree string="Restaurante">
+            <list string="Restaurante">
                 <field name="name"/>
                 <field name="room_id"/>
                 <field name="date"/>
                 <field name="status" widget="badge" decoration-success="status=='delivered'"/>
                 <field name="total_amount"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -131,13 +131,13 @@
                     <notebook>
                         <page string="Itens">
                             <field name="line_ids" readonly="status != 'draft'">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="servico_id"/>
                                     <field name="qty"/>
                                     <field name="price"/>
                                     <field name="tax_id"/>
                                     <field name="subtotal"/>
-                                </tree>
+                                </list>
                             </field>
                             <group class="oe_subtotal_footer oe_right">
                                 <field name="total_amount" widget="monetary" string="Subtotal"/>
@@ -159,7 +159,7 @@
         <field name="name">hotel.transport.tree</field>
         <field name="model">hotel.transport.request</field>
         <field name="arch" type="xml">
-            <tree string="Transporte">
+            <list string="Transporte">
                 <field name="name"/>
                 <field name="booking_id"/>
                 <field name="room_id"/>
@@ -169,7 +169,7 @@
                 <field name="data_hora_viagem"/>
                 <field name="status" widget="badge" decoration-success="status=='completed'"/>
                 <field name="total_geral" string="Total" widget="monetary"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -239,13 +239,13 @@
         <field name="name">hotel.folio.tree</field>
         <field name="model">hotel.folio</field>
         <field name="arch" type="xml">
-            <tree string="Folios">
+            <list string="Folios">
                 <field name="name"/>
                 <field name="booking_id"/>
                 <field name="partner_id"/>
                 <field name="status" widget="badge" decoration-success="status=='closed'"/>
                 <field name="grand_total"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -278,42 +278,42 @@
                     <notebook>
                         <page string="Serviços de Lavanderia" name="laundry">
                             <field name="laundry_order_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="name"/>
                                     <field name="date"/>
                                     <field name="status"/>
                                     <field name="total_amount"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Consumos de Restaurante" name="restaurant">
                             <field name="restaurant_order_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="name"/>
                                     <field name="date"/>
                                     <field name="status"/>
                                     <field name="total_amount"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Serviço de Transporte" name="transport">
                             <field name="transport_request_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="name"/>
                                     <field name="servico_id"/>
                                     <field name="tipo_trajeto"/>
                                     <field name="status"/>
                                     <field name="total_geral" string="Total"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Consumos de Ponto de Venda (POS)" name="pos_orders">
                             <field name="pos_order_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="name"/>
                                     <field name="date_order"/>
                                     <field name="amount_total" sum="Total POS"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -327,21 +327,21 @@
     </record>
 
     <!-- Ações e Menus -->
-    <record id="action_laundry" model="ir.actions.act_window"><field name="name">Pedidos de Lavanderia</field><field name="res_model">hotel.laundry.order</field><field name="view_mode">tree,form</field></record>
-    <record id="action_restaurant" model="ir.actions.act_window"><field name="name">Pedidos de Restaurante</field><field name="res_model">hotel.restaurant.order</field><field name="view_mode">tree,form</field></record>
-    <record id="action_transport" model="ir.actions.act_window"><field name="name">Pedidos de Transporte</field><field name="res_model">hotel.transport.request</field><field name="view_mode">tree,form</field></record>
-    <record id="action_folio" model="ir.actions.act_window"><field name="name">Folios de Hóspedes</field><field name="res_model">hotel.folio</field><field name="view_mode">tree,form</field></record>
+    <record id="action_laundry" model="ir.actions.act_window"><field name="name">Pedidos de Lavanderia</field><field name="res_model">hotel.laundry.order</field><field name="view_mode">list,form</field></record>
+    <record id="action_restaurant" model="ir.actions.act_window"><field name="name">Pedidos de Restaurante</field><field name="res_model">hotel.restaurant.order</field><field name="view_mode">list,form</field></record>
+    <record id="action_transport" model="ir.actions.act_window"><field name="name">Pedidos de Transporte</field><field name="res_model">hotel.transport.request</field><field name="view_mode">list,form</field></record>
+    <record id="action_folio" model="ir.actions.act_window"><field name="name">Folios de Hóspedes</field><field name="res_model">hotel.folio</field><field name="view_mode">list,form</field></record>
 
     <!-- Serviços de Lavandaria -->
     <record id="view_lavanderia_servico_tree" model="ir.ui.view">
         <field name="name">hotel.lavanderia.servico.tree</field>
         <field name="model">hotel.lavanderia.servico</field>
         <field name="arch" type="xml">
-            <tree string="Serviços de Lavandaria" editable="bottom">
+            <list string="Serviços de Lavandaria" editable="bottom">
                 <field name="name"/>
                 <field name="preco"/>
                 <field name="imposto_id"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -364,7 +364,7 @@
     <record id="action_lavanderia_servico" model="ir.actions.act_window">
         <field name="name">Serviços de Lavandaria</field>
         <field name="res_model">hotel.lavanderia.servico</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <!-- Serviços do Restaurante -->
@@ -372,11 +372,11 @@
         <field name="name">hotel.restaurante.servico.tree</field>
         <field name="model">hotel.restaurante.servico</field>
         <field name="arch" type="xml">
-            <tree string="Serviços do Restaurante" editable="bottom">
+            <list string="Serviços do Restaurante" editable="bottom">
                 <field name="name"/>
                 <field name="preco"/>
                 <field name="imposto_id"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -399,7 +399,7 @@
     <record id="action_restaurante_servico" model="ir.actions.act_window">
         <field name="name">Serviços do Restaurante</field>
         <field name="res_model">hotel.restaurante.servico</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <!-- Serviços de Transporte -->
@@ -407,11 +407,11 @@
         <field name="name">hotel.transporte.servico.tree</field>
         <field name="model">hotel.transporte.servico</field>
         <field name="arch" type="xml">
-            <tree string="Serviços de Transporte" editable="bottom">
+            <list string="Serviços de Transporte" editable="bottom">
                 <field name="name"/>
                 <field name="preco"/>
                 <field name="imposto_id"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -434,7 +434,7 @@
     <record id="action_transporte_servico" model="ir.actions.act_window">
         <field name="name">Serviços de Transporte</field>
         <field name="res_model">hotel.transporte.servico</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem id="menu_laundry_orders" name="Pedidos" parent="menu_hotel_laundry" action="action_laundry" sequence="1" groups="dl_hotel_management.group_hotel_recepcao,dl_hotel_management.group_hotel_manager"/>
